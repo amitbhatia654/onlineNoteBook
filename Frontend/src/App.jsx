@@ -1,20 +1,19 @@
 import "./App.css";
 import { Navigate, Route, Routes } from "react-router-dom";
-import Main_dashBoard from "./pages/dashboard/Main_dashBoard";
 import LoginSignupPage from "./pages/LoginSignupPage";
 import { ChakraProvider } from "@chakra-ui/react";
 import { Toaster } from "react-hot-toast";
-import Employee from "./pages/EmployeeManagement/Employee";
-import CreateEmployeeData from "./pages/EmployeeManagement/CreateEmployeeData";
 import PrivateRoute from "./pages/PrivateRoute";
 import SignUp from "./pages/EmployeeManagement/SignUp";
 import MyProfile from "./pages/MyProfile";
 import ErrorPage from "./pages/ErrorPage";
-import Customers from "./pages/Customers";
 import Setting from "./pages/Setting";
 import { useEffect } from "react";
-import UserDetails from "./pages/Users/UsersDetails";
 import UpdateProfile from "./pages/UpdateProfile";
+import HomePageLayout from "./pages/HomePage/HomePageLayout";
+import HomePage from "./pages/HomePage/HomePage";
+import TopicLayout from "./pages/BodySection/TopicLayout";
+import TopicBody from "./pages/BodySection/TopicBody";
 
 function App() {
   const isUserLogin = () => {
@@ -26,9 +25,6 @@ function App() {
       "--box-color",
       localStorage.getItem("color")
     );
-
-    // const socket = io(import.meta.env.VITE_API_URL);
-    // console.log(socket, "socket");
   }, []);
 
   // eslint-disable-next-line react/prop-types
@@ -64,20 +60,20 @@ function App() {
           }
         ></Route>
         <Route path="/" element={<PrivateRoute />}>
+          <Route path="/" element={<HomePageLayout />}>
+            <Route index element={<HomePage />} />
+            <Route path="topic" element={<TopicLayout />}>
+              <Route
+                index
+                element={<h6>Hello please select any topic you want</h6>}
+              />
 
-
-
-        
-          {/* <Route index element={<Main_dashBoard></Main_dashBoard>}></Route>
-          <Route path="users" element={<UserDetails />}></Route>
-          <Route path="update-profile" element={<UpdateProfile />}></Route>
-          <Route path="employees" element={<Employee />}></Route>
-          <Route path="profile" element={<MyProfile></MyProfile>}></Route>
-          <Route
-            path="/add-new-employee"
-            element={<CreateEmployeeData />}
-          ></Route>
-          <Route path="settings" element={<Setting />}></Route> */}
+              <Route path={":id"} element={<TopicBody />} />
+              <Route path={"new"} element={<h2>Crete form</h2>} />
+            </Route>
+            <Route path="profile" element={<MyProfile />} />
+            <Route path="settings" element={<Setting />}></Route>
+          </Route>
         </Route>
         <Route path="/*" element={<ErrorPage />}></Route>
       </Routes>

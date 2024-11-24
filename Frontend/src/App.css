@@ -14,9 +14,9 @@
 body {
     /* background-color: #E7E7EE; */
     /* background-color: rgb(243, 240, 240); */
-    background-color: var(--box-color);
+    /* background-color: var(--box-color); */
     /* color: white; */
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
 }
 
 
