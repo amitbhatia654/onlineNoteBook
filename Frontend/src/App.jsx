@@ -72,6 +72,8 @@ function App() {
               <Route path={"new"} element={<h2>Crete form</h2>} />
             </Route>
             <Route path="profile" element={<MyProfile />} />
+            <Route path="update-profile" element={<UpdateProfile />} />
+
             <Route path="settings" element={<Setting />}></Route>
           </Route>
         </Route>

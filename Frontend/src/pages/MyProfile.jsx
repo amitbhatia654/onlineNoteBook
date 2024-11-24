@@ -39,12 +39,8 @@ const MyProfile = () => {
             </div>
           </>
         ) : (
-          <div
-            className="container mt-4 p-4  "
-            // style={{ boxShadow: " inset 0px 1px 3px grey", height: "50vh" }}
-          >
+          <div className="container mt-4 p-4  ">
             <div className="row">
-              {/* <div className="col-md-1"></div> */}
               <div className="col-md-3 px-4">
                 <img
                   src={data?.profilePic || img}
@@ -57,10 +53,7 @@ const MyProfile = () => {
                   }}
                 />
               </div>
-              <div
-                className="col-md-8 my-2 "
-                // style={{ boxShadow: " 2px 1px 10px grey" }}
-              >
+              <div className="col-md-8  ">
                 <ul className="list-unstyled fs-5 py-2">
                   <li>
                     {" "}

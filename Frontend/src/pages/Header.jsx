@@ -33,7 +33,7 @@ export default function Header() {
   };
   return (
     <div>
-      <div className="d-flex border border-dark">
+      <div className="d-flex ">
         <div
           style={{
             color: "#47478C",
@@ -45,11 +45,11 @@ export default function Header() {
             // border: "1px solid red",
           }}
         >
-          Online NoteBook
+          E-NoteBook
         </div>
 
         <div className="d-flex justify-content-end w-100">
-          <div className=" my-1 ">
+          {/* <div className=" my-1 ">
             <IconButton
               size="large"
               aria-label="show 4 new mails"
@@ -69,7 +69,7 @@ export default function Header() {
                 <NotificationsIcon />
               </Badge>
             </IconButton>
-          </div>
+          </div> */}
 
           <div className="">
             <Tooltip title="My Profile" placement="bottom-end">

@@ -43,7 +43,7 @@ body {
 
 
 
-/* if we want to use this scroll bar any where just add this class name and set max-height to that div whatever we want  */
+/* if you want to use this scroll bar any where just add this class name and set max-height to that div whatever we want  */
 
 
 .scrollable-container {
@@ -105,4 +105,21 @@ body {
 .tableBodyStyle .MuiTableCell-root {
     text-align: center;
     font-size: 14px;
+}
+
+.boxes {
+    border: 1px solid black;
+    margin: 2px;
+    margin-top: 20px;
+    height: 150px;
+    /* width: 200px; */
+    /* width: 20vw; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.border1 {
+    border: 1px solid black;
 }

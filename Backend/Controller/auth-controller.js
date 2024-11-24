@@ -2,6 +2,7 @@ const User = require("../Models/UserModel")
 const Employee = require("../Models/EmployeeModel")
 const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
+const Subject = require("../Models/SubjectModel");
 // const { response } = require("express");
 
 const login = async (req, res) => {
@@ -188,12 +189,38 @@ const deleteUser = async (req, res) => {
 
 
 
+const addSubject = async (req, res) => {
+    try {
+        const { subjectName, userId } = req.body
+        console.log(req.body, 'body')
+        const Res = await Subject.create({ subjectName, createdBy: userId })
+        res.status(200).send("New Subject Added Succesfully")
+    } catch (error) {
+        console.log(' error in add subject', error)
+    }
+}
 
 
+const getALLSubjects = async (req, res) => {
+    try {
+        let search = req.query.search
+        const createdBy = req.query.userId
 
+        const query = search
+            ? { createdBy, subjectName: { $regex: search, $options: "i" } }
+            : { createdBy };
+
+        const response = await Subject.find(query)
+
+        res.status(200).json({ response })
+
+    } catch (error) {
+        res.status(205).send("data not found")
+    }
+}
 
 
 module.exports = {
     login, register, AddEmployee, getAllEmployee, getEmployeeById, updateEmployee,
-    deleteEmployee, allUsers, getProfileDetails, updateProfileDetails, deleteUser
+    deleteEmployee, allUsers, getProfileDetails, updateProfileDetails, deleteUser, addSubject, getALLSubjects
 }

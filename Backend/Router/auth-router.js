@@ -18,4 +18,12 @@ router.route("/delete-user/:id").delete(AuthMiddleWare, AuthController.deleteUse
 
 
 
+// all E-NoteBook Apis
+
+router.route("/subjects").post(AuthMiddleWare, AuthController.addSubject)
+router.route("/subjects").get(AuthMiddleWare, AuthController.getALLSubjects)
+
+
+
+
 module.exports = router;

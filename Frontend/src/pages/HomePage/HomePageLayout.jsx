@@ -4,8 +4,13 @@ import Header from "../Header";
 
 export default function HomePageLayout() {
   return (
-    <div className="border border-primary" style={{ minHeight: "80vh" }}>
-      <Outlet></Outlet>
+    <div
+      className="border border-primary "
+      style={{ minHeight: "86vh", maxHeight: "86vh" }}
+    >
+      <div className="scrollable-container">
+        <Outlet></Outlet>
+      </div>
     </div>
   );
 }

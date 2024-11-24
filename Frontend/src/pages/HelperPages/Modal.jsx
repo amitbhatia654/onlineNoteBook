@@ -23,7 +23,7 @@ export default function Modal({ setShowModal, title, children, handleSubmit }) {
               >
                 Close
               </button> */}
-              <button
+              {/* <button
                 type="button"
                 className="btn btn-primary"
                 onClick={() => {
@@ -31,7 +31,7 @@ export default function Modal({ setShowModal, title, children, handleSubmit }) {
                 }}
               >
                 Save
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
