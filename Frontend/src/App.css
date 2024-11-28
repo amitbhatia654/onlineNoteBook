@@ -123,3 +123,8 @@ body {
 .border1 {
     border: 1px solid black;
 }
+
+.ql-style .ql-editor {
+    /* border: 2px solid black; */
+    min-height: 350px;
+}

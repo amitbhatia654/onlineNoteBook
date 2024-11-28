@@ -26,7 +26,6 @@ export default function HomePage() {
     });
     if (res.status == 200) {
       setAllSubject(res.data.response);
-      console.log(res.data);
     } else {
       setAllSubject([]);
     }
@@ -74,7 +73,14 @@ export default function HomePage() {
             {allSubject.map((subject) => {
               return (
                 <>
-                  <div className="col-md-2 ">
+                  <div
+                    className="col-md-2 "
+                    onClick={() =>
+                      navigate(`/topic/${subject.subjectName}`, {
+                        state: { subject },
+                      })
+                    }
+                  >
                     <div className="boxes">{subject.subjectName}</div>
                   </div>
                 </>

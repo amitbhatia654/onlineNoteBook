@@ -62,15 +62,7 @@ function App() {
         <Route path="/" element={<PrivateRoute />}>
           <Route path="/" element={<HomePageLayout />}>
             <Route index element={<HomePage />} />
-            <Route path="topic" element={<TopicLayout />}>
-              <Route
-                index
-                element={<h6>Hello please select any topic you want</h6>}
-              />
-
-              <Route path={":id"} element={<TopicBody />} />
-              <Route path={"new"} element={<h2>Crete form</h2>} />
-            </Route>
+            <Route path="topic/:name" element={<TopicLayout />}></Route>
             <Route path="profile" element={<MyProfile />} />
             <Route path="update-profile" element={<UpdateProfile />} />
 
