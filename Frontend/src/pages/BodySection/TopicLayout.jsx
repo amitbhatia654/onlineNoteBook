@@ -12,6 +12,8 @@ import { ErrorMessage, Form, Formik } from "formik";
 import axiosInstance from "../../ApiManager";
 import toast from "react-hot-toast";
 import TopicBody from "./TopicBody";
+import CloseIcon from "@mui/icons-material/Close";
+import MenuIcon from "@mui/icons-material/Menu";
 
 export default function TopicLayout() {
   const location = useLocation();
@@ -20,7 +22,7 @@ export default function TopicLayout() {
   const [allTopics, setAllTopics] = useState([]);
   const [loading, setloading] = useState(false);
   const [currentTopic, setCurrentTopic] = useState({});
-
+  const [isOpen, setIsOpen] = useState(false);
   const subjectDetails = location?.state?.subject;
 
   const id = null;
@@ -72,10 +74,33 @@ export default function TopicLayout() {
     fetchData();
   }, [showModal]);
   return (
-    <div>
-      <div className="container-fluid ">
-        <div className="row">
-          <div className="col-md-2 border ">
+    <>
+      <div className="d-flex ">
+        <div
+          className={!isOpen ? "sidenav-full" : "sidenav-small"}
+          style={{
+            // borderTop: "2px solid grey",
+            borderRight: "2px solid grey",
+          }}
+        >
+          <div className="d-flex justify-content-end">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              style={{
+                color: "blue",
+                border: "1px solid white",
+                fontSize: "14x",
+              }}
+            >
+              {isOpen ? (
+                <MenuIcon fontSize="small" />
+              ) : (
+                <CloseIcon fontSize="small" />
+              )}
+            </button>
+          </div>
+
+          <div className={`${isOpen && "d-none"} `}>
             <button
               className="btn btn-primary mt-1 "
               onClick={() => {
@@ -119,8 +144,28 @@ export default function TopicLayout() {
               );
             })}
           </div>
+        </div>
 
-          <div className="col-md-10 border border-primary ">
+        <div
+          className="scrollable-container"
+          style={{
+            width: "100%",
+            borderTop: "2px solid grey",
+          }}
+        >
+          <div
+            className="scrollable-container "
+            style={{
+              minHeight: "85vh",
+              maxHeight: "85vh",
+              padding: "5px",
+              paddingLeft: "12px",
+              paddingRight: "12px",
+              // boxShadow: " inset  0px 0px 2px 1px grey",
+              // borderRadius: "10px",
+              // margin: "5px",
+            }}
+          >
             <TopicBody
               currentTopic={currentTopic}
               fetchData={fetchData}
@@ -128,7 +173,6 @@ export default function TopicLayout() {
           </div>
         </div>
       </div>
-
       {showModal && (
         <Modal
           setShowModal={setShowModal}
@@ -204,6 +248,6 @@ export default function TopicLayout() {
           </Formik>
         </Modal>
       )}
-    </div>
+    </>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AddTopicData from "./AddTopicData";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -11,6 +11,7 @@ export default function TopicBody({ currentTopic, fetchData }) {
   const location = useLocation();
   const id = null;
   const { subject } = location?.state;
+  const navigate = useNavigate();
   const [writeData, setWriteData] = useState(false);
   const [loading, setloading] = useState(false);
   const [data, setData] = useState(currentTopic.description);
@@ -53,6 +54,7 @@ export default function TopicBody({ currentTopic, fetchData }) {
     <>
       <div className="d-flex justify-content-between">
         <h3 className="text-danger">
+          {" "}
           {subject.subjectName}/{currentTopic?.topicName ?? "--"}
         </h3>
 
@@ -90,7 +92,9 @@ export default function TopicBody({ currentTopic, fetchData }) {
                 fontSize: "16px",
               }}
               disabled={loading}
-              onClick={() => setWriteData(false)}
+              onClick={() => {
+                setWriteData(false), fetchData();
+              }}
             >
               Cancel
             </Button>
