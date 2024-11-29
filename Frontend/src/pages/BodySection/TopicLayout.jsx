@@ -101,23 +101,7 @@ export default function TopicLayout() {
           </div>
 
           <div className={`${isOpen && "d-none"} `}>
-            <button
-              className="btn btn-primary mt-1 "
-              onClick={() => {
-                navigate(-1), localStorage.removeItem("topicId");
-              }}
-            >
-              {" "}
-              Back
-            </button>
-            <button
-              className="btn btn-primary mt-1 mx-1"
-              onClick={() => setShowModal(true)}
-            >
-              {" "}
-              New Topic
-            </button>
-            <h3 className="mt-1">ALL Topics</h3>
+            <h2 className="">ALL Topics</h2>
 
             <div>
               <TextField
@@ -130,40 +114,40 @@ export default function TopicLayout() {
                 placeholder="search"
               ></TextField>
             </div>
+
+            {/* <button
+              className="btn btn-primary mt-1 mx-1"
+              onClick={() => setShowModal(true)}
+            >
+              {" "}
+              New Topic
+            </button> */}
             {allTopics.map((topic, id) => {
               return (
-                <h6
+                <div
+                  className="topicNames"
                   onClick={() => {
                     setCurrentTopic(topic),
                       localStorage.setItem("topicId", topic._id);
                   }}
                   key={id}
                 >
-                  {topic.topicName}
-                </h6>
+                  {id + 1}. {topic.topicName}
+                </div>
               );
             })}
           </div>
         </div>
 
         <div
-          className="scrollable-container"
           style={{
             width: "100%",
-            borderTop: "2px solid grey",
           }}
         >
           <div
-            className="scrollable-container "
             style={{
-              minHeight: "85vh",
-              maxHeight: "85vh",
               padding: "5px",
-              paddingLeft: "12px",
-              paddingRight: "12px",
-              // boxShadow: " inset  0px 0px 2px 1px grey",
-              // borderRadius: "10px",
-              // margin: "5px",
+              // paddingLeft: "5px",
             }}
           >
             <TopicBody

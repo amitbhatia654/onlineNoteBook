@@ -6,7 +6,7 @@ export default function HomePageLayout() {
   return (
     <div
       className="border border-primary "
-      style={{ minHeight: "86vh", maxHeight: "86vh" }}
+      style={{ minHeight: "91vh", maxHeight: "91vh" }}
     >
       <div className="scrollable-container">
         <Outlet></Outlet>

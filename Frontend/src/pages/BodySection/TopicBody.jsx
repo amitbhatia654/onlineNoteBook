@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import AddTopicData from "./AddTopicData";
+import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import ReactQuill from "react-quill";
@@ -14,10 +13,39 @@ export default function TopicBody({ currentTopic, fetchData }) {
   const navigate = useNavigate();
   const [writeData, setWriteData] = useState(false);
   const [loading, setloading] = useState(false);
-  const [data, setData] = useState(currentTopic.description);
+  const [data, setData] = useState(currentTopic?.description);
+
+  const printRef = useRef();
+
+  const handlePrint = () => {
+    const printContent = printRef.current; // Access the div content
+    // console.log(printContent, "print con");
+    const newWindow = window.open("", "_blank"); // Open a new window
+    newWindow.document.write(`
+      <html>
+        <head>
+          <title>Print</title>
+        </head>
+        <body>
+        <h2 className="text-danger"}>${subject.subjectName}: ${
+      currentTopic?.topicName ?? "--"
+    }</h2>
+          ${printContent.innerHTML} <!-- Insert the div content -->
+        </body>
+      </html>
+    `);
+    newWindow.document.close();
+
+    // Close the new window after printing is complete
+    newWindow.onafterprint = () => {
+      newWindow.close();
+    };
+
+    newWindow.print();
+  };
 
   useEffect(() => {
-    setData(currentTopic.description);
+    setData(currentTopic?.description);
   }, [currentTopic]);
 
   const module = {
@@ -53,22 +81,58 @@ export default function TopicBody({ currentTopic, fetchData }) {
   return (
     <>
       <div className="d-flex justify-content-between">
-        <h3 className="text-danger">
+        <Button
+          variant="outlined"
+          type="submit"
+          sx={{
+            my: 1,
+            // mx: 1,
+            color: "#47478c",
+            backgroundColor: "white",
+            fontSize: "16px",
+          }}
+          onClick={() => navigate("/")}
+        >
+          Home
+        </Button>{" "}
+        <h2 className="text-danger" style={{ textDecoration: "underline" }}>
           {" "}
-          {subject.subjectName}/{currentTopic?.topicName ?? "--"}
-        </h3>
+          {subject.subjectName}- {currentTopic?.topicName ?? "--"}
+        </h2>
+        {!writeData && (
+          <div>
+            <Button
+              variant="outlined"
+              type="submit"
+              sx={{
+                my: 1,
+                // mx: 1,
+                color: "#47478c",
+                backgroundColor: "white",
+                fontSize: "16px",
+              }}
+              onClick={() => setWriteData(true)}
+            >
+              Write / Edit
+            </Button>
 
-        <div>
-          <button
-            className="btn btn-primary mt-1"
-            onClick={() => setWriteData(true)}
-          >
-            Write/Edit
-          </button>
-        </div>
+            <Button
+              variant="outlined"
+              type="submit"
+              sx={{
+                my: 1,
+                mx: 1,
+                color: "white",
+                backgroundColor: "blue",
+                fontSize: "16px",
+              }}
+              onClick={() => handlePrint()}
+            >
+              Print
+            </Button>
+          </div>
+        )}
       </div>
-
-      <hr />
 
       {writeData ? (
         <>
@@ -80,7 +144,7 @@ export default function TopicBody({ currentTopic, fetchData }) {
             className="ql-style"
           />
 
-          <div className="d-flex justify-content-center my-5">
+          <div className="d-flex justify-content-center my-2">
             <Button
               variant="outlined"
               type="submit"
@@ -115,7 +179,18 @@ export default function TopicBody({ currentTopic, fetchData }) {
           </div>
         </>
       ) : (
-        <div dangerouslySetInnerHTML={{ __html: data }} />
+        <div
+          style={{
+            minHeight: "75vh",
+            maxHeight: "70vh",
+            // borderTop: "1px solid",
+            // borderBottom: "1px solid",
+            boxShadow: "3px 4px 7px grey",
+          }}
+          className="scrollable-container p-2 mt-2 data-div"
+        >
+          <div ref={printRef} dangerouslySetInnerHTML={{ __html: data }} />
+        </div>
       )}
     </>
   );

@@ -14,7 +14,7 @@
 body {
     /* background-color: #E7E7EE; */
     /* background-color: rgb(243, 240, 240); */
-    /* background-color: var(--box-color); */
+    background-color: var(--box-color);
     /* color: white; */
     /* text-transform: uppercase; */
 }
@@ -109,15 +109,19 @@ body {
 
 .boxes {
     border: 1px solid black;
-    margin: 2px;
+    /* margin: 1px; */
     margin-top: 20px;
     height: 150px;
-    /* width: 200px; */
-    /* width: 20vw; */
+    background-color: rgb(127, 141, 209);
+    /* box-shadow: 1px 2px 4px black; */
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 10px;
+    /* border-radius: 5px; */
 }
 
 .border1 {
@@ -126,5 +130,36 @@ body {
 
 .ql-style .ql-editor {
     /* border: 2px solid black; */
-    min-height: 350px;
+    min-height: 65vh;
+    max-height: 65vh;
+    background-color: #f7f2dd;
+}
+
+.create-box {
+    background-color: #ef3210;
+    color: white;
+    cursor: pointer;
+    box-shadow: 1px 2px 4px black;
+}
+
+.data-div {
+    background-color: #f0eee7;
+}
+
+
+.topicNames {
+    /* border: 1px solid black; */
+    margin-top: 6px;
+    /* text-align: center; */
+    box-shadow: 1px 2px 4px grey;
+    font-size: 22px;
+    padding: 3px;
+    cursor: pointer;
+
+}
+
+.topicNames:hover {
+    /* color: blue; */
+    background-color: rgb(83, 83, 253);
+    color: white;
 }

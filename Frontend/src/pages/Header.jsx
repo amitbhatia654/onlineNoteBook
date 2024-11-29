@@ -45,7 +45,9 @@ export default function Header() {
             // border: "1px solid red",
           }}
         >
-          E-NoteBook
+          <span onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
+            E-NoteBook
+          </span>
         </div>
 
         <div className="d-flex justify-content-end w-100">

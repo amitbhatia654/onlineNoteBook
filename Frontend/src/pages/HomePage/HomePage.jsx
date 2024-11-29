@@ -59,14 +59,27 @@ export default function HomePage() {
   return (
     <>
       <div className="">
-        <h4 className="text-center mt-1">Select Subject Name </h4>
+        <h2
+          className="text-center mt-1"
+          style={{
+            // textShadow: "1px 3px 3px blue",
+            color: "blue",
+            // fontWeight: "bold",
+          }}
+        >
+          SELECT SUBJECT{" "}
+        </h2>
+        <hr />
 
         <div className="container mt-5">
           <div className="row">
             <div className="col-md-2 ">
-              <div className="boxes" onClick={() => setShowModal(true)}>
+              <div
+                className="boxes create-box"
+                onClick={() => setShowModal(true)}
+              >
                 {" "}
-                <h5>Add Subject +</h5>
+                <h4>Add Subject +</h4>
               </div>
             </div>
 
@@ -81,7 +94,7 @@ export default function HomePage() {
                       })
                     }
                   >
-                    <div className="boxes">{subject.subjectName}</div>
+                    <div className="boxes">{subject.subjectName} </div>
                   </div>
                 </>
               );
@@ -113,11 +126,12 @@ export default function HomePage() {
                   <div className="container-fluid ">
                     <div className="row">
                       <div className="">
+                        <label htmlFor="">Subject Name</label>
                         <FormControl
                           fullWidth
                           variant="outlined"
                           size="small"
-                          sx={{ m: 1 }}
+                          sx={{ my: 1 }}
                         >
                           <InputLabel
                             shrink={Boolean(props.values.subjectName)}
@@ -140,6 +154,24 @@ export default function HomePage() {
                           className="text-danger"
                         ></ErrorMessage>
                       </div>
+
+                      {/* <div className="">
+                        <label htmlFor="">Box Color</label>
+                        <div className="w-100">
+                          <input
+                            type="color"
+                            name="boxColor"
+                            style={{ width: "40%" }}
+                            onChange={props.handleChange}
+                          />
+                        </div>
+
+                        <ErrorMessage
+                          name="subjectName"
+                          component={"div"}
+                          className="text-danger"
+                        ></ErrorMessage>
+                      </div> */}
 
                       <div className="d-flex justify-content-center my-5">
                         <Button

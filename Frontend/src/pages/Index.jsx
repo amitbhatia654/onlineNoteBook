@@ -8,7 +8,7 @@ export default function Index() {
     <div>
       <Header></Header>
       <HomePageLayout></HomePageLayout>
-      <Footer></Footer>
+      {/* <Footer></Footer> */}
     </div>
   );
 }
