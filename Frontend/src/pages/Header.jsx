@@ -45,7 +45,12 @@ export default function Header() {
             // border: "1px solid red",
           }}
         >
-          <span onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
+          <span
+            onClick={() => {
+              navigate("/"), localStorage.removeItem("topicId");
+            }}
+            style={{ cursor: "pointer" }}
+          >
             E-NoteBook
           </span>
         </div>

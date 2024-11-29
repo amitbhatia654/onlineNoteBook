@@ -152,7 +152,7 @@ body {
     margin-top: 6px;
     /* text-align: center; */
     box-shadow: 1px 2px 4px grey;
-    font-size: 22px;
+    font-size: 20px;
     padding: 3px;
     cursor: pointer;
 
@@ -160,6 +160,11 @@ body {
 
 .topicNames:hover {
     /* color: blue; */
+    background-color: rgb(83, 83, 253);
+    color: white;
+}
+
+.currentTopic {
     background-color: rgb(83, 83, 253);
     color: white;
 }

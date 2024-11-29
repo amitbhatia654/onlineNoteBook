@@ -13,7 +13,9 @@ export default function TopicBody({ currentTopic, fetchData }) {
   const navigate = useNavigate();
   const [writeData, setWriteData] = useState(false);
   const [loading, setloading] = useState(false);
-  const [data, setData] = useState(currentTopic?.description);
+  const [data, setData] = useState(
+    currentTopic?.description ?? "Write something in it"
+  );
 
   const printRef = useRef();
 
@@ -45,7 +47,7 @@ export default function TopicBody({ currentTopic, fetchData }) {
   };
 
   useEffect(() => {
-    setData(currentTopic?.description);
+    setData(currentTopic?.description ?? "Empty Topic 🤷‍♂️");
   }, [currentTopic]);
 
   const module = {
@@ -91,15 +93,21 @@ export default function TopicBody({ currentTopic, fetchData }) {
             backgroundColor: "white",
             fontSize: "16px",
           }}
-          onClick={() => navigate("/")}
+          onClick={() => {
+            navigate("/"), localStorage.removeItem("topicId");
+          }}
         >
           Home
         </Button>{" "}
         <h2 className="text-danger" style={{ textDecoration: "underline" }}>
           {" "}
-          {subject.subjectName}- {currentTopic?.topicName ?? "--"}
+          {subject.subjectName.charAt(0).toUpperCase() +
+            subject.subjectName.slice(1)}
+          -{" "}
+          {currentTopic?.topicName?.charAt(0)?.toUpperCase() +
+            currentTopic?.topicName?.slice(1) ?? "--"}
         </h2>
-        {!writeData && (
+        {!writeData ? (
           <div>
             <Button
               variant="outlined"
@@ -131,6 +139,8 @@ export default function TopicBody({ currentTopic, fetchData }) {
               Print
             </Button>
           </div>
+        ) : (
+          <div></div>
         )}
       </div>
 
@@ -186,6 +196,7 @@ export default function TopicBody({ currentTopic, fetchData }) {
             // borderTop: "1px solid",
             // borderBottom: "1px solid",
             boxShadow: "3px 4px 7px grey",
+            userSelect: "none",
           }}
           className="scrollable-container p-2 mt-2 data-div"
         >

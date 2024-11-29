@@ -100,8 +100,8 @@ export default function TopicLayout() {
             </button>
           </div>
 
-          <div className={`${isOpen && "d-none"} `}>
-            <h2 className="">ALL Topics</h2>
+          <div className={`${isOpen && "d-none"} px-2`}>
+            <h2 className=""> Topics</h2>
 
             <div>
               <TextField
@@ -125,14 +125,18 @@ export default function TopicLayout() {
             {allTopics.map((topic, id) => {
               return (
                 <div
-                  className="topicNames"
+                  className={`topicNames ${
+                    currentTopic?._id == topic?._id && "currentTopic"
+                  }`}
                   onClick={() => {
                     setCurrentTopic(topic),
                       localStorage.setItem("topicId", topic._id);
                   }}
                   key={id}
                 >
-                  {id + 1}. {topic.topicName}
+                  {id + 1}.{" "}
+                  {topic.topicName.charAt(0)?.toUpperCase() +
+                    topic.topicName.slice(1)}
                 </div>
               );
             })}
