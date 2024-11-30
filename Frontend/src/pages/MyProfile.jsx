@@ -13,7 +13,7 @@ const MyProfile = () => {
   const id = user.id || "";
 
   const getEmpById = async () => {
-    setLoading(true);
+    // setLoading(true);
     const result = await axiosInstance.get(`/api/update-profile/${id}`);
     setLoading(false);
     if (result) {

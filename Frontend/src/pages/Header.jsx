@@ -42,7 +42,6 @@ export default function Header() {
             margin: "7px",
             marginLeft: "10px",
             width: "300px",
-            // border: "1px solid red",
           }}
         >
           <span
@@ -80,25 +79,10 @@ export default function Header() {
 
           <div className="">
             <Tooltip title="My Profile" placement="bottom-end">
+              Hello🙋‍♂️ {userData?.name?.split(" ")[0] ?? "user"}
               <IconButton onClick={handleOpenUserMenu}>
-                <span
-                  className="fs-6 fw-bold text-primary "
-                  style={{
-                    boxShadow: "-2px 0px 2px white",
-                    padding: "8px",
-                    borderRadius: "50px",
-                  }}
-                >
-                  {" "}
-                  {/* {console.log(userData.profilePic, "the pic")} */}
-                  {userData?.name?.toUpperCase() ?? "user"}
-                </span>
-                {/* <img
-                  alt="User Image"
-                  src={userData.profilePic}
-                  className=""
-                  style={{ height: "40px", width: "40px", borderRadius: "50%" }}
-                /> */}
+                {" "}
+                <span className="fs-6 fw-bold text-primary "></span>
                 <Avatar></Avatar>
               </IconButton>
             </Tooltip>

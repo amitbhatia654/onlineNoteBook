@@ -6,10 +6,15 @@ import "react-quill/dist/quill.snow.css";
 import { Button } from "@mui/material";
 import axiosInstance from "../../ApiManager";
 
-export default function TopicBody({ currentTopic, fetchData }) {
+export default function TopicBody({
+  currentTopic,
+  fetchData,
+  allTopics,
+  setCurrentTopic,
+}) {
   const location = useLocation();
   const id = null;
-  const { subject } = location?.state;
+  const subject = location?.state?.subject;
   const navigate = useNavigate();
   const [writeData, setWriteData] = useState(false);
   const [loading, setloading] = useState(false);
@@ -21,7 +26,6 @@ export default function TopicBody({ currentTopic, fetchData }) {
 
   const handlePrint = () => {
     const printContent = printRef.current; // Access the div content
-    // console.log(printContent, "print con");
     const newWindow = window.open("", "_blank"); // Open a new window
     newWindow.document.write(`
       <html>
@@ -60,6 +64,34 @@ export default function TopicBody({ currentTopic, fetchData }) {
     ],
   };
 
+  const handlePrevNext = () => {
+    const currentIndex = allTopics.findIndex(
+      (topic) => topic._id == currentTopic._id
+    );
+
+    // console.log(currentIndex, "cureent index");
+
+    function clickNext() {
+      setCurrentTopic(allTopics[currentIndex + 1]);
+    }
+
+    function clickPrev() {
+      setCurrentTopic(allTopics[currentIndex - 1]);
+    }
+
+    function checkPrev() {
+      if (currentIndex < 1) return true;
+      return false;
+    }
+
+    function checkNext() {
+      if (currentIndex == allTopics?.length - 1) return true;
+      return false;
+    }
+
+    return { clickNext, clickPrev, checkNext, checkPrev };
+  };
+
   const handleSubmit = async () => {
     setloading(true);
     const res = id
@@ -84,8 +116,6 @@ export default function TopicBody({ currentTopic, fetchData }) {
     <>
       <div className="d-flex justify-content-between">
         <Button
-          variant="outlined"
-          type="submit"
           sx={{
             my: 1,
             // mx: 1,
@@ -101,8 +131,8 @@ export default function TopicBody({ currentTopic, fetchData }) {
         </Button>{" "}
         <h2 className="text-danger" style={{ textDecoration: "underline" }}>
           {" "}
-          {subject.subjectName.charAt(0).toUpperCase() +
-            subject.subjectName.slice(1)}
+          {subject?.subjectName.charAt(0).toUpperCase() +
+            subject?.subjectName.slice(1)}
           -{" "}
           {currentTopic?.topicName?.charAt(0)?.toUpperCase() +
             currentTopic?.topicName?.slice(1) ?? "--"}
@@ -177,8 +207,8 @@ export default function TopicBody({ currentTopic, fetchData }) {
               type="submit"
               sx={{
                 my: 1,
-                color: "#47478c",
-                backgroundColor: "white",
+                color: "white",
+                backgroundColor: "blue",
                 fontSize: "16px",
               }}
               disabled={loading}
@@ -189,19 +219,47 @@ export default function TopicBody({ currentTopic, fetchData }) {
           </div>
         </>
       ) : (
-        <div
-          style={{
-            minHeight: "75vh",
-            maxHeight: "70vh",
-            // borderTop: "1px solid",
-            // borderBottom: "1px solid",
-            boxShadow: "3px 4px 7px grey",
-            userSelect: "none",
-          }}
-          className="scrollable-container p-2 mt-2 data-div"
-        >
-          <div ref={printRef} dangerouslySetInnerHTML={{ __html: data }} />
-        </div>
+        <>
+          <div
+            style={{
+              minHeight: "75vh",
+              maxHeight: "70vh",
+              boxShadow: "3px 4px 7px grey",
+              userSelect: "none",
+            }}
+            className="scrollable-container p-2 mt-1 data-div"
+          >
+            <div ref={printRef} dangerouslySetInnerHTML={{ __html: data }} />
+          </div>
+          <div className="d-flex justify-content-between  px-1 mt-2">
+            <Button
+              sx={{
+                color: "white",
+                backgroundColor: `${
+                  handlePrevNext().checkPrev() ? "grey" : "blue"
+                }`,
+                fontSize: "14px",
+              }}
+              disabled={handlePrevNext().checkPrev()}
+              onClick={() => handlePrevNext().clickPrev()}
+            >
+              Prev
+            </Button>
+            <Button
+              sx={{
+                color: "white",
+                backgroundColor: `${
+                  handlePrevNext().checkNext() ? "grey" : "blue"
+                }`,
+                fontSize: "14px",
+              }}
+              disabled={handlePrevNext().checkNext()}
+              onClick={() => handlePrevNext().clickNext()}
+            >
+              Next
+            </Button>
+          </div>{" "}
+        </>
       )}
     </>
   );

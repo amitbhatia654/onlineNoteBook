@@ -5,7 +5,6 @@ import { ErrorMessage, Form, Formik } from "formik";
 import axiosInstance from "../../ApiManager";
 import { useLocation, useNavigate } from "react-router-dom";
 import { addEmployee } from "../../assets/FormSchema";
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
@@ -13,7 +12,6 @@ export default function HomePage() {
   const [showModal, setShowModal] = useState(false);
   const [loading, setloading] = useState(false);
   const [allSubject, setAllSubject] = useState([]);
-
   const navigate = useNavigate();
   const location = useLocation();
   const { id } = location.state || {};
@@ -62,7 +60,7 @@ export default function HomePage() {
         <h2
           className="text-center mt-1"
           style={{
-            // textShadow: "1px 3px 3px blue",
+            textShadow: "1px 1px 1px blue",
             color: "blue",
             // fontWeight: "bold",
           }}

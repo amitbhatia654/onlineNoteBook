@@ -23,16 +23,16 @@ export default function TopicLayout() {
   const [loading, setloading] = useState(false);
   const [currentTopic, setCurrentTopic] = useState({});
   const [isOpen, setIsOpen] = useState(false);
+  const [editTopic, setEditTopic] = useState({});
   const subjectDetails = location?.state?.subject;
 
   const id = null;
 
   const handleSubmit = async (values) => {
     setloading(true);
-    const res = id
-      ? await axiosInstance.put(`/api/employee/${id}`, {
+    const res = editTopic._id
+      ? await axiosInstance.put(`/api/topics/${editTopic._id}`, {
           ...values,
-          // _id: user.id,
         })
       : await axiosInstance.post(`/api/topics`, {
           ...values,
@@ -42,9 +42,18 @@ export default function TopicLayout() {
     setloading(false);
     if (res.status == 200) {
       toast.success(res.data);
-      // navigate("/employees");
+      setEditTopic({});
       setShowModal(false);
     }
+  };
+
+  const deleteTopic = async (topicId) => {
+    // return console.log(topicId, "topicId");
+    const res = await axiosInstance.delete(`/api/topics/${topicId}`);
+    if (res.status == 200) {
+      toast.success(res.data.message);
+      setAllTopics(allTopics.filter((topic) => topic._id != res.data.data._id));
+    } else toast.danger(res.data.message);
   };
 
   const fetchData = async () => {
@@ -100,12 +109,20 @@ export default function TopicLayout() {
             </button>
           </div>
 
-          <div className={`${isOpen && "d-none"} px-2`}>
-            <h2 className=""> Topics</h2>
+          <div className={`${isOpen && "d-none"} px-2 `}>
+            <h3
+              className="fw-bold text-center"
+              style={{ textDecoration: "underline" }}
+            >
+              {" "}
+              Topics
+            </h3>
+            {/* <hr /> */}
 
             <div>
               <TextField
                 type="text"
+                sx={{ mb: 1 }}
                 size="small"
                 onChange={(e) => {
                   // setSearch(e.target.value);
@@ -115,28 +132,62 @@ export default function TopicLayout() {
               ></TextField>
             </div>
 
-            {/* <button
-              className="btn btn-primary mt-1 mx-1"
-              onClick={() => setShowModal(true)}
-            >
-              {" "}
-              New Topic
-            </button> */}
+            <div className="new-topic mb-2" onClick={() => setShowModal(true)}>
+              Create New +{" "}
+            </div>
+
             {allTopics.map((topic, id) => {
               return (
                 <div
-                  className={`topicNames ${
-                    currentTopic?._id == topic?._id && "currentTopic"
-                  }`}
-                  onClick={() => {
-                    setCurrentTopic(topic),
-                      localStorage.setItem("topicId", topic._id);
-                  }}
+                  className="d-flex justify-content-between topicNames"
                   key={id}
                 >
-                  {id + 1}.{" "}
-                  {topic.topicName.charAt(0)?.toUpperCase() +
-                    topic.topicName.slice(1)}
+                  <div
+                    className={`names ${
+                      currentTopic?._id == topic?._id && "currentTopic"
+                    }`}
+                    onClick={() => {
+                      setCurrentTopic(topic),
+                        localStorage.setItem("topicId", topic._id);
+                    }}
+                  >
+                    {id + 1}.{" "}
+                    {topic.topicName.charAt(0)?.toUpperCase() +
+                      topic.topicName.slice(1)}
+                  </div>
+
+                  <div>
+                    <div className="dropdown">
+                      <button
+                        className="btn "
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        <h6>:</h6>
+                      </button>
+                      <ul className="dropdown-menu">
+                        <li>
+                          <button
+                            className="dropdown-item"
+                            onClick={() => {
+                              setEditTopic(topic), setShowModal(true);
+                            }}
+                          >
+                            Edit
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            className="dropdown-item"
+                            onClick={() => deleteTopic(topic._id)}
+                          >
+                            Delete
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
               );
             })}
@@ -150,13 +201,14 @@ export default function TopicLayout() {
         >
           <div
             style={{
-              padding: "5px",
-              // paddingLeft: "5px",
+              paddingLeft: "5px",
             }}
           >
             <TopicBody
               currentTopic={currentTopic}
               fetchData={fetchData}
+              allTopics={allTopics}
+              setCurrentTopic={setCurrentTopic}
             ></TopicBody>
           </div>
         </div>
@@ -164,17 +216,12 @@ export default function TopicLayout() {
       {showModal && (
         <Modal
           setShowModal={setShowModal}
-          title={"Create Topic "}
+          otherFunc={setEditTopic}
+          title={`${editTopic._id ? "Edit" : "Create"} Topic `}
           handleSubmit={handleSubmit}
         >
           <Formik
-            initialValues={
-              id
-                ? data
-                : {
-                    topicName: "",
-                  }
-            }
+            initialValues={{ topicName: editTopic ? editTopic.topicName : "" }}
             // validationSchema={addEmployee}
             enableReinitialize={true}
             onSubmit={(values) => handleSubmit(values)}

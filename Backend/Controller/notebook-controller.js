@@ -68,12 +68,32 @@ const getAllTopic = async (req, res) => {
     }
 }
 
+const deleteTopic = async (req, res) => {
+    try {
+        const data = await Topic.findOneAndDelete({ _id: req.params.id })
+        res.status(200).json({ message: "Topic Deleted Successfully", data })
+    } catch (error) {
+        res.status(205).json({ message: "Topic Not Deleted" })
+    }
+}
+
+const updateTopic = async (req, res) => {
+    try {
+        console.log(req.body, 'body')
+        console.log(req.params, 'params')
+        const response = await Topic.findByIdAndUpdate(req.params.id, req.body)
+        res.status(200).send("Topic updated succesfully")
+
+    } catch (error) {
+        res.status(205).send("Topic Not Updated")
+    }
+}
+
 
 const addTopicData = async (req, res) => {
     try {
         const { description, topicId } = req.body; // Destructure request body
 
-        // console.log(req.body, 'req')
         const updatedTopic = await Topic.findByIdAndUpdate(
             topicId,         // The ID of the document to find
             { description },
@@ -94,5 +114,5 @@ const addTopicData = async (req, res) => {
 
 
 module.exports = {
-    addSubject, getALLSubjects, addTopic, getAllTopic, addTopicData
+    addSubject, getALLSubjects, addTopic, getAllTopic, addTopicData, deleteTopic, updateTopic
 }

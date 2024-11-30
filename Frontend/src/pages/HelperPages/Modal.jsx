@@ -1,4 +1,4 @@
-export default function Modal({ setShowModal, title, children, handleSubmit }) {
+export default function Modal({ setShowModal, title, children, otherFunc }) {
   return (
     <>
       <div className="modal show d-block" tabIndex="-1" role="dialog">
@@ -11,7 +11,9 @@ export default function Modal({ setShowModal, title, children, handleSubmit }) {
                 type="button"
                 className="btn-close"
                 aria-label="Close"
-                onClick={() => setShowModal(false)}
+                onClick={() => {
+                  setShowModal(false), otherFunc({});
+                }}
               ></button>
             </div>
             <div className="modal-body">{children}</div>
