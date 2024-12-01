@@ -18,9 +18,7 @@ export default function TopicBody({
   const navigate = useNavigate();
   const [writeData, setWriteData] = useState(false);
   const [loading, setloading] = useState(false);
-  const [data, setData] = useState(
-    currentTopic?.description ?? "Write something in it"
-  );
+  const [data, setData] = useState(currentTopic?.description);
 
   const printRef = useRef();
 
@@ -65,8 +63,8 @@ export default function TopicBody({
   };
 
   const handlePrevNext = () => {
-    const currentIndex = allTopics.findIndex(
-      (topic) => topic._id == currentTopic._id
+    const currentIndex = allTopics?.findIndex(
+      (topic) => topic?._id == currentTopic?._id
     );
 
     // console.log(currentIndex, "cureent index");
@@ -114,34 +112,10 @@ export default function TopicBody({
   };
   return (
     <>
-      <div className="d-flex justify-content-between">
-        <Button
-          sx={{
-            my: 1,
-            // mx: 1,
-            color: "#47478c",
-            backgroundColor: "white",
-            fontSize: "16px",
-          }}
-          onClick={() => {
-            navigate("/"), localStorage.removeItem("topicId");
-          }}
-        >
-          Home
-        </Button>{" "}
-        <h2 className="text-danger" style={{ textDecoration: "underline" }}>
-          {" "}
-          {subject?.subjectName.charAt(0).toUpperCase() +
-            subject?.subjectName.slice(1)}
-          -{" "}
-          {currentTopic?.topicName?.charAt(0)?.toUpperCase() +
-            currentTopic?.topicName?.slice(1) ?? "--"}
-        </h2>
-        {!writeData ? (
-          <div>
+      {currentTopic?._id ? (
+        <>
+          <div className="d-flex justify-content-between">
             <Button
-              variant="outlined"
-              type="submit"
               sx={{
                 my: 1,
                 // mx: 1,
@@ -149,117 +123,155 @@ export default function TopicBody({
                 backgroundColor: "white",
                 fontSize: "16px",
               }}
-              onClick={() => setWriteData(true)}
-            >
-              Write / Edit
-            </Button>
-
-            <Button
-              variant="outlined"
-              type="submit"
-              sx={{
-                my: 1,
-                mx: 1,
-                color: "white",
-                backgroundColor: "blue",
-                fontSize: "16px",
-              }}
-              onClick={() => handlePrint()}
-            >
-              Print
-            </Button>
-          </div>
-        ) : (
-          <div></div>
-        )}
-      </div>
-
-      {writeData ? (
-        <>
-          <ReactQuill
-            theme="snow"
-            value={data}
-            onChange={setData}
-            modules={module}
-            className="ql-style"
-          />
-
-          <div className="d-flex justify-content-center my-2">
-            <Button
-              variant="outlined"
-              type="submit"
-              sx={{
-                my: 1,
-                mx: 1,
-                color: "#47478c",
-                backgroundColor: "white",
-                fontSize: "16px",
-              }}
-              disabled={loading}
               onClick={() => {
-                setWriteData(false), fetchData();
+                navigate("/"), localStorage.removeItem("topicId");
               }}
             >
-              Cancel
-            </Button>
-            <Button
-              variant="outlined"
-              type="submit"
-              sx={{
-                my: 1,
-                color: "white",
-                backgroundColor: "blue",
-                fontSize: "16px",
-              }}
-              disabled={loading}
-              onClick={() => handleSubmit()}
-            >
-              Submit
-            </Button>
+              Home
+            </Button>{" "}
+            <h2 className="text-danger" style={{ textDecoration: "underline" }}>
+              {" "}
+              {subject?.subjectName.charAt(0).toUpperCase() +
+                subject?.subjectName.slice(1)}
+              -{" "}
+              {currentTopic?.topicName?.charAt(0)?.toUpperCase() +
+                currentTopic?.topicName?.slice(1) ?? "--"}
+            </h2>
+            {!writeData ? (
+              <div>
+                <Button
+                  variant="outlined"
+                  type="submit"
+                  sx={{
+                    my: 1,
+                    // mx: 1,
+                    color: "#47478c",
+                    backgroundColor: "white",
+                    fontSize: "16px",
+                  }}
+                  onClick={() => setWriteData(true)}
+                >
+                  Write / Edit
+                </Button>
+
+                <Button
+                  variant="outlined"
+                  type="submit"
+                  sx={{
+                    my: 1,
+                    mx: 1,
+                    color: "white",
+                    backgroundColor: "blue",
+                    fontSize: "16px",
+                  }}
+                  onClick={() => handlePrint()}
+                >
+                  Print
+                </Button>
+              </div>
+            ) : (
+              <div></div>
+            )}
           </div>
+
+          {writeData ? (
+            <>
+              <ReactQuill
+                theme="snow"
+                value={data}
+                onChange={setData}
+                modules={module}
+                className="ql-style"
+              />
+
+              <div className="d-flex justify-content-center my-2">
+                <Button
+                  variant="outlined"
+                  type="submit"
+                  sx={{
+                    my: 1,
+                    mx: 1,
+                    color: "#47478c",
+                    backgroundColor: "white",
+                    fontSize: "16px",
+                  }}
+                  disabled={loading}
+                  onClick={() => {
+                    setWriteData(false), fetchData();
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="outlined"
+                  type="submit"
+                  sx={{
+                    my: 1,
+                    color: "white",
+                    backgroundColor: "blue",
+                    fontSize: "16px",
+                  }}
+                  disabled={loading}
+                  onClick={() => handleSubmit()}
+                >
+                  Submit
+                </Button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div
+                style={{
+                  minHeight: "75vh",
+                  maxHeight: "70vh",
+                  boxShadow: "3px 4px 7px grey",
+                  userSelect: "none",
+                }}
+                className="scrollable-container p-2 mt-1 data-div"
+              >
+                <div
+                  ref={printRef}
+                  dangerouslySetInnerHTML={{ __html: data }}
+                />
+              </div>
+              <div className="d-flex justify-content-between  px-1 mt-2">
+                <Button
+                  sx={{
+                    color: "white",
+                    backgroundColor: `${
+                      handlePrevNext().checkPrev() ? "grey" : "blue"
+                    }`,
+                    fontSize: "14px",
+                  }}
+                  disabled={handlePrevNext().checkPrev()}
+                  onClick={() => handlePrevNext().clickPrev()}
+                >
+                  Prev
+                </Button>
+                <Button
+                  sx={{
+                    color: "white",
+                    backgroundColor: `${
+                      handlePrevNext().checkNext() ? "grey" : "blue"
+                    }`,
+                    fontSize: "14px",
+                  }}
+                  disabled={handlePrevNext().checkNext()}
+                  onClick={() => handlePrevNext().clickNext()}
+                >
+                  Next
+                </Button>
+              </div>{" "}
+            </>
+          )}
         </>
       ) : (
-        <>
-          <div
-            style={{
-              minHeight: "75vh",
-              maxHeight: "70vh",
-              boxShadow: "3px 4px 7px grey",
-              userSelect: "none",
-            }}
-            className="scrollable-container p-2 mt-1 data-div"
-          >
-            <div ref={printRef} dangerouslySetInnerHTML={{ __html: data }} />
-          </div>
-          <div className="d-flex justify-content-between  px-1 mt-2">
-            <Button
-              sx={{
-                color: "white",
-                backgroundColor: `${
-                  handlePrevNext().checkPrev() ? "grey" : "blue"
-                }`,
-                fontSize: "14px",
-              }}
-              disabled={handlePrevNext().checkPrev()}
-              onClick={() => handlePrevNext().clickPrev()}
-            >
-              Prev
-            </Button>
-            <Button
-              sx={{
-                color: "white",
-                backgroundColor: `${
-                  handlePrevNext().checkNext() ? "grey" : "blue"
-                }`,
-                fontSize: "14px",
-              }}
-              disabled={handlePrevNext().checkNext()}
-              onClick={() => handlePrevNext().clickNext()}
-            >
-              Next
-            </Button>
-          </div>{" "}
-        </>
+        <div
+          style={{ height: "90vh" }}
+          className="d-flex justify-content-center align-items-center"
+        >
+          <h4> Topics will appear here once created! 😊</h4>
+        </div>
       )}
     </>
   );

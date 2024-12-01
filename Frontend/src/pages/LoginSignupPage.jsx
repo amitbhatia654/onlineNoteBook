@@ -25,8 +25,8 @@ const CFaUserAlt = chakra(FaUserAlt);
 
 const LoginSignupPage = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("admin@gmail.com");
+  const [password, setPassword] = useState("admin1234");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const navigate = useNavigate();
@@ -97,6 +97,7 @@ const LoginSignupPage = () => {
                   <Input
                     type="email"
                     placeholder="email address"
+                    value={email}
                     onChange={(e) => {
                       setEmail(e.target.value);
                       setError(false);
@@ -113,6 +114,7 @@ const LoginSignupPage = () => {
                   <Input
                     type={showPassword ? "text" : "password"}
                     placeholder="Password"
+                    value={password}
                     name="password"
                     onChange={(e) => {
                       setPassword(e.target.value);

@@ -56,7 +56,7 @@ const getAllTopic = async (req, res) => {
         const subjectId = req.query.subjectId
 
         const query = search
-            ? { subjectId, subjectName: { $regex: search, $options: "i" } }
+            ? { subjectId, topicName: { $regex: search, $options: "i" } }
             : { subjectId };
 
         const response = await Topic.find(query)

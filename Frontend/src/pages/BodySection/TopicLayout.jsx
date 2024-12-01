@@ -25,6 +25,7 @@ export default function TopicLayout() {
   const [isOpen, setIsOpen] = useState(false);
   const [editTopic, setEditTopic] = useState({});
   const subjectDetails = location?.state?.subject;
+  const [search, setSearch] = useState("");
 
   const id = null;
 
@@ -43,6 +44,7 @@ export default function TopicLayout() {
     if (res.status == 200) {
       toast.success(res.data);
       setEditTopic({});
+      fetchData();
       setShowModal(false);
     }
   };
@@ -53,19 +55,39 @@ export default function TopicLayout() {
     if (res.status == 200) {
       toast.success(res.data.message);
       setAllTopics(allTopics.filter((topic) => topic._id != res.data.data._id));
-    } else toast.danger(res.data.message);
+
+      const currentIndex = allTopics?.findIndex(
+        (topic) => topic?._id == topicId
+      );
+
+      if (allTopics.length <= 1) {
+        setCurrentTopic({});
+        localStorage.removeItem("topicId");
+      } else {
+        if (currentIndex == 0) {
+          setCurrentTopic(allTopics[currentIndex + 1]);
+          localStorage.setItem("topicId", allTopics[currentIndex + 1]._id);
+        } else {
+          setCurrentTopic(allTopics[currentIndex - 1]);
+          localStorage.setItem("topicId", allTopics[currentIndex - 1]._id);
+        }
+      }
+    } else toast.error(res.data.message);
   };
 
   const fetchData = async () => {
     setloading(true);
     const res = await axiosInstance.get("/api/topics", {
-      params: { subjectId: subjectDetails?._id },
+      params: { subjectId: subjectDetails?._id, search },
     });
 
     if (res.status == 200) {
+      if (res.data.response.length == 0) setCurrentTopic({});
       setAllTopics(res.data.response);
       if (!localStorage.getItem("topicId")) {
-        if (res.data.response.length > 0) setCurrentTopic(res.data.response[0]);
+        if (res.data.response.length > 0) {
+          setCurrentTopic(res.data.response[0]);
+        }
       } else {
         setCurrentTopic(
           res.data.response.filter(
@@ -81,14 +103,13 @@ export default function TopicLayout() {
 
   useEffect(() => {
     fetchData();
-  }, [showModal]);
+  }, [search]);
   return (
     <>
       <div className="d-flex ">
         <div
           className={!isOpen ? "sidenav-full" : "sidenav-small"}
           style={{
-            // borderTop: "2px solid grey",
             borderRight: "2px solid grey",
           }}
         >
@@ -125,8 +146,8 @@ export default function TopicLayout() {
                 sx={{ mb: 1 }}
                 size="small"
                 onChange={(e) => {
-                  // setSearch(e.target.value);
-                  // setCurrentPage(1);
+                  setSearch(e.target.value);
+                  localStorage.removeItem("topicId");
                 }}
                 placeholder="search"
               ></TextField>
@@ -136,61 +157,65 @@ export default function TopicLayout() {
               Create New +{" "}
             </div>
 
-            {allTopics.map((topic, id) => {
-              return (
-                <div
-                  className="d-flex justify-content-between topicNames"
-                  key={id}
-                >
+            {allTopics.length < 1 ? (
+              <h5 className="text-center text-primary my-4">No Data Found! 😴</h5>
+            ) : (
+              allTopics.map((topic, id) => {
+                return (
                   <div
-                    className={`names ${
-                      currentTopic?._id == topic?._id && "currentTopic"
-                    }`}
-                    onClick={() => {
-                      setCurrentTopic(topic),
-                        localStorage.setItem("topicId", topic._id);
-                    }}
+                    className="d-flex justify-content-between topicNames"
+                    key={id}
                   >
-                    {id + 1}.{" "}
-                    {topic.topicName.charAt(0)?.toUpperCase() +
-                      topic.topicName.slice(1)}
-                  </div>
+                    <div
+                      className={`names ${
+                        currentTopic?._id == topic?._id && "currentTopic"
+                      }`}
+                      onClick={() => {
+                        setCurrentTopic(topic),
+                          localStorage.setItem("topicId", topic._id);
+                      }}
+                    >
+                      {id + 1}.{" "}
+                      {topic.topicName.charAt(0)?.toUpperCase() +
+                        topic.topicName.slice(1)}
+                    </div>
 
-                  <div>
-                    <div className="dropdown">
-                      <button
-                        className="btn "
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        <h6>:</h6>
-                      </button>
-                      <ul className="dropdown-menu">
-                        <li>
-                          <button
-                            className="dropdown-item"
-                            onClick={() => {
-                              setEditTopic(topic), setShowModal(true);
-                            }}
-                          >
-                            Edit
-                          </button>
-                        </li>
-                        <li>
-                          <button
-                            className="dropdown-item"
-                            onClick={() => deleteTopic(topic._id)}
-                          >
-                            Delete
-                          </button>
-                        </li>
-                      </ul>
+                    <div>
+                      <div className="dropdown">
+                        <button
+                          className="btn "
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <h6>:</h6>
+                        </button>
+                        <ul className="dropdown-menu">
+                          <li>
+                            <button
+                              className="dropdown-item"
+                              onClick={() => {
+                                setEditTopic(topic), setShowModal(true);
+                              }}
+                            >
+                              Edit
+                            </button>
+                          </li>
+                          <li>
+                            <button
+                              className="dropdown-item"
+                              onClick={() => deleteTopic(topic._id)}
+                            >
+                              Delete
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })
+            )}
           </div>
         </div>
 

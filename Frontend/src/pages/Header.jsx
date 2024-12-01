@@ -79,7 +79,7 @@ export default function Header() {
 
           <div className="">
             <Tooltip title="My Profile" placement="bottom-end">
-              Hello🙋‍♂️ {userData?.name?.split(" ")[0] ?? "user"}
+              <span className="fw-bold"> Hello🙋‍♂️ {userData?.name?.split(" ")[0] ?? "user"}</span>
               <IconButton onClick={handleOpenUserMenu}>
                 {" "}
                 <span className="fs-6 fw-bold text-primary "></span>
