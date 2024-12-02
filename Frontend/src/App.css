@@ -124,7 +124,7 @@ body {
     /* border-radius: 5px; */
 }
 
-.ql-style{
+.ql-style {
     margin-top: 10px;
 }
 
@@ -155,18 +155,13 @@ body {
 
 
 .topicNames {
-    /* border: 1px solid black; */
     margin-top: 6px;
-    /* text-align: center; */
-    box-shadow: 1px 2px 4px grey;
-    font-size: 20px;
-    padding-left: 3px;
-    /* cursor: pointer; */
-
+    box-shadow: 2px 2px 4px grey;
+    font-size: 17px;
+    padding-left: 8px;
 }
 
 .names {
-    /* background-color: #000; */
     width: 150px;
     cursor: pointer;
 }
@@ -178,7 +173,7 @@ body {
     box-shadow: 1px 2px 4px grey;
     background-color: #ef3210;
     color: white;
-    font-size: 18px;
+    font-size: 17px;
     padding: 3px;
     cursor: pointer;
 }

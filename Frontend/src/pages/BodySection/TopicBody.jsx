@@ -197,7 +197,7 @@ export default function TopicBody({
                     // height: "30px",
                     marginTop: "7px",
                     border: "0px",
-                    fontSize: "20px",
+                    fontSize: "18px",
                     marginRight: "8px",
                   }}
                   onClick={() => setWriteData(true)}
@@ -213,20 +213,14 @@ export default function TopicBody({
 
                     height: "35px",
                     marginTop: "7px",
-                    fontSize: "20px",
+                    fontSize: "18px",
                     border: "0px",
                     marginRight: "5px",
                   }}
-                  // sx={{
-                  //   my: 1,
-                  //   mx: 1,
-                  //   color: "white",
-                  //   backgroundColor: "blue",
-                  //   fontSize: "16px",
-                  // }}
                   onClick={() => handlePrint()}
                 >
-                  Print<LocalPrintshopIcon sx={{ mx: 1 }}></LocalPrintshopIcon>
+                  Print
+                  <LocalPrintshopIcon sx={{ mx: 1 }} />
                 </button>
               </div>
             ) : (
@@ -284,7 +278,9 @@ export default function TopicBody({
                 style={{
                   minHeight: "77vh",
                   maxHeight: "77vh",
-                  boxShadow: "3px 4px 7px grey",
+                  // boxShadow: "3px 4px 7px grey",
+                  boxShadow: "1px 1px 1px grey",
+
                   userSelect: "none",
                 }}
                 className="scrollable-container p-3 mt-2  data-div"
