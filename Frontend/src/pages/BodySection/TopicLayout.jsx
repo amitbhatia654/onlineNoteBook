@@ -26,6 +26,7 @@ export default function TopicLayout() {
   const [editTopic, setEditTopic] = useState({});
   const subjectDetails = location?.state?.subject;
   const [search, setSearch] = useState("");
+  const [writeData, setWriteData] = useState(false);
 
   const id = null;
 
@@ -73,6 +74,27 @@ export default function TopicLayout() {
         }
       }
     } else toast.error(res.data.message);
+  };
+
+  const handleChangeTopic = (topic) => {
+    if (writeData) {
+      toast(
+        "You have unsaved changes. Please save or cancel before proceeding !",
+        {
+          duration: 3000,
+          style: {
+            backgroundColor: "#f8d7da", // Example of background color
+            color: "#721c24", // Example of text color
+            border: "1px solid #f5c6cb", // Example of border
+            padding: "10px", // Padding for the toast
+            fontSize: "16px", // Font size
+            borderRadius: "5px", // Rounded corners
+          },
+        }
+      );
+      return;
+    }
+    setCurrentTopic(topic), localStorage.setItem("topicId", topic._id);
   };
 
   const fetchData = async () => {
@@ -158,7 +180,9 @@ export default function TopicLayout() {
             </div>
 
             {allTopics.length < 1 ? (
-              <h5 className="text-center text-primary my-4">No Data Found! 😴</h5>
+              <h5 className="text-center text-primary my-4">
+                No Topic Found! 😴
+              </h5>
             ) : (
               allTopics.map((topic, id) => {
                 return (
@@ -171,8 +195,7 @@ export default function TopicLayout() {
                         currentTopic?._id == topic?._id && "currentTopic"
                       }`}
                       onClick={() => {
-                        setCurrentTopic(topic),
-                          localStorage.setItem("topicId", topic._id);
+                        handleChangeTopic(topic);
                       }}
                     >
                       {id + 1}.{" "}
@@ -234,6 +257,8 @@ export default function TopicLayout() {
               fetchData={fetchData}
               allTopics={allTopics}
               setCurrentTopic={setCurrentTopic}
+              writeData={writeData}
+              setWriteData={setWriteData}
             ></TopicBody>
           </div>
         </div>

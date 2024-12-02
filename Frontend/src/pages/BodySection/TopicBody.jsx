@@ -11,12 +11,13 @@ export default function TopicBody({
   fetchData,
   allTopics,
   setCurrentTopic,
+  writeData,
+  setWriteData,
 }) {
   const location = useLocation();
   const id = null;
   const subject = location?.state?.subject;
   const navigate = useNavigate();
-  const [writeData, setWriteData] = useState(false);
   const [loading, setloading] = useState(false);
   const [data, setData] = useState(currentTopic?.description);
 
@@ -54,13 +55,37 @@ export default function TopicBody({
 
   const module = {
     toolbar: [
-      [{ header: [1, 2, 3, false] }], // Header dropdown
-      ["bold", "italic", "underline", "strike"], // Formatting buttons
-      [{ list: "ordered" }, { list: "bullet" }], // Lists
-      ["link", "image"], // Link and image options
-      ["clean"], // Clear formatting
+      // Header dropdown
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+      [{ font: [] }], // Font family dropdown
+      [{ size: ["small", false, "large", "huge"] }], // Font size dropdown
+      ["code-block", { blockquote: [] }],
+      [
+        "bold",
+        "italic",
+        "underline",
+        "strike",
+        { color: [] },
+        { background: [] },
+      ],
+
+      [{ align: [] }],
+
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+      ],
+
+      ["link", "image", "video"], // Link, image, and video insertion
+
+      ["clean"],
     ],
   };
+
+  console.log("topic body page");
 
   const handlePrevNext = () => {
     const currentIndex = allTopics?.findIndex(
@@ -88,6 +113,28 @@ export default function TopicBody({
     }
 
     return { clickNext, clickPrev, checkNext, checkPrev };
+  };
+
+  const goToHomePage = () => {
+    if (writeData) {
+      toast(
+        "You have unsaved changes. Please save or cancel before proceeding !",
+        {
+          duration: 3000,
+          style: {
+            backgroundColor: "#f8d7da", // Example of background color
+            color: "#721c24", // Example of text color
+            border: "1px solid #f5c6cb", // Example of border
+            padding: "10px", // Padding for the toast
+            fontSize: "16px", // Font size
+            borderRadius: "5px", // Rounded corners
+          },
+        }
+      );
+      return;
+    }
+
+    navigate("/"), localStorage.removeItem("topicId");
   };
 
   const handleSubmit = async () => {
@@ -124,7 +171,7 @@ export default function TopicBody({
                 fontSize: "16px",
               }}
               onClick={() => {
-                navigate("/"), localStorage.removeItem("topicId");
+                goToHomePage();
               }}
             >
               Home
@@ -266,12 +313,28 @@ export default function TopicBody({
           )}
         </>
       ) : (
-        <div
-          style={{ height: "90vh" }}
-          className="d-flex justify-content-center align-items-center"
-        >
-          <h4> Topics will appear here once created! 😊</h4>
-        </div>
+        <>
+          <Button
+            sx={{
+              my: 1,
+              // mx: 1,
+              color: "#47478c",
+              backgroundColor: "white",
+              fontSize: "16px",
+            }}
+            onClick={() => {
+              navigate("/"), localStorage.removeItem("topicId");
+            }}
+          >
+            Home
+          </Button>
+          <div
+            style={{ height: "82vh" }}
+            className="d-flex justify-content-center align-items-center"
+          >
+            <h4> Topics Data will appear here once created! 😊</h4>
+          </div>
+        </>
       )}
     </>
   );
