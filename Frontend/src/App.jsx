@@ -13,7 +13,6 @@ import UpdateProfile from "./pages/UpdateProfile";
 import HomePageLayout from "./pages/HomePage/HomePageLayout";
 import HomePage from "./pages/HomePage/HomePage";
 import TopicLayout from "./pages/BodySection/TopicLayout";
-import TopicBody from "./pages/BodySection/TopicBody";
 
 function App() {
   const isUserLogin = () => {

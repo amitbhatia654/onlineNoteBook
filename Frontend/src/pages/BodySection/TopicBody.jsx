@@ -5,6 +5,12 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Button } from "@mui/material";
 import axiosInstance from "../../ApiManager";
+import HomeIcon from "@mui/icons-material/Home";
+import LocalPrintshopIcon from "@mui/icons-material/LocalPrintshop";
+import FirstPageIcon from "@mui/icons-material/FirstPage";
+import LastPageIcon from "@mui/icons-material/LastPage";
+import EditIcon from "@mui/icons-material/Edit";
+import EditNoteIcon from "@mui/icons-material/EditNote";
 
 export default function TopicBody({
   currentTopic,
@@ -58,8 +64,8 @@ export default function TopicBody({
       // Header dropdown
       [{ header: [1, 2, 3, 4, 5, 6, false] }],
 
-      [{ font: [] }], // Font family dropdown
-      [{ size: ["small", false, "large", "huge"] }], // Font size dropdown
+      [{ font: [] }],
+      [{ size: ["small", false, "large", "huge"] }],
       ["code-block", { blockquote: [] }],
       [
         "bold",
@@ -85,14 +91,10 @@ export default function TopicBody({
     ],
   };
 
-  console.log("topic body page");
-
   const handlePrevNext = () => {
     const currentIndex = allTopics?.findIndex(
       (topic) => topic?._id == currentTopic?._id
     );
-
-    // console.log(currentIndex, "cureent index");
 
     function clickNext() {
       setCurrentTopic(allTopics[currentIndex + 1]);
@@ -122,12 +124,12 @@ export default function TopicBody({
         {
           duration: 3000,
           style: {
-            backgroundColor: "#f8d7da", // Example of background color
-            color: "#721c24", // Example of text color
-            border: "1px solid #f5c6cb", // Example of border
-            padding: "10px", // Padding for the toast
-            fontSize: "16px", // Font size
-            borderRadius: "5px", // Rounded corners
+            backgroundColor: "#f8d7da",
+            color: "#721c24",
+            border: "1px solid #f5c6cb",
+            padding: "10px",
+            fontSize: "16px",
+            borderRadius: "5px",
           },
         }
       );
@@ -139,22 +141,15 @@ export default function TopicBody({
 
   const handleSubmit = async () => {
     setloading(true);
-    const res = id
-      ? await axiosInstance.put(`/api/employee/${id}`, {
-          ...data,
-          // _id: user.id,
-        })
-      : await axiosInstance.put(`/api/topicData`, {
-          description: data,
-          topicId: currentTopic._id,
-        });
+    const res = await axiosInstance.put(`/api/topicData`, {
+      description: data,
+      topicId: currentTopic._id,
+    });
     setWriteData(false);
     fetchData();
     setloading(false);
     if (res.status == 200) {
       toast.success(res.data);
-      // navigate("/employees");
-      // setShowModal(false);
     }
   };
   return (
@@ -162,21 +157,26 @@ export default function TopicBody({
       {currentTopic?._id ? (
         <>
           <div className="d-flex justify-content-between">
-            <Button
-              sx={{
-                my: 1,
-                // mx: 1,
-                color: "#47478c",
-                backgroundColor: "white",
-                fontSize: "16px",
+            <button
+              style={{
+                color: "white",
+                backgroundColor: "blue",
+                height: "30px",
+                marginTop: "7px",
+                border: "0px",
               }}
               onClick={() => {
                 goToHomePage();
               }}
             >
-              Home
-            </Button>{" "}
-            <h2 className="text-danger" style={{ textDecoration: "underline" }}>
+              <HomeIcon />
+            </button>{" "}
+            <h2
+              className="text-primary heading"
+              style={{
+                textDecoration: "underline",
+              }}
+            >
               {" "}
               {subject?.subjectName.charAt(0).toUpperCase() +
                 subject?.subjectName.slice(1)}
@@ -186,35 +186,48 @@ export default function TopicBody({
             </h2>
             {!writeData ? (
               <div>
-                <Button
-                  variant="outlined"
-                  type="submit"
-                  sx={{
-                    my: 1,
-                    // mx: 1,
+                <button
+                  style={{
                     color: "#47478c",
                     backgroundColor: "white",
-                    fontSize: "16px",
+                    borderRadius: "8px",
+                    // padding: "2px",
+                    paddingLeft: "10px",
+                    paddingRight: "10px",
+                    // height: "30px",
+                    marginTop: "7px",
+                    border: "0px",
+                    fontSize: "20px",
+                    marginRight: "8px",
                   }}
                   onClick={() => setWriteData(true)}
                 >
-                  Write / Edit
-                </Button>
+                  Modify <EditNoteIcon sx={{ fontSize: "30px" }}></EditNoteIcon>
+                </button>
 
-                <Button
-                  variant="outlined"
-                  type="submit"
-                  sx={{
-                    my: 1,
-                    mx: 1,
+                <button
+                  style={{
                     color: "white",
                     backgroundColor: "blue",
-                    fontSize: "16px",
+                    borderRadius: "8px",
+
+                    height: "35px",
+                    marginTop: "7px",
+                    fontSize: "20px",
+                    border: "0px",
+                    marginRight: "5px",
                   }}
+                  // sx={{
+                  //   my: 1,
+                  //   mx: 1,
+                  //   color: "white",
+                  //   backgroundColor: "blue",
+                  //   fontSize: "16px",
+                  // }}
                   onClick={() => handlePrint()}
                 >
-                  Print
-                </Button>
+                  Print<LocalPrintshopIcon sx={{ mx: 1 }}></LocalPrintshopIcon>
+                </button>
               </div>
             ) : (
               <div></div>
@@ -228,7 +241,7 @@ export default function TopicBody({
                 value={data}
                 onChange={setData}
                 modules={module}
-                className="ql-style"
+                className="ql-style "
               />
 
               <div className="d-flex justify-content-center my-2">
@@ -261,7 +274,7 @@ export default function TopicBody({
                   disabled={loading}
                   onClick={() => handleSubmit()}
                 >
-                  Submit
+                  Save
                 </Button>
               </div>
             </>
@@ -269,12 +282,12 @@ export default function TopicBody({
             <>
               <div
                 style={{
-                  minHeight: "75vh",
-                  maxHeight: "70vh",
+                  minHeight: "77vh",
+                  maxHeight: "77vh",
                   boxShadow: "3px 4px 7px grey",
                   userSelect: "none",
                 }}
-                className="scrollable-container p-2 mt-1 data-div"
+                className="scrollable-container p-3 mt-2  data-div"
               >
                 <div
                   ref={printRef}
@@ -293,7 +306,7 @@ export default function TopicBody({
                   disabled={handlePrevNext().checkPrev()}
                   onClick={() => handlePrevNext().clickPrev()}
                 >
-                  Prev
+                  <FirstPageIcon /> Prev
                 </Button>
                 <Button
                   sx={{
@@ -307,6 +320,7 @@ export default function TopicBody({
                   onClick={() => handlePrevNext().clickNext()}
                 >
                   Next
+                  <LastPageIcon />
                 </Button>
               </div>{" "}
             </>
@@ -314,25 +328,42 @@ export default function TopicBody({
         </>
       ) : (
         <>
-          <Button
-            sx={{
-              my: 1,
-              // mx: 1,
-              color: "#47478c",
-              backgroundColor: "white",
-              fontSize: "16px",
-            }}
-            onClick={() => {
-              navigate("/"), localStorage.removeItem("topicId");
-            }}
-          >
-            Home
-          </Button>
+          <div className="d-flex justify-content-between">
+            <button
+              style={{
+                color: "white",
+                backgroundColor: "blue",
+                height: "30px",
+                marginTop: "7px",
+                border: "0px",
+              }}
+              onClick={() => {
+                goToHomePage();
+              }}
+            >
+              <HomeIcon />
+            </button>
+
+            <h2
+              className="text-primary heading"
+              style={{
+                textDecoration: "underline",
+              }}
+            >
+              {" "}
+              {subject?.subjectName.charAt(0).toUpperCase() +
+                subject?.subjectName.slice(1)}{" "}
+            </h2>
+            <div></div>
+          </div>
           <div
             style={{ height: "82vh" }}
             className="d-flex justify-content-center align-items-center"
           >
-            <h4> Topics Data will appear here once created! 😊</h4>
+            <h4>
+              {" "}
+              Topic information will show up here after you create a topic. 😊
+            </h4>
           </div>
         </>
       )}

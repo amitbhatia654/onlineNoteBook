@@ -32,7 +32,7 @@ export default function Header() {
     setAnchorElUser(event.currentTarget);
   };
   return (
-    <div>
+    <>
       <div className="d-flex ">
         <div
           style={{
@@ -78,15 +78,14 @@ export default function Header() {
           </div> */}
 
           <div className="">
+            <span className="fw-bold   text-primary fs-5 ">
+              {" "}
+            Hey, {userData?.name ?? "user"}
+            </span>
             <Tooltip title="My Profile" placement="bottom-end">
-              <span className="fw-bold ">
-                {" "}
-                Hey, {userData?.name?.split(" ")[0] ?? "user"}
-              </span>
               <IconButton onClick={handleOpenUserMenu}>
                 {" "}
-                <span className="fs-6 fw-bold text-primary "></span>
-                <Avatar></Avatar>
+                <Avatar style={{ height: "37px", width: "37px" }}></Avatar>
               </IconButton>
             </Tooltip>
             <Menu
@@ -144,6 +143,6 @@ export default function Header() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

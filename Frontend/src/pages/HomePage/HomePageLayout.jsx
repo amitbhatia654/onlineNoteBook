@@ -3,10 +3,7 @@ import { Outlet } from "react-router-dom";
 
 export default function HomePageLayout() {
   return (
-    <div
-      className="border border-primary "
-      style={{ minHeight: "91vh", maxHeight: "91vh" }}
-    >
+    <div style={{ minHeight: "92vh", maxHeight: "92vh", borderTop: "1px solid " }}>
       <div className="scrollable-container">
         <Outlet></Outlet>
       </div>

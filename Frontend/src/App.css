@@ -124,14 +124,21 @@ body {
     /* border-radius: 5px; */
 }
 
+.ql-style{
+    margin-top: 10px;
+}
+
 .border1 {
     border: 1px solid black;
 }
 
+
+
 .ql-style .ql-editor {
     /* border: 2px solid black; */
-    min-height: 65vh;
-    max-height: 65vh;
+    /* margin-top: 10px; */
+    min-height: 67vh;
+    max-height: 67vh;
     background-color: #f7f2dd;
 }
 
@@ -180,4 +187,19 @@ body {
     /* background-color: rgb(83, 83, 253); */
     color: blue;
     /* font-size: 23px; */
+}
+
+@media (max-width: 768px) {
+
+    /* Target devices with width <= 768px */
+    .heading {
+        width: 250px;
+        /* Limit width for mobile screens */
+        white-space: nowrap;
+        /* Prevent text wrapping */
+        overflow: hidden;
+        /* Hide overflowed text */
+        text-overflow: ellipsis;
+        /* Show three dots for overflow */
+    }
 }
