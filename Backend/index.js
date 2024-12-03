@@ -4,13 +4,13 @@ const bodyParser = require('body-parser');
 const { app, server } = require("./socket/socket");
 const AuthRoute = require('./Router/auth-router');
 const ChatRoute = require("./Router/chat-router");
-const NoteBookRoute=require("./Router/notebook-router")
+const NoteBookRoute = require("./Router/notebook-router")
 
 
 const allowedOrigins = [
     "http://localhost:5173",
     "http://192.168.29.68:5173",
-    "https://mern-dashboard-orpin.vercel.app"
+    "https://online-note-book.vercel.app"
 ];
 
 var cors = require('cors');
