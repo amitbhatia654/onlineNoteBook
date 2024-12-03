@@ -191,13 +191,11 @@ export default function TopicBody({
                     color: "#47478c",
                     backgroundColor: "white",
                     borderRadius: "8px",
-                    // padding: "2px",
                     paddingLeft: "10px",
                     paddingRight: "10px",
-                    // height: "30px",
                     marginTop: "7px",
                     border: "0px",
-                    fontSize: "18px",
+                    fontSize: "16px",
                     marginRight: "8px",
                   }}
                   onClick={() => setWriteData(true)}
@@ -210,17 +208,17 @@ export default function TopicBody({
                     color: "white",
                     backgroundColor: "blue",
                     borderRadius: "8px",
-
-                    height: "35px",
+                    paddingLeft: "10px",
+                    paddingRight: "10px",
                     marginTop: "7px",
-                    fontSize: "18px",
                     border: "0px",
-                    marginRight: "5px",
+                    fontSize: "18px",
+                    marginRight: "8px",
                   }}
                   onClick={() => handlePrint()}
                 >
                   Print
-                  <LocalPrintshopIcon sx={{ mx: 1 }} />
+                  <LocalPrintshopIcon sx={{ mx: 1, fontSize: "25px" }} />
                 </button>
               </div>
             ) : (

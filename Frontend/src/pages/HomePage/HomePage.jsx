@@ -55,7 +55,7 @@ export default function HomePage() {
     }
   };
   return (
-    <>
+    <div className="homepage">
       <div className="">
         <h2
           className="text-center mt-1"
@@ -67,7 +67,7 @@ export default function HomePage() {
         >
           SELECT SUBJECT{" "}
         </h2>
-        <hr />
+        {/* <hr /> */}
 
         <div className="container mt-5">
           <div className="row">
@@ -194,6 +194,6 @@ export default function HomePage() {
           </Formik>
         </Modal>
       )}
-    </>
+    </div>
   );
 }

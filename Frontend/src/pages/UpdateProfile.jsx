@@ -35,7 +35,7 @@ export default function UpdateProfile() {
     }
 
     setloading(true);
-    const res = await axiosInstance.put(`/api/update-profile/${id}`, {
+    const res = await axiosInstance.put(`/api/auth/update-profile/${id}`, {
       ...data,
     });
     const user = {
@@ -52,7 +52,7 @@ export default function UpdateProfile() {
   };
 
   const getEmpById = async () => {
-    const result = await axiosInstance.get(`/api/update-profile/${id}`);
+    const result = await axiosInstance.get(`/api/auth/update-profile/${id}`);
 
     if (result) {
       setData(result.data);

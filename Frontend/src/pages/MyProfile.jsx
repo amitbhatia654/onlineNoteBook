@@ -14,7 +14,7 @@ const MyProfile = () => {
 
   const getEmpById = async () => {
     // setLoading(true);
-    const result = await axiosInstance.get(`/api/update-profile/${id}`);
+    const result = await axiosInstance.get(`/api/auth/update-profile/${id}`);
     setLoading(false);
     if (result) {
       setData(result.data);
