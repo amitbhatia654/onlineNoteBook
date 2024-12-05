@@ -67,7 +67,7 @@ export default function HomePage() {
         >
           SELECT SUBJECT{" "}
         </h2>
-        <hr />
+        {/* <hr /> */}
 
         <div className="container mt-5">
           <div className="row">
