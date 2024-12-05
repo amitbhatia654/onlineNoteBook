@@ -10,7 +10,6 @@ const Topic = require("../Models/topicModel");
 const addSubject = async (req, res) => {
     try {
         const { subjectName, userId } = req.body
-        console.log(req.body, 'body')
         const Res = await Subject.create({ subjectName, createdBy: userId })
         res.status(200).send("New Subject Added Succesfully")
     } catch (error) {
@@ -34,6 +33,33 @@ const getALLSubjects = async (req, res) => {
 
     } catch (error) {
         res.status(205).send("data not found")
+    }
+}
+
+
+const updateSubject = async (req, res) => {
+    try {
+        const response = await Subject.findByIdAndUpdate(req.body._id, req.body)
+        res.status(200).send("Subject updated succesfully")
+
+    } catch (error) {
+        res.status(203).send("Subject Not Updated")
+    }
+}
+
+
+
+const deleteSubject = async (req, res) => {
+    try {
+        const deletedSubject = await Subject.findOneAndDelete({ _id: req.params.id });
+        if (!deletedSubject) {
+            return res.status(404).send({ message: 'Employee not deleted' });
+        }
+        res.status(200).send({ message: 'Subject deleted successfully', data: deletedSubject });
+
+    } catch (error) {
+        console.error('Error deleting subject:', error);
+        res.status(500).send({ message: 'Failed to delete subject' });
     }
 }
 
@@ -79,8 +105,6 @@ const deleteTopic = async (req, res) => {
 
 const updateTopic = async (req, res) => {
     try {
-        console.log(req.body, 'body')
-        console.log(req.params, 'params')
         const response = await Topic.findByIdAndUpdate(req.params.id, req.body)
         res.status(200).send("Topic updated succesfully")
 
@@ -100,7 +124,6 @@ const addTopicData = async (req, res) => {
             { new: true }
         );
 
-        console.log(updatedTopic, 'updates')
 
         if (!updatedTopic) {
             return res.status(404).send("Topic not found");
@@ -114,5 +137,6 @@ const addTopicData = async (req, res) => {
 
 
 module.exports = {
-    addSubject, getALLSubjects, addTopic, getAllTopic, addTopicData, deleteTopic, updateTopic
+    addSubject, getALLSubjects, addTopic, getAllTopic, addTopicData,
+    deleteTopic, updateTopic, deleteSubject, updateSubject
 }

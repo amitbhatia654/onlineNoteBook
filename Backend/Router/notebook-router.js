@@ -8,6 +8,8 @@ const AuthMiddleWare = require('../auth-middleware');
 
 router.route("/subjects").post(AuthMiddleWare, NotebookController.addSubject)
 router.route("/subjects").get(AuthMiddleWare, NotebookController.getALLSubjects)
+router.route("/subjects/:id").put(AuthMiddleWare, NotebookController.updateSubject)
+router.route("/subjects/:id").delete(AuthMiddleWare, NotebookController.deleteSubject)
 router.route('/topics').post(AuthMiddleWare,NotebookController.addTopic)
 router.route('/topics').get(AuthMiddleWare, NotebookController.getAllTopic)
 router.route('/topics/:id').delete(AuthMiddleWare, NotebookController.deleteTopic)

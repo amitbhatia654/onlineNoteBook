@@ -7,9 +7,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { addEmployee } from "../../assets/FormSchema";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import DeleteIcon from "@mui/icons-material/Delete";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+import AddToPhotosIcon from "@mui/icons-material/AddToPhotos";
 
 export default function HomePage() {
   const [showModal, setShowModal] = useState(false);
+  const [edit, setEdit] = useState({});
   const [loading, setloading] = useState(false);
   const [allSubject, setAllSubject] = useState([]);
   const navigate = useNavigate();
@@ -34,13 +38,20 @@ export default function HomePage() {
     fetchData();
   }, [showModal]);
 
+  const handleDelete = async (id) => {
+    const res = await axiosInstance.delete(`/api/subjects/${id}`);
+    if (res.status == 200) {
+      toast.success(res.data.message);
+      setAllSubject(allSubject.filter((data) => data._id != id));
+    }
+  };
+
   const handleSubmit = async (values) => {
     // return console.log(values, "values");
     setloading(true);
-    const res = id
-      ? await axiosInstance.put(`/api/employee/${id}`, {
+    const res = edit._id
+      ? await axiosInstance.put(`/api/subjects/${edit._id}`, {
           ...values,
-          // _id: user.id,
         })
       : await axiosInstance.post(`/api/subjects`, {
           ...values,
@@ -50,7 +61,7 @@ export default function HomePage() {
     setloading(false);
     if (res.status == 200) {
       toast.success(res.data);
-      // navigate("/employees");
+      setEdit({});
       setShowModal(false);
     }
   };
@@ -60,16 +71,73 @@ export default function HomePage() {
         <h2
           className="text-center mt-1"
           style={{
-            textShadow: "1px 1px 1px blue",
-            color: "blue",
-            // fontWeight: "bold",
+            textShadow: "1px 1px 1px black",
+            color: "white",
           }}
         >
-          SELECT SUBJECT{" "}
+          <span
+            style={{
+              backgroundColor: "#7c671b",
+              padding: "15px",
+              borderRadius: "15px",
+            }}
+          >
+            FOLDERS{" "}
+          </span>
         </h2>
-        {/* <hr /> */}
 
-        <div className="container mt-5">
+        <div className="d-flex container flex-wrap mt-5">
+          <div className="m-2" onClick={() => setShowModal(true)}>
+            <div className="upper-side-create"></div>
+            <div className="create-box">
+              <div className="inner-box ">
+                {" "}
+                New <AddToPhotosIcon />{" "}
+              </div>
+            </div>
+          </div>
+
+          {allSubject.map((subject) => {
+            return (
+              <>
+                <div className="m-2">
+                  <div className="upper-side"></div>
+                  <div className="boxes">
+                    <div
+                      className="inner-box "
+                      onClick={() =>
+                        navigate(`/topic/${subject.subjectName}`, {
+                          state: { subject },
+                        })
+                      }
+                    >
+                      {" "}
+                      {subject.subjectName}
+                    </div>
+                    <div className="d-flex justify-content-end">
+                      <span>
+                        <BorderColorIcon
+                          onClick={() => {
+                            setShowModal(true), setEdit(subject);
+                          }}
+                          sx={{ cursor: "pointer", mx: 1 }}
+                        />
+                      </span>
+                      <span>
+                        <DeleteIcon
+                          onClick={() => handleDelete(subject._id)}
+                          sx={{ cursor: "pointer" }}
+                        />
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </>
+            );
+          })}
+        </div>
+
+        {/* <div className="container mt-5">
           <div className="row">
             <div className="col-md-2 ">
               <div
@@ -98,18 +166,19 @@ export default function HomePage() {
               );
             })}
           </div>
-        </div>
+        </div> */}
       </div>
       {showModal && (
         <Modal
           setShowModal={setShowModal}
-          title={"Create Subject "}
+          title={"Create Subject"}
           handleSubmit={handleSubmit}
+          otherFunc={setEdit}
         >
           <Formik
             initialValues={
-              id
-                ? data
+              edit?._id
+                ? edit
                 : {
                     subjectName: "",
                   }

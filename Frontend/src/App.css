@@ -107,22 +107,54 @@ body {
     font-size: 14px;
 }
 
-.boxes {
-    border: 1px solid black;
-    /* margin: 1px; */
-    margin-top: 20px;
-    height: 150px;
+
+
+.upper-side {
+    height: 15px;
+    width: 70px;
     background-color: rgb(127, 141, 209);
-    /* box-shadow: 1px 2px 4px black; */
+    position: relative;
+    clip-path: polygon(0 0, 80% 0, 100% 100%, 0 100%);
+    border-bottom: 1px solid rgb(163, 163, 194);
+    border-top-left-radius: 8px;
+}
+
+.boxes {
+    height: 110px;
+    width: 140px;
+    background-color: rgb(97, 116, 207);
+    box-shadow: 1px 2px 3px black;
+
+}
+
+.create-box {
+    height: 110px;
+    width: 140px;
+    background-color: rgb(54, 4, 219);
+    box-shadow: 1px 2px 3px black;
+}
+
+.upper-side-create {
+    height: 15px;
+    width: 70px;
+    background-color: rgb(54, 4, 219);
+    position: relative;
+    clip-path: polygon(0 0, 80% 0, 100% 100%, 0 100%);
+    border-bottom: 1px solid rgb(163, 163, 194);
+    border-top-left-radius: 8px;
+}
+
+.inner-box {
+    height: 80px;
     color: white;
+    padding: 10px;
     font-size: 24px;
     cursor: pointer;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* border-radius: 5px; */
 }
+
+
+
+
 
 .ql-style {
     margin-top: 10px;
@@ -142,12 +174,7 @@ body {
     background-color: #f7f2dd;
 }
 
-.create-box {
-    background-color: #ef3210;
-    color: white;
-    cursor: pointer;
-    box-shadow: 1px 2px 4px black;
-}
+
 
 .data-div {
     background-color: #f0eee7;
@@ -201,7 +228,7 @@ body {
 }
 
 .homepage {
-    background-color: #DFDBE5;
+    background-color: #b8b2b2;
     height: 91vh;
     background-image: url("data:image/svg+xml,%3Csvg width='42' height='44' viewBox='0 0 42 44' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='Page-1' fill='none' fill-rule='evenodd'%3E%3Cg id='brick-wall' fill='%239C92AC' fill-opacity='0.4'%3E%3Cpath d='M0 0h42v44H0V0zm1 1h40v20H1V1zM0 23h20v20H0V23zm22 0h20v20H22V23z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
