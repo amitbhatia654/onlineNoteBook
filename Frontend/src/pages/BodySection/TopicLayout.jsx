@@ -128,7 +128,7 @@ export default function TopicLayout() {
   }, [search]);
   return (
     <>
-      <div className="d-flex ">
+      <div className="d-flex main-body">
         <div
           className={!isOpen ? "sidenav-full" : "sidenav-small"}
           style={{

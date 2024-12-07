@@ -68,25 +68,11 @@ export default function HomePage() {
   return (
     <div className="homepage">
       <div className="">
-        <h2
-          className="text-center mt-1"
-          style={{
-            textShadow: "1px 1px 1px black",
-            color: "white",
-          }}
-        >
-          <span
-            style={{
-              backgroundColor: "#7c671b",
-              padding: "15px",
-              borderRadius: "15px",
-            }}
-          >
-            FOLDERS{" "}
-          </span>
+        <h2 className="text-center  fw-bold folder-heading">
+          Notebook Folders
         </h2>
 
-        <div className="d-flex container flex-wrap mt-5">
+        <div className="d-flex  flex-wrap mt-3 folder-container scrollable-container">
           <div className="m-2" onClick={() => setShowModal(true)}>
             <div className="upper-side-create"></div>
             <div className="create-box">
@@ -97,81 +83,86 @@ export default function HomePage() {
             </div>
           </div>
 
-          {allSubject.map((subject) => {
-            return (
-              <>
-                <div className="m-2">
-                  <div className="upper-side"></div>
-                  <div className="boxes">
-                    <div
-                      className="inner-box "
-                      onClick={() =>
-                        navigate(`/topic/${subject.subjectName}`, {
-                          state: { subject },
-                        })
-                      }
-                    >
-                      {" "}
-                      {subject.subjectName}
-                    </div>
-                    <div className="d-flex justify-content-end">
-                      <span>
-                        <BorderColorIcon
-                          onClick={() => {
-                            setShowModal(true), setEdit(subject);
-                          }}
-                          sx={{ cursor: "pointer", mx: 1 }}
-                        />
-                      </span>
-                      <span>
-                        <DeleteIcon
-                          onClick={() => handleDelete(subject._id)}
-                          sx={{ cursor: "pointer" }}
-                        />
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </>
-            );
-          })}
-        </div>
-
-        {/* <div className="container mt-5">
-          <div className="row">
-            <div className="col-md-2 ">
-              <div
-                className="boxes create-box"
-                onClick={() => setShowModal(true)}
-              >
-                {" "}
-                <h4>Add Subject +</h4>
-              </div>
-            </div>
-
-            {allSubject.map((subject) => {
+          {loading ? (
+            <div className="mx-5 mt-5">Fething Data Please Wait ...</div>
+          ) : (
+            allSubject.map((subject) => {
               return (
                 <>
-                  <div
-                    className="col-md-2 "
-                    onClick={() =>
-                      navigate(`/topic/${subject.subjectName}`, {
-                        state: { subject },
-                      })
-                    }
-                  >
-                    <div className="boxes">{subject.subjectName} </div>
+                  <div className="m-2">
+                    <div className="upper-side"></div>
+                    <div className="boxes">
+                      <div
+                        className="inner-box "
+                        onClick={() =>
+                          navigate(`/topic/${subject.subjectName}`, {
+                            state: { subject },
+                          })
+                        }
+                      >
+                        {" "}
+                        {subject.subjectName}
+                      </div>
+                      <div className="d-flex justify-content-end">
+                        <div className="dropdown">
+                          <button
+                            className="btn "
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                          >
+                            <h6 className="actionBtn">:</h6>
+                          </button>
+                          <ul className="dropdown-menu">
+                            <li>
+                              <button
+                                className="dropdown-item"
+                                onClick={() => {
+                                  setShowModal(true), setEdit(subject);
+                                }}
+                              >
+                                <BorderColorIcon></BorderColorIcon> Edit
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                className="dropdown-item"
+                                onClick={() => handleDelete(subject._id)}
+                              >
+                                <DeleteIcon></DeleteIcon> Delete
+                              </button>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </>
               );
-            })}
+            })
+          )}
+        </div>
+        {/* <hr /> */}
+
+        <div className=" mt-3 mx-4 d-flex justify-content-end  border-primary">
+          <div className="">
+            <h5 className="text-danger">Instructions: How to Use the App</h5>
+            <li>
+              Organize your notes by creating folders for different categories.
+            </li>
+            <li>
+              Select a folder and create topics to further structure your notes.
+            </li>
+            <li>
+              Click on a topic to add or edit details, descriptions, or notes.
+            </li>
           </div>
-        </div> */}
+        </div>
       </div>
       {showModal && (
         <Modal
           setShowModal={setShowModal}
-          title={"Create Subject"}
+          title={`${edit._id ? "Edit Folder" : "Create Folder"}`}
           handleSubmit={handleSubmit}
           otherFunc={setEdit}
         >
@@ -193,26 +184,18 @@ export default function HomePage() {
                   <div className="container-fluid ">
                     <div className="row">
                       <div className="">
-                        <label htmlFor="">Subject Name</label>
+                        <label htmlFor="">Folder Name</label>
                         <FormControl
                           fullWidth
                           variant="outlined"
                           size="small"
                           sx={{ my: 1 }}
                         >
-                          <InputLabel
-                            shrink={Boolean(props.values.subjectName)}
-                            htmlFor="subjectName"
-                          >
-                            Name
-                          </InputLabel>
                           <OutlinedInput
                             id="subjectName"
                             name="subjectName"
-                            placeholder="enter name"
                             value={props.values.subjectName}
                             onChange={props.handleChange}
-                            label="Name"
                           />
                         </FormControl>
                         <ErrorMessage
