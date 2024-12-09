@@ -42,7 +42,7 @@ export default function TopicLayout({
         )[0]
       );
     }
-  }, []);
+  }, [selectedFolder]);
 
   const handleSubmit = async (values) => {
     setloading(true);
