@@ -16,6 +16,7 @@ import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import notebookLogo from "../../images/Notebook.jpg";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -50,7 +51,12 @@ export default function Header() {
             }}
             style={{ cursor: "pointer" }}
           >
-            E-NoteBook
+            <img
+              src={notebookLogo}
+              alt="cloud Notebook"
+              height={"55px"}
+              width={"150px"}
+            />
           </span>
         </div>
 
@@ -80,7 +86,7 @@ export default function Header() {
           <div className="">
             <span className="fw-bold   text-primary fs-5 ">
               {" "}
-            Hey, {userData?.name ?? "user"}
+              Hey, {userData?.name ?? "user"}
             </span>
             <Tooltip title="My Profile" placement="bottom-end">
               <IconButton onClick={handleOpenUserMenu}>

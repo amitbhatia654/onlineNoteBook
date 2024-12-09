@@ -5,9 +5,10 @@ export default function HomePageLayout() {
   return (
     <div
       style={{
-        minHeight: "92vh",
-        maxHeight: "92vh",
-        borderTop: "1px solid lightgrey",
+        minHeight: "90vh",
+        maxHeight: "90vh",
+        // borderTop: "1px solid lightgrey",
+        // border:"1px solid black"
       }}
     >
       <div className="scrollable-container">

@@ -133,6 +133,10 @@ body {
     color: white;
 }
 
+.boxes-outer {
+    height: 110px;
+}
+
 
 
 .create-box {
@@ -162,8 +166,9 @@ body {
 
 .folder-heading {
     color: blue;
-    text-decoration: underline;
-    /* text-shadow: 8px 5px 6px white; */
+    /* text-decoration: underline; */
+    text-shadow: 12px 5px 6px white;
+    text-transform: uppercase;
 }
 
 
@@ -172,7 +177,7 @@ body {
     max-height: 65vh;
     padding-left: 50px;
     padding-top: 20px;
-    box-shadow: 2px 2px 5px 1px grey;
+    box-shadow: 0px 2px 5px 1px grey;
     /* border: 1px solid; */
 }
 
@@ -254,5 +259,5 @@ body {
 
 .homepage {
     /* background-color: #c0bbbb; */
-    height: 91.8vh;
+    /* height: 91.8vh; */
 }

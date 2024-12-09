@@ -85,81 +85,81 @@ export default function HomePage() {
       ) : (
         <div className="homepage">
           <div className="">
-            <h2 className="text-center fw-bold folder-heading">
-              Notebook Folders
-            </h2>
+            <h2 className="text-center fw-bold folder-heading">Folders</h2>
 
-            <div className="d-flex  flex-wrap mt-3 folder-container scrollable-container">
-              <div className="m-2" onClick={() => setShowModal(true)}>
-                <div className="upper-side-create"></div>
-                <div className="create-box">
-                  <div className="inner-box ">
-                    {" "}
-                    New <AddToPhotosIcon />{" "}
+            <div className="folder-container scrollable-container">
+              <div className="d-flex  flex-wrap">
+                <div className="m-2 my-3" onClick={() => setShowModal(true)}>
+                  <div className="upper-side-create"></div>
+                  <div className="create-box">
+                    <div className="inner-box ">
+                      {" "}
+                      New <AddToPhotosIcon />{" "}
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {loading ? (
-                <div className="mx-5 mt-5">Fething Data Please Wait ...</div>
-              ) : (
-                allFolders.map((subject) => {
-                  return (
-                    <>
-                      <div className="m-2">
-                        <div className="upper-side"></div>
-                        <div className="boxes">
-                          <div
-                            className="inner-box "
-                            onClick={() => {
-                              setSelectedFolder(subject),
-                                localStorage.setItem("folderId", subject._id);
-                            }}
-                          >
-                            {" "}
-                            {subject.subjectName}
-                          </div>
-                          <div className="d-flex justify-content-end">
-                            <div className="dropdown">
-                              <button
-                                className="btn "
-                                type="button"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                              >
-                                <h6 className="actionBtn">:</h6>
-                              </button>
-                              <ul className="dropdown-menu">
-                                <li>
-                                  <button
-                                    className="dropdown-item"
-                                    onClick={() => {
-                                      setShowModal(true), setEdit(subject);
-                                    }}
-                                  >
-                                    <BorderColorIcon></BorderColorIcon> Edit
-                                  </button>
-                                </li>
-                                <li>
-                                  <button
-                                    className="dropdown-item"
-                                    onClick={() => handleDelete(subject._id)}
-                                  >
-                                    <DeleteIcon></DeleteIcon> Delete
-                                  </button>
-                                </li>
-                              </ul>
+                {loading ? (
+                  <div className="mx-5 mt-5">Fething Data Please Wait ...</div>
+                ) : (
+                  allFolders.map((subject) => {
+                    return (
+                      <>
+                        <div className="m-2 my-3 boxes-outer">
+                          <div className="upper-side "></div>
+                          <div className="boxes">
+                            <div
+                              className="inner-box "
+                              onClick={() => {
+                                setSelectedFolder(subject),
+                                  localStorage.setItem("folderId", subject._id);
+                              }}
+                            >
+                              {" "}
+                              {subject.subjectName}
+                            </div>
+                            <div className="d-flex justify-content-end">
+                              <div className="dropdown">
+                                <button
+                                  className="btn "
+                                  type="button"
+                                  data-bs-toggle="dropdown"
+                                  aria-expanded="false"
+                                >
+                                  <h6 className="actionBtn">:</h6>
+                                </button>
+                                <ul className="dropdown-menu">
+                                  <li>
+                                    <button
+                                      className="dropdown-item"
+                                      onClick={() => {
+                                        setShowModal(true), setEdit(subject);
+                                      }}
+                                    >
+                                      <BorderColorIcon></BorderColorIcon> Edit
+                                    </button>
+                                  </li>
+                                  <li>
+                                    <button
+                                      className="dropdown-item"
+                                      onClick={() => handleDelete(subject._id)}
+                                    >
+                                      <DeleteIcon></DeleteIcon> Delete
+                                    </button>
+                                  </li>
+                                </ul>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </>
-                  );
-                })
-              )}
+                      </>
+                    );
+                  })
+                )}
+              </div>
             </div>
 
-            <div className=" mt-3 mx-4  border-primary">
+            <div className=" mt-2 mx-4  border-primary">
               <div className="">
                 <h5 className="text-danger">
                   Instructions: How to Use the App
