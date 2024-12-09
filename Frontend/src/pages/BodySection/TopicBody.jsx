@@ -281,8 +281,8 @@ export default function TopicBody({
             <>
               <div
                 style={{
-                  minHeight: "77vh",
-                  maxHeight: "77vh",
+                  minHeight: "74vh",
+                  maxHeight: "74vh",
                   // boxShadow: "3px 4px 7px grey",
                   boxShadow: "1px 1px 1px grey",
 

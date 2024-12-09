@@ -5,8 +5,8 @@ export default function HomePageLayout() {
   return (
     <div
       style={{
-        minHeight: "90vh",
-        maxHeight: "90vh",
+        minHeight: "89vh",
+        maxHeight: "89vh",
         // borderTop: "1px solid lightgrey",
         // border:"1px solid black"
       }}

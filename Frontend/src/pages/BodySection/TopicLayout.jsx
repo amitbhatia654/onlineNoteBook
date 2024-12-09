@@ -153,7 +153,7 @@ export default function TopicLayout({
         <div
           className={!isOpen ? "sidenav-full" : "sidenav-small"}
           style={{
-            borderRight: "2px solid grey",
+            borderRight: "1px solid grey",
           }}
         >
           <div className="d-flex justify-content-end">

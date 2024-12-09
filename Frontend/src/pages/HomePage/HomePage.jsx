@@ -94,7 +94,7 @@ export default function HomePage() {
                   <div className="create-box">
                     <div className="inner-box ">
                       {" "}
-                      New <AddToPhotosIcon />{" "}
+                    New <AddToPhotosIcon />{" "}
                     </div>
                   </div>
                 </div>

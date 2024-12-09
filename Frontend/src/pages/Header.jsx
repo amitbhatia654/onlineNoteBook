@@ -16,7 +16,7 @@ import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import notebookLogo from "../../images/Notebook.jpg";
+import notebookLogo from "../../notebook.jpg";
 
 export default function Header() {
   const navigate = useNavigate();
