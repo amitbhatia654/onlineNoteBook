@@ -16,7 +16,11 @@ export default function HomePage() {
   const [edit, setEdit] = useState({});
   const [loading, setloading] = useState(false);
   const [allFolders, setAllFolders] = useState([]);
-  const [selectedFolder, setSelectedFolder] = useState({});
+  const [selectedFolder, setSelectedFolder] = useState(
+    localStorage.getItem("folderId")
+      ? { _id: 1, topics: [], subjectName: "" }
+      : {}
+  );
   const user = useSelector((state) => state.cart);
   const folderId = localStorage.getItem("folderId");
 

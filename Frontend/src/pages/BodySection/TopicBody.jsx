@@ -352,8 +352,8 @@ export default function TopicBody({
               }}
             >
               {" "}
-              {selectedFolder?.subjectName.charAt(0).toUpperCase() +
-                selectedFolder?.subjectName.slice(1)}{" "}
+              {selectedFolder?.subjectName?.charAt(0).toUpperCase() +
+                selectedFolder?.subjectName?.slice(1)}{" "}
             </h2>
             <div></div>
           </div>
