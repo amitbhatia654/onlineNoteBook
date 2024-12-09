@@ -5,6 +5,12 @@ const SubjectSchema = new mongoose.Schema({
         type: String, require: true
     },
 
+    topics: [
+        {
+            title: { type: String, required: false },
+            description: { type: String, required: false },
+        },
+    ],
     createdBy: {
         type: String, require: true
     }

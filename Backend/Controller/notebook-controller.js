@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 const Subject = require("../Models/SubjectModel");
 const Topic = require("../Models/topicModel");
+const mongoose = require("mongoose");
+
 
 
 
@@ -75,6 +77,30 @@ const addTopic = async (req, res) => {
     }
 }
 
+const addTopic1 = async (req, res) => {
+    try {
+        const subject = await Subject.findById(req.body.selectedFolder._id);
+        if (!subject) {
+            return res.status(404).json({ message: "Folder not found" });
+        }
+        const newTopic = {
+            title: req.body.title,
+
+        };
+        subject.topics.push(newTopic);
+
+        // Save the updated subject
+        await subject.save();
+
+        res.status(200).json({
+            message: "Topic added successfully",
+            subject,
+        });
+    } catch (error) {
+        console.log(' error in add subject', error)
+    }
+}
+
 
 const getAllTopic = async (req, res) => {
     try {
@@ -98,6 +124,38 @@ const deleteTopic = async (req, res) => {
     try {
         const data = await Topic.findOneAndDelete({ _id: req.params.id })
         res.status(200).json({ message: "Topic Deleted Successfully", data })
+    } catch (error) {
+        res.status(205).json({ message: "Topic Not Deleted" })
+    }
+}
+
+const deleteTopic1 = async (req, res) => {
+    try {
+        const { folderId, topicId } = req.body;
+
+
+        // Find the folder by ID
+        const subject = await Subject.findById(folderId);
+        if (!subject) {
+            return res.status(404).json({ message: "Folder not found" });
+        }
+
+        // Find the index of the topic to delete
+        const topicIndex = subject.topics.findIndex((topic) => topic._id.toString() === topicId);
+        if (topicIndex === -1) {
+            return res.status(404).json({ message: "Topic not found in the folder" });
+        }
+
+        // Remove the topic from the array
+        subject.topics.splice(topicIndex, 1);
+
+        // Save the updated subject
+        await subject.save();
+
+        res.status(200).json({
+            message: "Topic deleted successfully",
+            subject,
+        });
     } catch (error) {
         res.status(205).json({ message: "Topic Not Deleted" })
     }
@@ -135,8 +193,62 @@ const addTopicData = async (req, res) => {
     }
 }
 
+const addTopicData1 = async (req, res) => {
+    try {
+        const { description, topicId, folderId } = req.body; // Destructure request body
+
+        const subject = await Subject.findById(folderId);
+        if (!subject) {
+            return res.status(404).json({ message: "Folder not found" });
+        }
+
+        const topic = subject.topics.find((t) => t._id.toString() == topicId);
+        if (!topic) {
+            return res.status(404).json({ message: "Topic not found" });
+        }
+
+        topic.description = description;
+        await subject.save();
+
+        res.status(200).json({
+            message: "Topic description updated successfully",
+            updatedTopic: topic,
+        });
+    } catch (error) {
+        console.log(' error in add subject', error)
+    }
+}
+
+const updateTopic1 = async (req, res) => {
+    try {
+        const { title, topicId, folderId } = req.body; // Destructure request body
+
+        const subject = await Subject.findById(folderId);
+        if (!subject) {
+            return res.status(404).json({ message: "Folder not found" });
+        }
+
+        const topic = subject.topics.find((t) => t._id.toString() == topicId);
+        if (!topic) {
+            return res.status(404).json({ message: "Topic not found" });
+        }
+
+        topic.title = title;
+        await subject.save();
+
+        res.status(200).json({
+            message: "Topic updated successfully",
+            subject: subject,
+        });
+
+    } catch (error) {
+        res.status(205).send("Topic Not Updated")
+    }
+}
+
 
 module.exports = {
     addSubject, getALLSubjects, addTopic, getAllTopic, addTopicData,
-    deleteTopic, updateTopic, deleteSubject, updateSubject
+    deleteTopic, updateTopic, deleteSubject, updateSubject, addTopic1, addTopicData1,
+    deleteTopic1, updateTopic1
 }

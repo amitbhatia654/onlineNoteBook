@@ -6,7 +6,6 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 import Modal from "../HelperPages/Modal";
 import { ErrorMessage, Form, Formik } from "formik";
 import axiosInstance from "../../ApiManager";
@@ -15,62 +14,113 @@ import TopicBody from "./TopicBody";
 import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
 
-export default function TopicLayout() {
-  const location = useLocation();
-  const navigate = useNavigate();
+export default function TopicLayout({
+  selectedFolder,
+  setSelectedFolder,
+  refresh,
+  setRefresh,
+  allFolders,
+  setAllFolders,
+}) {
   const [showModal, setShowModal] = useState(false);
-  const [allTopics, setAllTopics] = useState([]);
   const [loading, setloading] = useState(false);
   const [currentTopic, setCurrentTopic] = useState({});
   const [isOpen, setIsOpen] = useState(false);
   const [editTopic, setEditTopic] = useState({});
-  const subjectDetails = location?.state?.subject;
   const [search, setSearch] = useState("");
   const [writeData, setWriteData] = useState(false);
 
-  const id = null;
+  useEffect(() => {
+    if (!localStorage.getItem("topicId")) {
+      if (selectedFolder.topics.length > 0) {
+        setCurrentTopic(selectedFolder.topics[0]);
+      }
+    } else {
+      setCurrentTopic(
+        selectedFolder.topics.filter(
+          (data) => data._id == localStorage.getItem("topicId")
+        )[0]
+      );
+    }
+  }, []);
 
   const handleSubmit = async (values) => {
     setloading(true);
     const res = editTopic._id
-      ? await axiosInstance.put(`/api/topics/${editTopic._id}`, {
+      ? await axiosInstance.put(`/api/topic`, {
           ...values,
+          folderId: selectedFolder._id,
+          topicId: editTopic._id,
         })
-      : await axiosInstance.post(`/api/topics`, {
+      : await axiosInstance.post(`/api/topic`, {
           ...values,
-          subjectId: subjectDetails._id,
+          selectedFolder,
         });
+
+    const updatedFolder = allFolders.map((folder) => {
+      if (folder._id == selectedFolder._id) {
+        return res.data.subject;
+      }
+
+      return folder;
+    });
+
+    setAllFolders(updatedFolder);
+    setSelectedFolder(res.data.subject);
 
     setloading(false);
     if (res.status == 200) {
-      toast.success(res.data);
+      toast.success(res.data.message);
       setEditTopic({});
-      fetchData();
       setShowModal(false);
     }
   };
 
   const deleteTopic = async (topicId) => {
-    // return console.log(topicId, "topicId");
-    const res = await axiosInstance.delete(`/api/topics/${topicId}`);
+    const res = await axiosInstance.delete(`/api/topic`, {
+      data: {
+        folderId: selectedFolder._id,
+        topicId: topicId,
+      },
+    });
+
     if (res.status == 200) {
       toast.success(res.data.message);
-      setAllTopics(allTopics.filter((topic) => topic._id != res.data.data._id));
+      const updatedFolders = allFolders.map((folder) => {
+        if (folder._id == selectedFolder._id) {
+          return {
+            ...folder,
+            topics: folder.topics.filter((topic) => topic._id !== topicId),
+          };
+        }
+        return folder;
+      });
 
-      const currentIndex = allTopics?.findIndex(
+      setAllFolders(updatedFolders);
+      setSelectedFolder(
+        updatedFolders.filter((folder) => folder._id == selectedFolder._id)[0]
+      );
+
+      const currentIndex = selectedFolder.topics?.findIndex(
         (topic) => topic?._id == topicId
       );
 
-      if (allTopics.length <= 1) {
+      if (selectedFolder.topics.length <= 1) {
         setCurrentTopic({});
         localStorage.removeItem("topicId");
       } else {
         if (currentIndex == 0) {
-          setCurrentTopic(allTopics[currentIndex + 1]);
-          localStorage.setItem("topicId", allTopics[currentIndex + 1]._id);
+          setCurrentTopic(selectedFolder.topics[currentIndex + 1]);
+          localStorage.setItem(
+            "topicId",
+            selectedFolder.topics[currentIndex + 1]._id
+          );
         } else {
-          setCurrentTopic(allTopics[currentIndex - 1]);
-          localStorage.setItem("topicId", allTopics[currentIndex - 1]._id);
+          setCurrentTopic(selectedFolder.topics[currentIndex - 1]);
+          localStorage.setItem(
+            "topicId",
+            selectedFolder.topics[currentIndex - 1]._id
+          );
         }
       }
     } else toast.error(res.data.message);
@@ -97,35 +147,6 @@ export default function TopicLayout() {
     setCurrentTopic(topic), localStorage.setItem("topicId", topic._id);
   };
 
-  const fetchData = async () => {
-    setloading(true);
-    const res = await axiosInstance.get("/api/topics", {
-      params: { subjectId: subjectDetails?._id, search },
-    });
-
-    if (res.status == 200) {
-      if (res.data.response.length == 0) setCurrentTopic({});
-      setAllTopics(res.data.response);
-      if (!localStorage.getItem("topicId")) {
-        if (res.data.response.length > 0) {
-          setCurrentTopic(res.data.response[0]);
-        }
-      } else {
-        setCurrentTopic(
-          res.data.response.filter(
-            (data) => data._id == localStorage.getItem("topicId")
-          )[0]
-        );
-      }
-    } else {
-      setAllTopics([]);
-    }
-    setloading(false);
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, [search]);
   return (
     <>
       <div className="d-flex main-body">
@@ -179,12 +200,12 @@ export default function TopicLayout() {
               Create New +{" "}
             </div>
 
-            {allTopics.length < 1 ? (
+            {selectedFolder?.topics?.length < 1 ? (
               <h5 className="text-center text-primary my-4">
                 No Topic Found! 😴
               </h5>
             ) : (
-              allTopics.map((topic, id) => {
+              selectedFolder.topics.map((topic, id) => {
                 return (
                   <div
                     className="d-flex justify-content-between topicNames"
@@ -199,8 +220,8 @@ export default function TopicLayout() {
                       }}
                     >
                       {id + 1}.{" "}
-                      {topic.topicName.charAt(0)?.toUpperCase() +
-                        topic.topicName.slice(1)}
+                      {topic?.title?.charAt(0)?.toUpperCase() +
+                        topic?.title?.slice(1)}
                     </div>
 
                     <div>
@@ -254,11 +275,17 @@ export default function TopicLayout() {
           >
             <TopicBody
               currentTopic={currentTopic}
-              fetchData={fetchData}
-              allTopics={allTopics}
+              // fetchData={fetchData}
+              // selectedFolder.topics={selectedFolder.topics}
               setCurrentTopic={setCurrentTopic}
               writeData={writeData}
               setWriteData={setWriteData}
+              selectedFolder={selectedFolder}
+              setSelectedFolder={setSelectedFolder}
+              allFolders={allFolders}
+              setAllFolders={setAllFolders}
+              refresh={refresh}
+              setRefresh={setRefresh}
             ></TopicBody>
           </div>
         </div>
@@ -271,7 +298,7 @@ export default function TopicLayout() {
           handleSubmit={handleSubmit}
         >
           <Formik
-            initialValues={{ topicName: editTopic ? editTopic.topicName : "" }}
+            initialValues={{ title: editTopic ? editTopic.title : "" }}
             // validationSchema={addEmployee}
             enableReinitialize={true}
             onSubmit={(values) => handleSubmit(values)}
@@ -289,22 +316,22 @@ export default function TopicLayout() {
                           sx={{ m: 1 }}
                         >
                           <InputLabel
-                            shrink={Boolean(props.values.topicName)}
-                            htmlFor="topicName"
+                            shrink={Boolean(props.values.title)}
+                            htmlFor="title"
                           >
                             Name
                           </InputLabel>
                           <OutlinedInput
-                            id="topicName"
-                            name="topicName"
+                            id="title"
+                            name="title"
                             placeholder="enter name"
-                            value={props.values.topicName}
+                            value={props.values.title}
                             onChange={props.handleChange}
                             label="Name"
                           />
                         </FormControl>
                         <ErrorMessage
-                          name="topicName"
+                          name="title"
                           component={"div"}
                           className="text-danger"
                         ></ErrorMessage>

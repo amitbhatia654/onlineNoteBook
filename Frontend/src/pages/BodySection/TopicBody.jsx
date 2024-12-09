@@ -1,29 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Button } from "@mui/material";
 import axiosInstance from "../../ApiManager";
-import HomeIcon from "@mui/icons-material/Home";
 import LocalPrintshopIcon from "@mui/icons-material/LocalPrintshop";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
 import LastPageIcon from "@mui/icons-material/LastPage";
-import EditIcon from "@mui/icons-material/Edit";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 
 export default function TopicBody({
   currentTopic,
-  fetchData,
-  allTopics,
   setCurrentTopic,
   writeData,
   setWriteData,
+  selectedFolder,
+  setSelectedFolder,
+  allFolders,
 }) {
-  const location = useLocation();
-  const id = null;
-  const subject = location?.state?.subject;
-  const navigate = useNavigate();
   const [loading, setloading] = useState(false);
   const [data, setData] = useState(currentTopic?.description);
 
@@ -38,7 +32,7 @@ export default function TopicBody({
           <title>Print</title>
         </head>
         <body>
-        <h2 className="text-danger"}>${subject.subjectName}: ${
+        <h2 className="text-danger"}>${selectedFolder?.title}: ${
       currentTopic?.topicName ?? "--"
     }</h2>
           ${printContent.innerHTML} <!-- Insert the div content -->
@@ -92,16 +86,16 @@ export default function TopicBody({
   };
 
   const handlePrevNext = () => {
-    const currentIndex = allTopics?.findIndex(
+    const currentIndex = selectedFolder.topics?.findIndex(
       (topic) => topic?._id == currentTopic?._id
     );
 
     function clickNext() {
-      setCurrentTopic(allTopics[currentIndex + 1]);
+      setCurrentTopic(selectedFolder.topics[currentIndex + 1]);
     }
 
     function clickPrev() {
-      setCurrentTopic(allTopics[currentIndex - 1]);
+      setCurrentTopic(selectedFolder.topics[currentIndex - 1]);
     }
 
     function checkPrev() {
@@ -110,7 +104,7 @@ export default function TopicBody({
     }
 
     function checkNext() {
-      if (currentIndex == allTopics?.length - 1) return true;
+      if (currentIndex == selectedFolder.topics?.length - 1) return true;
       return false;
     }
 
@@ -136,20 +130,32 @@ export default function TopicBody({
       return;
     }
 
-    navigate("/"), localStorage.removeItem("topicId");
+    localStorage.removeItem("folderId");
+    localStorage.removeItem("topicId");
+
+    setSelectedFolder({});
   };
 
   const handleSubmit = async () => {
     setloading(true);
-    const res = await axiosInstance.put(`/api/topicData`, {
+    const res = await axiosInstance.put(`/api/topicData1`, {
       description: data,
       topicId: currentTopic._id,
+      folderId: selectedFolder._id,
     });
     setWriteData(false);
-    fetchData();
+
+    allFolders.map((folder) => {
+      const topic = folder.topics.find((t) => t._id == currentTopic._id);
+      if (topic) {
+        topic.description = res.data.updatedTopic.description;
+      }
+      return folder;
+    });
+
     setloading(false);
     if (res.status == 200) {
-      toast.success(res.data);
+      toast.success(res.data.message);
     }
   };
   return (
@@ -169,7 +175,8 @@ export default function TopicBody({
                 goToHomePage();
               }}
             >
-              <HomeIcon />
+              {/* <HomeIcon /> */}
+              Back
             </button>{" "}
             <h2
               className="text-primary heading"
@@ -178,11 +185,11 @@ export default function TopicBody({
               }}
             >
               {" "}
-              {subject?.subjectName.charAt(0).toUpperCase() +
-                subject?.subjectName.slice(1)}
+              {selectedFolder?.subjectName.charAt(0).toUpperCase() +
+                selectedFolder?.subjectName.slice(1)}
               -{" "}
-              {currentTopic?.topicName?.charAt(0)?.toUpperCase() +
-                currentTopic?.topicName?.slice(1) ?? "--"}
+              {currentTopic?.title?.charAt(0)?.toUpperCase() +
+                currentTopic?.title?.slice(1) ?? "--"}
             </h2>
             {!writeData ? (
               <div>
@@ -249,7 +256,7 @@ export default function TopicBody({
                   }}
                   disabled={loading}
                   onClick={() => {
-                    setWriteData(false), fetchData();
+                    setWriteData(false);
                   }}
                 >
                   Cancel
@@ -335,7 +342,7 @@ export default function TopicBody({
                 goToHomePage();
               }}
             >
-              <HomeIcon />
+              Back
             </button>
 
             <h2
@@ -345,8 +352,8 @@ export default function TopicBody({
               }}
             >
               {" "}
-              {subject?.subjectName.charAt(0).toUpperCase() +
-                subject?.subjectName.slice(1)}{" "}
+              {selectedFolder?.subjectName.charAt(0).toUpperCase() +
+                selectedFolder?.subjectName.slice(1)}{" "}
             </h2>
             <div></div>
           </div>
