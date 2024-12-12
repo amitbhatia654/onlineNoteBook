@@ -3,7 +3,7 @@ import Modal from "../HelperPages/Modal";
 import { Button, FormControl, OutlinedInput } from "@mui/material";
 import { ErrorMessage, Form, Formik } from "formik";
 import axiosInstance from "../../ApiManager";
-import { addEmployee } from "../../assets/FormSchema";
+import { AddFolder } from "../../assets/FormSchema";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -88,13 +88,13 @@ export default function HomePage() {
             <h2 className="text-center fw-bold folder-heading">Folders</h2>
 
             <div className="folder-container scrollable-container">
-              <div className="d-flex  flex-wrap">
-                <div className="m-2 my-3" onClick={() => setShowModal(true)}>
+              <div className="d-flex flex-wrap">
+                <div className="mx-2 my-3" onClick={() => setShowModal(true)}>
                   <div className="upper-side-create"></div>
                   <div className="create-box">
-                    <div className="inner-box ">
+                    <div className="inner-box p-4 fs-3 ">
                       {" "}
-                    New <AddToPhotosIcon />{" "}
+                      New <AddToPhotosIcon />{" "}
                     </div>
                   </div>
                 </div>
@@ -105,11 +105,11 @@ export default function HomePage() {
                   allFolders.map((subject) => {
                     return (
                       <>
-                        <div className="m-2 my-3 boxes-outer">
+                        <div className="mx-2 my-3 boxes-outer">
                           <div className="upper-side "></div>
                           <div className="boxes">
                             <div
-                              className="inner-box "
+                              className="inner-box pt-4 px-3"
                               onClick={() => {
                                 setSelectedFolder(subject),
                                   localStorage.setItem("folderId", subject._id);
@@ -194,7 +194,7 @@ export default function HomePage() {
                         subjectName: "",
                       }
                 }
-                // validationSchema={addEmployee}
+                validationSchema={AddFolder}
                 enableReinitialize={true}
                 onSubmit={(values) => handleSubmit(values)}
               >
