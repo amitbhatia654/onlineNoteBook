@@ -261,3 +261,8 @@ body {
     /* background-color: #c0bbbb; */
     /* height: 91.8vh; */
 }
+
+.login-screen{
+    background-color: #000 !important;
+    color: #0e5985;
+}

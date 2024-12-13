@@ -1,10 +1,8 @@
 import "./App.css";
 import { Navigate, Route, Routes } from "react-router-dom";
-import LoginSignupPage from "./pages/LoginSignupPage";
 import { ChakraProvider } from "@chakra-ui/react";
 import { Toaster } from "react-hot-toast";
 import PrivateRoute from "./pages/PrivateRoute";
-import SignUp from "./pages/EmployeeManagement/SignUp";
 import MyProfile from "./pages/MyProfile";
 import ErrorPage from "./pages/ErrorPage";
 import Setting from "./pages/Setting";
@@ -13,6 +11,7 @@ import UpdateProfile from "./pages/UpdateProfile";
 import HomePageLayout from "./pages/HomePage/HomePageLayout";
 import HomePage from "./pages/HomePage/HomePage";
 import TopicLayout from "./pages/BodySection/TopicLayout";
+import LoginRegister from "./pages/Users/LoginRegister";
 
 function App() {
   const isUserLogin = () => {
@@ -43,7 +42,7 @@ function App() {
           element={
             <ChakraProvider>
               <ProtectedLoginRoute>
-                <LoginSignupPage />
+                <LoginRegister />
               </ProtectedLoginRoute>
             </ChakraProvider>
           }
@@ -53,7 +52,7 @@ function App() {
           element={
             <ChakraProvider>
               <ProtectedLoginRoute>
-                <SignUp />
+                <LoginRegister />
               </ProtectedLoginRoute>
             </ChakraProvider>
           }

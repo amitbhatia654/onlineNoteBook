@@ -257,6 +257,7 @@ export default function TopicBody({
                   disabled={loading}
                   onClick={() => {
                     setWriteData(false);
+                    setData(currentTopic?.description);
                   }}
                 >
                   Cancel

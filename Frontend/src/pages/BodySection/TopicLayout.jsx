@@ -32,19 +32,28 @@ export default function TopicLayout({
 
   useEffect(() => {
     if (!localStorage.getItem("topicId")) {
-      if (selectedFolder.topics.length > 0) {
-        setCurrentTopic(selectedFolder.topics[0]);
+      if (getTopics().length > 0) {
+        setCurrentTopic(getTopics()[0]);
       }
     } else {
       setCurrentTopic(
-        selectedFolder.topics.filter(
+        getTopics().filter(
           (data) => data._id == localStorage.getItem("topicId")
         )[0]
       );
     }
-  }, [selectedFolder]);
+  }, [selectedFolder, search]);
+
+  function getTopics() {
+    if (search) {
+      return selectedFolder.topics.filter((topic) =>
+        topic.title.toLowerCase().includes(search.toLowerCase())
+      );
+    } else return selectedFolder?.topics;
+  }
 
   const handleSubmit = async (values) => {
+    setSearch("")
     setloading(true);
     const res = editTopic._id
       ? await axiosInstance.put(`/api/topic`, {
@@ -77,6 +86,7 @@ export default function TopicLayout({
   };
 
   const deleteTopic = async (topicId) => {
+    setSearch("");
     const res = await axiosInstance.delete(`/api/topic`, {
       data: {
         folderId: selectedFolder._id,
@@ -101,26 +111,20 @@ export default function TopicLayout({
         updatedFolders.filter((folder) => folder._id == selectedFolder._id)[0]
       );
 
-      const currentIndex = selectedFolder.topics?.findIndex(
+      const currentIndex = getTopics()?.findIndex(
         (topic) => topic?._id == topicId
       );
 
-      if (selectedFolder.topics.length <= 1) {
+      if (getTopics().length <= 1) {
         setCurrentTopic({});
         localStorage.removeItem("topicId");
       } else {
         if (currentIndex == 0) {
-          setCurrentTopic(selectedFolder.topics[currentIndex + 1]);
-          localStorage.setItem(
-            "topicId",
-            selectedFolder.topics[currentIndex + 1]._id
-          );
+          setCurrentTopic(getTopics()[currentIndex + 1]);
+          localStorage.setItem("topicId", getTopics()[currentIndex + 1]._id);
         } else {
-          setCurrentTopic(selectedFolder.topics[currentIndex - 1]);
-          localStorage.setItem(
-            "topicId",
-            selectedFolder.topics[currentIndex - 1]._id
-          );
+          setCurrentTopic(getTopics()[currentIndex - 1]);
+          localStorage.setItem("topicId", getTopics()[currentIndex - 1]._id);
         }
       }
     } else toast.error(res.data.message);
@@ -181,16 +185,17 @@ export default function TopicLayout({
               {" "}
               Topics
             </h3>
-            {/* <hr /> */}
 
             <div>
               <TextField
                 type="text"
                 sx={{ mb: 1 }}
                 size="small"
+                value={search}
                 onChange={(e) => {
                   setSearch(e.target.value);
                   localStorage.removeItem("topicId");
+                  setCurrentTopic({});
                 }}
                 placeholder="search"
               ></TextField>
@@ -200,12 +205,14 @@ export default function TopicLayout({
               Create New +{" "}
             </div>
 
-            {selectedFolder?.topics?.length < 1 ? (
+            {/* {console.log(getTopics())} */}
+
+            {getTopics()?.length < 1 ? (
               <h5 className="text-center text-primary my-4">
                 No Topic Found! 😴
               </h5>
             ) : (
-              selectedFolder.topics.map((topic, id) => {
+              getTopics().map((topic, id) => {
                 return (
                   <div
                     className="d-flex justify-content-between topicNames"
