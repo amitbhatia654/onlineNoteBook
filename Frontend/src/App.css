@@ -1,5 +1,5 @@
 .sidenav-small {
-    width: 40px;
+    width: 35px;
 }
 
 .sidenav-full {
@@ -195,8 +195,8 @@ body {
 .ql-style .ql-editor {
     /* border: 2px solid black; */
     /* margin-top: 10px; */
-    min-height: 67vh;
-    max-height: 67vh;
+    min-height: 65vh;
+    max-height: 65vh;
     background-color: #f7f2dd;
 }
 
@@ -246,14 +246,11 @@ body {
 
     /* Target devices with width <= 768px */
     .heading {
-        width: 280px;
-        /* Limit width for mobile screens */
+        width: 160px;
         white-space: nowrap;
-        /* Prevent text wrapping */
         overflow: hidden;
-        /* Hide overflowed text */
         text-overflow: ellipsis;
-        /* Show three dots for overflow */
+        display: inline-block;
     }
 }
 
@@ -262,7 +259,7 @@ body {
     /* height: 91.8vh; */
 }
 
-.login-screen{
+.login-screen {
     background-color: #000 !important;
     color: #0e5985;
 }

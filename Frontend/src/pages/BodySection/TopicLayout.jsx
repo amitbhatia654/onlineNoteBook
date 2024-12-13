@@ -53,7 +53,7 @@ export default function TopicLayout({
   }
 
   const handleSubmit = async (values) => {
-    setSearch("")
+    setSearch("");
     setloading(true);
     const res = editTopic._id
       ? await axiosInstance.put(`/api/topic`, {
@@ -128,6 +128,31 @@ export default function TopicLayout({
         }
       }
     } else toast.error(res.data.message);
+  };
+
+  const goToHomePage = () => {
+    if (writeData) {
+      toast(
+        "You have unsaved changes. Please save or cancel before proceeding !",
+        {
+          duration: 3000,
+          style: {
+            backgroundColor: "#f8d7da",
+            color: "#721c24",
+            border: "1px solid #f5c6cb",
+            padding: "10px",
+            fontSize: "16px",
+            borderRadius: "5px",
+          },
+        }
+      );
+      return;
+    }
+
+    localStorage.removeItem("folderId");
+    localStorage.removeItem("topicId");
+
+    setSelectedFolder({});
   };
 
   const handleChangeTopic = (topic) => {

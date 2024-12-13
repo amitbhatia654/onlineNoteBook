@@ -8,6 +8,8 @@ import LocalPrintshopIcon from "@mui/icons-material/LocalPrintshop";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import EditNoteIcon from "@mui/icons-material/EditNote";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import HomeIcon from "@mui/icons-material/Home";
 
 export default function TopicBody({
   currentTopic,
@@ -50,7 +52,7 @@ export default function TopicBody({
   };
 
   useEffect(() => {
-    setData(currentTopic?.description ?? "Empty Topic 🤷‍♂️");
+    setData(currentTopic?.description ?? "Empty Topic !");
   }, [currentTopic]);
 
   const module = {
@@ -162,35 +164,37 @@ export default function TopicBody({
     <>
       {currentTopic?._id ? (
         <>
-          <div className="d-flex justify-content-between">
-            <button
-              style={{
-                color: "white",
-                backgroundColor: "blue",
-                height: "30px",
-                marginTop: "7px",
-                border: "0px",
-              }}
-              onClick={() => {
-                goToHomePage();
-              }}
+          <div className="d-flex justify-content-between ">
+            <div>
+              <button
+                style={{
+                  color: "white",
+                  backgroundColor: "blue",
+                  // height: "30px",
+                  border: "0px",
+                }}
+                onClick={() => {
+                  goToHomePage();
+                }}
+              >
+                <HomeIcon  />
+              </button>
+              <span className="text-primary fs-5 fw-bold   heading">
+                {selectedFolder?.subjectName.trim().charAt(0).toUpperCase() +
+                  selectedFolder?.subjectName.trim().slice(1)}
+              </span>
+            </div>
+            <h4
+              className="heading "
+              style={
+                {
+                  // textDecoration: "underline",
+                }
+              }
             >
-              {/* <HomeIcon /> */}
-              Back
-            </button>{" "}
-            <h2
-              className="text-primary heading"
-              style={{
-                textDecoration: "underline",
-              }}
-            >
-              {" "}
-              {selectedFolder?.subjectName.charAt(0).toUpperCase() +
-                selectedFolder?.subjectName.slice(1)}
-              -{" "}
               {currentTopic?.title?.charAt(0)?.toUpperCase() +
                 currentTopic?.title?.slice(1) ?? "--"}
-            </h2>
+            </h4>
             {!writeData ? (
               <div>
                 <button
@@ -200,14 +204,15 @@ export default function TopicBody({
                     borderRadius: "8px",
                     paddingLeft: "10px",
                     paddingRight: "10px",
-                    marginTop: "7px",
-                    border: "0px",
-                    fontSize: "16px",
-                    marginRight: "8px",
+                    border: "0px solid blue",
+                    boxShadow: "1px 3px 4px grey",
+                    fontSize: "19px",
+                    marginRight: "3px",
+                    marginTop: "2px",
                   }}
                   onClick={() => setWriteData(true)}
                 >
-                  Modify <EditNoteIcon sx={{ fontSize: "30px" }}></EditNoteIcon>
+                  Edit <EditNoteIcon sx={{ fontSize: "25px" }}></EditNoteIcon>
                 </button>
 
                 <button
@@ -217,15 +222,16 @@ export default function TopicBody({
                     borderRadius: "8px",
                     paddingLeft: "10px",
                     paddingRight: "10px",
-                    marginTop: "7px",
+                    boxShadow: "1px 3px 4px grey",
+
+                    marginTop: "2px",
                     border: "0px",
-                    fontSize: "18px",
+                    fontSize: "19px",
                     marginRight: "8px",
                   }}
                   onClick={() => handlePrint()}
                 >
-                  Print
-                  <LocalPrintshopIcon sx={{ mx: 1, fontSize: "25px" }} />
+                  <LocalPrintshopIcon sx={{ fontSize: "25px" }} />
                 </button>
               </div>
             ) : (
@@ -257,7 +263,7 @@ export default function TopicBody({
                   disabled={loading}
                   onClick={() => {
                     setWriteData(false);
-                    setData(currentTopic?.description);
+                    setData(currentTopic?.description ?? "Empty Topic !");
                   }}
                 >
                   Cancel
@@ -282,41 +288,41 @@ export default function TopicBody({
             <>
               <div
                 style={{
-                  minHeight: "74vh",
-                  maxHeight: "74vh",
-                  // boxShadow: "3px 4px 7px grey",
+                  minHeight: "77vh",
+                  maxHeight: "77vh",
                   boxShadow: "1px 1px 1px grey",
 
                   userSelect: "none",
                 }}
-                className="scrollable-container p-3 mt-2  data-div"
+                className="scrollable-container p-2 mt-1  data-div"
               >
                 <div
                   ref={printRef}
                   dangerouslySetInnerHTML={{ __html: data }}
                 />
               </div>
-              <div className="d-flex justify-content-between  px-1 mt-2">
+              <div className="d-flex justify-content-between  px-1  mt-1">
                 <Button
                   sx={{
                     color: "white",
                     backgroundColor: `${
                       handlePrevNext().checkPrev() ? "grey" : "blue"
                     }`,
-                    fontSize: "14px",
+                    fontSize: "12px",
                   }}
                   disabled={handlePrevNext().checkPrev()}
                   onClick={() => handlePrevNext().clickPrev()}
                 >
                   <FirstPageIcon /> Prev
                 </Button>
+
                 <Button
                   sx={{
                     color: "white",
                     backgroundColor: `${
                       handlePrevNext().checkNext() ? "grey" : "blue"
                     }`,
-                    fontSize: "14px",
+                    fontSize: "12px",
                   }}
                   disabled={handlePrevNext().checkNext()}
                   onClick={() => handlePrevNext().clickNext()}
@@ -330,33 +336,26 @@ export default function TopicBody({
         </>
       ) : (
         <>
-          <div className="d-flex justify-content-between">
-            <button
-              style={{
-                color: "white",
-                backgroundColor: "blue",
-                height: "30px",
-                marginTop: "7px",
-                border: "0px",
-              }}
-              onClick={() => {
-                goToHomePage();
-              }}
-            >
-              Back
-            </button>
-
-            <h2
-              className="text-primary heading"
-              style={{
-                textDecoration: "underline",
-              }}
-            >
-              {" "}
-              {selectedFolder?.subjectName?.charAt(0).toUpperCase() +
-                selectedFolder?.subjectName?.slice(1)}{" "}
-            </h2>
-            <div></div>
+          <div className="d-flex justify-content-between ">
+            <div>
+              <button
+                style={{
+                  color: "white",
+                  backgroundColor: "blue",
+                  height: "30px",
+                  border: "0px",
+                }}
+                onClick={() => {
+                  goToHomePage();
+                }}
+              >
+                <HomeIcon />
+              </button>
+              <span className="text-primary fs-5 fw-bold mx-1 ">
+                {selectedFolder?.subjectName.trim().charAt(0).toUpperCase() +
+                  selectedFolder?.subjectName.trim().slice(1)}
+              </span>
+            </div>
           </div>
           <div
             style={{ height: "82vh" }}
