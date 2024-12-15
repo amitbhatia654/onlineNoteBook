@@ -35,7 +35,7 @@ export default function UsersDetails() {
 
   const fetchData = async () => {
     setLoading(true);
-    const res = await axiosInstance.get("/api/users", {
+    const res = await axiosInstance.get("/api/auth/users", {
       params: { search, rowSize, currentPage },
     });
     if (res.status == 200) {

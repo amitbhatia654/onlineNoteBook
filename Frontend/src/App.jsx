@@ -5,25 +5,17 @@ import { Toaster } from "react-hot-toast";
 import PrivateRoute from "./pages/PrivateRoute";
 import MyProfile from "./pages/MyProfile";
 import ErrorPage from "./pages/ErrorPage";
-import Setting from "./pages/Setting";
-import { useEffect } from "react";
 import UpdateProfile from "./pages/UpdateProfile";
 import HomePageLayout from "./pages/HomePage/HomePageLayout";
 import HomePage from "./pages/HomePage/HomePage";
 import TopicLayout from "./pages/BodySection/TopicLayout";
 import LoginRegister from "./pages/Users/LoginRegister";
+import UsersDetails from "./pages/Users/UsersDetails";
 
 function App() {
   const isUserLogin = () => {
     return Boolean(localStorage.getItem("token"));
   };
-
-  useEffect(() => {
-    document.documentElement.style.setProperty(
-      "--box-color",
-      localStorage.getItem("color")
-    );
-  }, []);
 
   // eslint-disable-next-line react/prop-types
   const ProtectedLoginRoute = ({ children }) => {
@@ -63,8 +55,7 @@ function App() {
             <Route path="topic/:name" element={<TopicLayout />}></Route>
             <Route path="profile" element={<MyProfile />} />
             <Route path="update-profile" element={<UpdateProfile />} />
-
-            <Route path="settings" element={<Setting />}></Route>
+            <Route path="users" element={<UsersDetails />} />
           </Route>
         </Route>
         <Route path="/*" element={<ErrorPage />}></Route>

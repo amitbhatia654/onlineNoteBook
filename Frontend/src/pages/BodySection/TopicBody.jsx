@@ -147,8 +147,8 @@ export default function TopicBody({
         }
         return folder;
       });
-      // setWriteData(false);
-      setloading(true);
+      setWriteData(false);
+      setloading(false);
     }
   };
   return (

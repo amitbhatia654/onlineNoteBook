@@ -10,7 +10,7 @@ const login = async (req, res) => {
         }
 
         token = jwt.sign({ email: user.email }, process.env.secretKey, { expiresIn: "24hr" })
-        return res.status(200).json({ message: "User Log In succesfully", token, user })
+        return res.status(200).json({ message: "Log In succesfully", token, user })
     }
 
     catch (error) {
@@ -25,22 +25,19 @@ const register = async (req, res) => {
         const user = await User.findOne({ email });
 
         if (user) {
-            return res.status(203).json("User already exist")
+            return res.status(203).json("Email already exist")
         }
 
         const saltRounds = 10;
         const hash_password = await bcrypt.hash(password, saltRounds)
         await User.create({ name, email, phone, password: hash_password })
-        res.status(200).json("Registered succesfully")
+        res.status(200).json("Registered Succesfully")
 
     } catch (error) {
         console.log(err, 'err')
         res.status(500).send("Internal Server Error")
     }
 }
-
-
-
 
 const allUsers = async (req, res) => {
     try {

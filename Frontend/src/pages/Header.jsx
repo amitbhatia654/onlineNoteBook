@@ -121,17 +121,6 @@ export default function Header() {
                 </Typography>
               </MenuItem>
 
-              <MenuItem onClick={handleCloseUserMenu}>
-                <Typography
-                  textAlign="center"
-                  onClick={() => {
-                    navigate("/settings");
-                  }}
-                >
-                  <SettingsIcon className="mx-2" /> Settings
-                </Typography>
-              </MenuItem>
-
               <MenuItem>
                 <Typography
                   textAlign="center"
@@ -139,7 +128,6 @@ export default function Header() {
                     navigate("/login");
                     localStorage.removeItem("token");
                     localStorage.removeItem("user");
-                    dispatch(remove());
                   }}
                 >
                   <LogoutIcon className="mx-2" /> Logout
