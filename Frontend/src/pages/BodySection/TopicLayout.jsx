@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import TopicBody from "./TopicBody";
 import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 export default function TopicLayout({
   selectedFolder,
@@ -230,8 +231,6 @@ export default function TopicLayout({
               Create New +{" "}
             </div>
 
-            {/* {console.log(getTopics())} */}
-
             {getTopics()?.length < 1 ? (
               <h5 className="text-center text-primary my-4">
                 No Topic Found! 😴
@@ -264,7 +263,9 @@ export default function TopicLayout({
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
                         >
-                          <h6>:</h6>
+                          <h6>
+                            <MoreVertIcon  sx={{fontSize:"19px"}}/>
+                          </h6>
                         </button>
                         <ul className="dropdown-menu">
                           <li>
@@ -307,8 +308,6 @@ export default function TopicLayout({
           >
             <TopicBody
               currentTopic={currentTopic}
-              // fetchData={fetchData}
-              // selectedFolder.topics={selectedFolder.topics}
               setCurrentTopic={setCurrentTopic}
               writeData={writeData}
               setWriteData={setWriteData}

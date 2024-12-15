@@ -10,6 +10,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import AddToPhotosIcon from "@mui/icons-material/AddToPhotos";
 import TopicLayout from "../BodySection/TopicLayout";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 export default function HomePage() {
   const [showModal, setShowModal] = useState(false);
@@ -126,7 +127,9 @@ export default function HomePage() {
                                   data-bs-toggle="dropdown"
                                   aria-expanded="false"
                                 >
-                                  <h6 className="actionBtn">:</h6>
+                                  <h6 className="actionBtn">
+                                    <MoreVertIcon fontSize="8px"/>
+                                  </h6>
                                 </button>
                                 <ul className="dropdown-menu">
                                   <li>

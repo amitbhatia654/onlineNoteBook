@@ -8,7 +8,6 @@ import LocalPrintshopIcon from "@mui/icons-material/LocalPrintshop";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import EditNoteIcon from "@mui/icons-material/EditNote";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import HomeIcon from "@mui/icons-material/Home";
 
 export default function TopicBody({
@@ -57,12 +56,9 @@ export default function TopicBody({
 
   const module = {
     toolbar: [
-      // Header dropdown
       [{ header: [1, 2, 3, 4, 5, 6, false] }],
-
       [{ font: [] }],
-      [{ size: ["small", false, "large", "huge"] }],
-      ["code-block", { blockquote: [] }],
+      ["code-block"],
       [
         "bold",
         "italic",
@@ -71,17 +67,11 @@ export default function TopicBody({
         { color: [] },
         { background: [] },
       ],
-
       [{ align: [] }],
 
-      [
-        { list: "ordered" },
-        { list: "bullet" },
-        { indent: "-1" },
-        { indent: "+1" },
-      ],
+      [{ list: "ordered" }, { list: "bullet" }],
 
-      ["link", "image", "video"], // Link, image, and video insertion
+      ["image", "video"],
 
       ["clean"],
     ],
@@ -170,31 +160,27 @@ export default function TopicBody({
                 style={{
                   color: "white",
                   backgroundColor: "blue",
-                  // height: "30px",
                   border: "0px",
+                  marginTop: "2px",
                 }}
                 onClick={() => {
                   goToHomePage();
                 }}
               >
-                <HomeIcon  />
+                <HomeIcon />
               </button>
-              <span className="text-primary fs-5 fw-bold   heading">
+            </div>
+            <div>
+              <span className="text-primary fs-5 folder-name">
                 {selectedFolder?.subjectName.trim().charAt(0).toUpperCase() +
                   selectedFolder?.subjectName.trim().slice(1)}
               </span>
+              <span className="heading fw-bold fs-5">
+                -{" "}
+                {currentTopic?.title?.charAt(0)?.toUpperCase() +
+                  currentTopic?.title?.slice(1) ?? "--"}
+              </span>
             </div>
-            <h4
-              className="heading "
-              style={
-                {
-                  // textDecoration: "underline",
-                }
-              }
-            >
-              {currentTopic?.title?.charAt(0)?.toUpperCase() +
-                currentTopic?.title?.slice(1) ?? "--"}
-            </h4>
             {!writeData ? (
               <div>
                 <button
@@ -294,7 +280,7 @@ export default function TopicBody({
 
                   userSelect: "none",
                 }}
-                className="scrollable-container p-2 mt-1  data-div"
+                className="scrollable-container p-2   data-div"
               >
                 <div
                   ref={printRef}

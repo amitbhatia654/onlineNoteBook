@@ -263,3 +263,14 @@ body {
     background-color: #000 !important;
     color: #0e5985;
 }
+
+.folder-name{
+    background-color: #dcd0f3;
+    margin-left: 5px;
+    padding: 4px;
+    margin-top: 2px;
+    display: inline-block;
+    border-radius: 8px;
+    text-decoration: underline;
+    text-transform: capitalize;
+}
