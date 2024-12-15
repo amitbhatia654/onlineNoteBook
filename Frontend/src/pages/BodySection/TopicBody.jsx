@@ -7,11 +7,11 @@ import axiosInstance from "../../ApiManager";
 import LocalPrintshopIcon from "@mui/icons-material/LocalPrintshop";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
 import LastPageIcon from "@mui/icons-material/LastPage";
-import EditNoteIcon from "@mui/icons-material/EditNote";
 import HomeIcon from "@mui/icons-material/Home";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from "@mui/icons-material/Save";
-import ShowToast from "../../Components/CommonFunctions";
+import ShowToast, { handlePrint } from "../../Components/CommonFunctions";
+import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 
 export default function TopicBody({
   currentTopic,
@@ -37,32 +37,6 @@ export default function TopicBody({
         editor.focus();
       }
     }, [100]);
-  };
-
-  const handlePrint = () => {
-    const printContent = printRef.current; // Access the div content
-    const newWindow = window.open("", "_blank"); // Open a new window
-    newWindow.document.write(`
-      <html>
-        <head>
-          <title>Print</title>
-        </head>
-        <body>
-        <h2 className="text-danger"}>${selectedFolder?.title}: ${
-      currentTopic?.topicName ?? "--"
-    }</h2>
-          ${printContent.innerHTML} <!-- Insert the div content -->
-        </body>
-      </html>
-    `);
-    newWindow.document.close();
-
-    // Close the new window after printing is complete
-    newWindow.onafterprint = () => {
-      newWindow.close();
-    };
-
-    newWindow.print();
   };
 
   useEffect(() => {
@@ -172,14 +146,11 @@ export default function TopicBody({
               </button>
             </div>
             <div>
-              <span
-                className="text-primary fs-5 folder-name"
-                onClick={() => focusEditor()}
-              >
+              <span className="folder-name">
                 {selectedFolder?.subjectName.trim().charAt(0).toUpperCase() +
                   selectedFolder?.subjectName.trim().slice(1)}
               </span>
-              <span className="heading fw-bold fs-5">
+              <span className="topic-name ">
                 -{" "}
                 {currentTopic?.title?.charAt(0)?.toUpperCase() +
                   currentTopic?.title?.slice(1) ?? "--"}
@@ -192,7 +163,7 @@ export default function TopicBody({
                   sx={{
                     color: "blue",
                     backgroundColor: "white",
-                    fontSize: "14px",
+                    fontSize: "15px",
                   }}
                   onClick={() => {
                     if (data == "Click on Edit to Write in it !") setData("");
@@ -200,7 +171,7 @@ export default function TopicBody({
                     focusEditor();
                   }}
                 >
-                  Edit
+                  Write <DriveFileRenameOutlineIcon sx={{ fontSize: "19px" }} />
                 </Button>
 
                 <Button
@@ -211,7 +182,13 @@ export default function TopicBody({
                     backgroundColor: "blue",
                     fontSize: "14px",
                   }}
-                  onClick={() => handlePrint()}
+                  onClick={() =>
+                    handlePrint(
+                      printRef,
+                      selectedFolder.subjectName,
+                      currentTopic.title
+                    )
+                  }
                 >
                   <LocalPrintshopIcon></LocalPrintshopIcon>
                 </Button>
@@ -246,7 +223,7 @@ export default function TopicBody({
                     sx={{
                       m: 1,
                       color: "white",
-                      backgroundColor: "blue",
+                      backgroundColor: loading ? "white " : "blue",
                       fontSize: "14px",
                     }}
                     variant="outlined"
