@@ -11,6 +11,7 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
 import HomeIcon from "@mui/icons-material/Home";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from "@mui/icons-material/Save";
+import ShowToast from "../../Components/CommonFunctions";
 
 export default function TopicBody({
   currentTopic,
@@ -25,6 +26,18 @@ export default function TopicBody({
   const [data, setData] = useState(currentTopic?.description);
 
   const printRef = useRef();
+  const quillRef = useRef(null);
+
+  const focusEditor = () => {
+    setTimeout(() => {
+      if (quillRef.current) {
+        const editor = quillRef.current.getEditor();
+        const contentLength = editor.getLength();
+        editor.setSelection(contentLength, 0);
+        editor.focus();
+      }
+    }, [100]);
+  };
 
   const handlePrint = () => {
     const printContent = printRef.current; // Access the div content
@@ -53,7 +66,7 @@ export default function TopicBody({
   };
 
   useEffect(() => {
-    setData(currentTopic?.description ?? "Empty Topic !");
+    setData(currentTopic?.description ?? "Click on Edit to Write in it !");
   }, [currentTopic]);
 
   const module = {
@@ -107,20 +120,7 @@ export default function TopicBody({
 
   const goToHomePage = () => {
     if (writeData) {
-      toast(
-        "You have unsaved changes. Please save or cancel before proceeding !",
-        {
-          duration: 3000,
-          style: {
-            backgroundColor: "#f8d7da",
-            color: "#721c24",
-            border: "1px solid #f5c6cb",
-            padding: "10px",
-            fontSize: "16px",
-            borderRadius: "5px",
-          },
-        }
-      );
+      ShowToast();
       return;
     }
 
@@ -172,7 +172,10 @@ export default function TopicBody({
               </button>
             </div>
             <div>
-              <span className="text-primary fs-5 folder-name">
+              <span
+                className="text-primary fs-5 folder-name"
+                onClick={() => focusEditor()}
+              >
                 {selectedFolder?.subjectName.trim().charAt(0).toUpperCase() +
                   selectedFolder?.subjectName.trim().slice(1)}
               </span>
@@ -184,45 +187,75 @@ export default function TopicBody({
             </div>
             {!writeData ? (
               <div>
-                <button
-                  style={{
-                    color: "#47478c",
+                <Button
+                  variant="outlined"
+                  sx={{
+                    color: "blue",
                     backgroundColor: "white",
-                    borderRadius: "8px",
-                    paddingLeft: "10px",
-                    paddingRight: "10px",
-                    border: "0px solid blue",
-                    boxShadow: "1px 3px 4px grey",
-                    fontSize: "19px",
-                    marginRight: "3px",
-                    marginTop: "2px",
+                    fontSize: "14px",
                   }}
-                  onClick={() => setWriteData(true)}
+                  onClick={() => {
+                    if (data == "Click on Edit to Write in it !") setData("");
+                    setWriteData(true);
+                    focusEditor();
+                  }}
                 >
-                  Edit <EditNoteIcon sx={{ fontSize: "25px" }}></EditNoteIcon>
-                </button>
+                  Edit
+                </Button>
 
-                <button
-                  style={{
+                <Button
+                  variant="outlined"
+                  sx={{
                     color: "white",
+                    m: 1,
                     backgroundColor: "blue",
-                    borderRadius: "8px",
-                    paddingLeft: "10px",
-                    paddingRight: "10px",
-                    boxShadow: "1px 3px 4px grey",
-
-                    marginTop: "2px",
-                    border: "0px",
-                    fontSize: "19px",
-                    marginRight: "8px",
+                    fontSize: "14px",
                   }}
                   onClick={() => handlePrint()}
                 >
-                  <LocalPrintshopIcon sx={{ fontSize: "25px" }} />
-                </button>
+                  <LocalPrintshopIcon></LocalPrintshopIcon>
+                </Button>
               </div>
             ) : (
-              <div></div>
+              <div>
+                <div className="d-flex justify-content-center my-2">
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      my: 1,
+                      color: "#47478c",
+                      backgroundColor: "white",
+                      fontSize: "14px",
+                    }}
+                    disabled={loading}
+                    onClick={() => {
+                      setWriteData(false);
+                      setData(
+                        currentTopic?.description ??
+                          "Click on Edit to Write in it !"
+                      );
+                    }}
+                  >
+                    Cancel
+                  </Button>
+
+                  <LoadingButton
+                    loading={loading}
+                    loadingPosition="start"
+                    startIcon={<SaveIcon />}
+                    sx={{
+                      m: 1,
+                      color: "white",
+                      backgroundColor: "blue",
+                      fontSize: "14px",
+                    }}
+                    variant="outlined"
+                    onClick={() => handleSubmit()}
+                  >
+                    Save
+                  </LoadingButton>
+                </div>
+              </div>
             )}
           </div>
 
@@ -233,51 +266,16 @@ export default function TopicBody({
                 value={data}
                 onChange={setData}
                 modules={module}
-                className="ql-style "
+                className="ql-style"
+                ref={quillRef}
               />
-
-              <div className="d-flex justify-content-center my-2">
-                <Button
-                  variant="outlined"
-                  type="submit"
-                  sx={{
-                    my: 1,
-                    mx: 1,
-                    color: "#47478c",
-                    backgroundColor: "white",
-                    fontSize: "16px",
-                  }}
-                  disabled={loading}
-                  onClick={() => {
-                    setWriteData(false);
-                    setData(currentTopic?.description ?? "Empty Topic !");
-                  }}
-                >
-                  Cancel
-                </Button>
-
-                <LoadingButton
-                  loading={loading}
-                  loadingPosition="start"
-                  startIcon={<SaveIcon />}
-                  sx={{
-                    my: 1,
-                    color: "blue",
-                    fontSize: "16px",
-                  }}
-                  variant="outlined"
-                  onClick={() => handleSubmit()}
-                >
-                  Save
-                </LoadingButton>
-              </div>
             </>
           ) : (
             <>
               <div
                 style={{
-                  minHeight: "77vh",
-                  maxHeight: "77vh",
+                  minHeight: "75vh",
+                  maxHeight: "75vh",
                   boxShadow: "1px 1px 1px grey",
 
                   userSelect: "none",

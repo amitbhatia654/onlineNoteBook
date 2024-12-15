@@ -14,14 +14,16 @@ import TopicBody from "./TopicBody";
 import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import ShowToast from "../../Components/CommonFunctions";
+// import ToastError, { ShowToast } from "../../Components/CommonFunctions";
 
 export default function TopicLayout({
   selectedFolder,
   setSelectedFolder,
-  refresh,
-  setRefresh,
   allFolders,
   setAllFolders,
+  writeData,
+  setWriteData,
 }) {
   const [showModal, setShowModal] = useState(false);
   const [loading, setloading] = useState(false);
@@ -29,7 +31,6 @@ export default function TopicLayout({
   const [isOpen, setIsOpen] = useState(false);
   const [editTopic, setEditTopic] = useState({});
   const [search, setSearch] = useState("");
-  const [writeData, setWriteData] = useState(false);
 
   useEffect(() => {
     if (!localStorage.getItem("topicId")) {
@@ -131,47 +132,9 @@ export default function TopicLayout({
     } else toast.error(res.data.message);
   };
 
-  const goToHomePage = () => {
-    if (writeData) {
-      toast(
-        "You have unsaved changes. Please save or cancel before proceeding !",
-        {
-          duration: 3000,
-          style: {
-            backgroundColor: "#f8d7da",
-            color: "#721c24",
-            border: "1px solid #f5c6cb",
-            padding: "10px",
-            fontSize: "16px",
-            borderRadius: "5px",
-          },
-        }
-      );
-      return;
-    }
-
-    localStorage.removeItem("folderId");
-    localStorage.removeItem("topicId");
-
-    setSelectedFolder({});
-  };
-
   const handleChangeTopic = (topic) => {
     if (writeData) {
-      toast(
-        "You have unsaved changes. Please save or cancel before proceeding !",
-        {
-          duration: 3000,
-          style: {
-            backgroundColor: "#f8d7da", // Example of background color
-            color: "#721c24", // Example of text color
-            border: "1px solid #f5c6cb", // Example of border
-            padding: "10px", // Padding for the toast
-            fontSize: "16px", // Font size
-            borderRadius: "5px", // Rounded corners
-          },
-        }
-      );
+      ShowToast();
       return;
     }
     setCurrentTopic(topic), localStorage.setItem("topicId", topic._id);
@@ -219,6 +182,10 @@ export default function TopicLayout({
                 size="small"
                 value={search}
                 onChange={(e) => {
+                  if (writeData) {
+                    ShowToast();
+                    return;
+                  }
                   setSearch(e.target.value);
                   localStorage.removeItem("topicId");
                   setCurrentTopic({});
@@ -228,7 +195,7 @@ export default function TopicLayout({
             </div>
 
             <div className="new-topic mb-2" onClick={() => setShowModal(true)}>
-              Create New +{" "}
+              Create Topic +{" "}
             </div>
 
             {getTopics()?.length < 1 ? (
@@ -264,7 +231,7 @@ export default function TopicLayout({
                           aria-expanded="false"
                         >
                           <h6>
-                            <MoreVertIcon  sx={{fontSize:"19px"}}/>
+                            <MoreVertIcon sx={{ fontSize: "19px" }} />
                           </h6>
                         </button>
                         <ul className="dropdown-menu">
@@ -272,6 +239,10 @@ export default function TopicLayout({
                             <button
                               className="dropdown-item"
                               onClick={() => {
+                                if (writeData) {
+                                  ShowToast();
+                                  return;
+                                }
                                 setEditTopic(topic), setShowModal(true);
                               }}
                             >
@@ -281,7 +252,13 @@ export default function TopicLayout({
                           <li>
                             <button
                               className="dropdown-item"
-                              onClick={() => deleteTopic(topic._id)}
+                              onClick={() => {
+                                if (writeData) {
+                                  ShowToast();
+                                  return;
+                                }
+                                deleteTopic(topic._id);
+                              }}
                             >
                               Delete
                             </button>
@@ -314,9 +291,6 @@ export default function TopicLayout({
               selectedFolder={selectedFolder}
               setSelectedFolder={setSelectedFolder}
               allFolders={allFolders}
-              setAllFolders={setAllFolders}
-              refresh={refresh}
-              setRefresh={setRefresh}
             ></TopicBody>
           </div>
         </div>

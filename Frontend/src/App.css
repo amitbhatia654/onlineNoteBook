@@ -182,10 +182,6 @@ body {
 }
 
 
-.ql-style {
-    margin-top: 10px;
-}
-
 .border1 {
     border: 1px solid black;
 }
@@ -193,17 +189,15 @@ body {
 
 
 .ql-style .ql-editor {
-    /* border: 2px solid black; */
-    /* margin-top: 10px; */
-    min-height: 65vh;
-    max-height: 65vh;
-    background-color: #f7f2dd;
+    min-height: 70vh;
+    max-height: 70vh;
+    background-color: #ffffff;
 }
 
 
 
 .data-div {
-    background-color: #f0eee7;
+    background-color: #fbfcf6;
 
 }
 
@@ -264,10 +258,12 @@ body {
     color: #0e5985;
 }
 
-.folder-name{
+.folder-name {
     background-color: #dcd0f3;
     margin-left: 5px;
     padding: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
     margin-top: 2px;
     display: inline-block;
     border-radius: 8px;

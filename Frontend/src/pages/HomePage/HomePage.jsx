@@ -18,6 +18,7 @@ export default function HomePage() {
   const [loading, setloading] = useState(false);
   const [loading1, setloading1] = useState(false);
   const [allFolders, setAllFolders] = useState([]);
+  const [writeData, setWriteData] = useState(false);
   const [selectedFolder, setSelectedFolder] = useState(
     localStorage.getItem("folderId")
       ? { _id: 1, topics: [], subjectName: "" }
@@ -90,6 +91,8 @@ export default function HomePage() {
           setSelectedFolder={setSelectedFolder}
           allFolders={allFolders}
           setAllFolders={setAllFolders}
+          writeData={writeData}
+          setWriteData={setWriteData}
         ></TopicLayout>
       ) : (
         <div className="homepage">
@@ -172,7 +175,7 @@ export default function HomePage() {
 
             <div className=" mt-2 mx-4  border-primary">
               <div className="">
-                <h5 className="text-danger">
+                <h5 className="text-primary">
                   Instructions: How to Use the App
                 </h5>
                 <li>
