@@ -9,6 +9,8 @@ import FirstPageIcon from "@mui/icons-material/FirstPage";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import HomeIcon from "@mui/icons-material/Home";
+import LoadingButton from "@mui/lab/LoadingButton";
+import SaveIcon from "@mui/icons-material/Save";
 
 export default function TopicBody({
   currentTopic,
@@ -135,19 +137,18 @@ export default function TopicBody({
       topicId: currentTopic._id,
       folderId: selectedFolder._id,
     });
-    setWriteData(false);
 
-    allFolders.map((folder) => {
-      const topic = folder.topics.find((t) => t._id == currentTopic._id);
-      if (topic) {
-        topic.description = res.data.updatedTopic.description;
-      }
-      return folder;
-    });
-
-    setloading(false);
     if (res.status == 200) {
       toast.success(res.data.message);
+      allFolders.map((folder) => {
+        const topic = folder.topics.find((t) => t._id == currentTopic._id);
+        if (topic) {
+          topic.description = res.data.updatedTopic.description;
+        }
+        return folder;
+      });
+      // setWriteData(false);
+      setloading(true);
     }
   };
   return (
@@ -254,20 +255,21 @@ export default function TopicBody({
                 >
                   Cancel
                 </Button>
-                <Button
-                  variant="outlined"
-                  type="submit"
+
+                <LoadingButton
+                  loading={loading}
+                  loadingPosition="start"
+                  startIcon={<SaveIcon />}
                   sx={{
                     my: 1,
-                    color: "white",
-                    backgroundColor: "blue",
+                    color: "blue",
                     fontSize: "16px",
                   }}
-                  disabled={loading}
+                  variant="outlined"
                   onClick={() => handleSubmit()}
                 >
                   Save
-                </Button>
+                </LoadingButton>
               </div>
             </>
           ) : (
