@@ -3,9 +3,7 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const { app, server } = require("./socket/socket");
 const AuthRoute = require('./Router/auth-router');
-const ChatRoute = require("./Router/chat-router");
 const NoteBookRoute = require("./Router/notebook-router")
-
 
 const allowedOrigins = [
     "http://localhost:5173",
@@ -39,7 +37,6 @@ const connectDb = require("./utils/db");
 app.use(express.json()) // this is the middleware
 app.use('/api/auth', AuthRoute);
 app.use("/api", NoteBookRoute);
-app.use("/api/chat", ChatRoute);
 
 app.get('/', (req, res) => {
     res.json({ "message": "hello world" });
@@ -48,4 +45,4 @@ app.get('/', (req, res) => {
 connectDb().then(() => {
     server.listen(5000, () => console.log("server is running on port 5000"));
 
-}).catch((err) => console.log("error occucered", err))
+}).catch((err) => console.log("error occucered in Db or server", err))

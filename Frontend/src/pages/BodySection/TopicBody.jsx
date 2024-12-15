@@ -130,7 +130,7 @@ export default function TopicBody({
 
   const handleSubmit = async () => {
     setloading(true);
-    const res = await axiosInstance.put(`/api/topicData1`, {
+    const res = await axiosInstance.put(`/api/topicData`, {
       description: data,
       topicId: currentTopic._id,
       folderId: selectedFolder._id,

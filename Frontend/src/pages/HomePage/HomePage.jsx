@@ -16,6 +16,7 @@ export default function HomePage() {
   const [showModal, setShowModal] = useState(false);
   const [edit, setEdit] = useState({});
   const [loading, setloading] = useState(false);
+  const [loading1, setloading1] = useState(false);
   const [allFolders, setAllFolders] = useState([]);
   const [selectedFolder, setSelectedFolder] = useState(
     localStorage.getItem("folderId")
@@ -27,7 +28,7 @@ export default function HomePage() {
 
   const fetchData = async () => {
     setloading(true);
-    const res = await axiosInstance.get("/api/subjects", {
+    const res = await axiosInstance.get("/api/folders", {
       params: { userId: user.id },
     });
     if (res.status == 200) {
@@ -47,7 +48,7 @@ export default function HomePage() {
   }, []);
 
   const handleDelete = async (id) => {
-    const res = await axiosInstance.delete(`/api/subjects/${id}`);
+    const res = await axiosInstance.delete(`/api/folders/${id}`);
     if (res.status == 200) {
       toast.success(res.data.message);
       setAllFolders(allFolders.filter((data) => data._id != id));
@@ -55,23 +56,30 @@ export default function HomePage() {
   };
 
   const handleSubmit = async (values) => {
-    setloading(true);
+    setloading1(true);
     const res = edit._id
-      ? await axiosInstance.put(`/api/subjects/${edit._id}`, {
+      ? await axiosInstance.put(`/api/folders/${edit._id}`, {
           ...values,
         })
-      : await axiosInstance.post(`/api/subjects`, {
+      : await axiosInstance.post(`/api/folders`, {
           ...values,
           userId: user.id,
         });
 
-    setloading(false);
     if (res.status == 200) {
-      toast.success(res.data);
+      toast.success(res.data.message);
+      if (!edit?._id) allFolders.push(res?.data?.folder);
+      else {
+        allFolders.map((folder) => {
+          if (folder._id == values._id) folder.subjectName = values.subjectName;
+
+          return folder;
+        });
+      }
       setEdit({});
       setShowModal(false);
-      fetchData();
     }
+    setloading1(false);
   };
 
   return (
@@ -103,9 +111,9 @@ export default function HomePage() {
                 {loading ? (
                   <div className="mx-5 mt-5">Fething Data Please Wait ...</div>
                 ) : (
-                  allFolders.map((subject) => {
+                  allFolders.map((subject, key) => {
                     return (
-                      <>
+                      <div key={key}>
                         <div className="mx-2 my-3 boxes-outer">
                           <div className="upper-side "></div>
                           <div className="boxes">
@@ -128,7 +136,7 @@ export default function HomePage() {
                                   aria-expanded="false"
                                 >
                                   <h6 className="actionBtn">
-                                    <MoreVertIcon fontSize="8px"/>
+                                    <MoreVertIcon fontSize="8px" />
                                   </h6>
                                 </button>
                                 <ul className="dropdown-menu">
@@ -155,7 +163,7 @@ export default function HomePage() {
                             </div>
                           </div>
                         </div>
-                      </>
+                      </div>
                     );
                   })
                 )}
@@ -256,7 +264,7 @@ export default function HomePage() {
                                 backgroundColor: "white",
                                 fontSize: "16px",
                               }}
-                              disabled={loading}
+                              disabled={loading1}
                             >
                               Submit
                             </Button>

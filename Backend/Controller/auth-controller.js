@@ -1,9 +1,6 @@
 const User = require("../Models/UserModel")
-const Employee = require("../Models/EmployeeModel")
 const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
-const Subject = require("../Models/SubjectModel");
-// const { response } = require("express");
 
 const login = async (req, res) => {
     try {
@@ -21,80 +18,6 @@ const login = async (req, res) => {
 
     }
 }
-
-const AddEmployee = async (req, res) => {
-
-    try {
-        const { empName, empEmail, empPhone, empDepartment, empAddress, _id } = req.body
-        console.log(req.body, 'body')
-        const Res = await Employee.create({ empName, empPhone, empEmail, empDepartment, empAddress, createdBy: _id })
-        res.status(200).send("New Member Added Succesfully")
-    } catch (error) {
-        console.log('Add Employee error', error)
-    }
-}
-
-
-const getAllEmployee = async (req, res) => {
-    try {
-        let search = req.query.search
-        let rowSize = parseInt(req.query.rowSize) || 6;
-        let page = parseInt(req.query.currentPage) || 1; // Default to page 1
-        let skip = (page - 1) * rowSize;
-        const createdBy = req.query._id
-
-        const query = search
-            ? { createdBy, empName: { $regex: search, $options: "i" } }
-            : { createdBy };
-
-        const response = await Employee.find(query).skip(skip).limit(rowSize)
-        const totalCount = await Employee.countDocuments(query);
-
-        res.status(200).json({ response, totalCount })
-
-    } catch (error) {
-        res.status(205).send("data not found")
-    }
-}
-
-const getEmployeeById = async (req, res) => {
-    try {
-        const response = await Employee.findOne({ _id: req.params.id })
-        res.status(200).send(response)
-
-    } catch (error) {
-        res.status(203).send("Data Not Found")
-    }
-}
-
-const updateEmployee = async (req, res) => {
-    try {
-        const response = await Employee.findByIdAndUpdate(req.body._id, req.body)
-        res.status(200).send("Employee updated succesfully")
-
-    } catch (error) {
-        res.status(203).send("Employee Not Updated")
-    }
-}
-
-
-
-const deleteEmployee = async (req, res) => {
-    try {
-        const deletedEmployee = await Employee.findOneAndDelete({ _id: req.params.id });
-        if (!deletedEmployee) {
-            return res.status(404).send({ message: 'Employee not deleted' });
-        }
-        res.status(200).send({ message: 'Employee deleted successfully', data: deletedEmployee });
-
-    } catch (error) {
-        console.error('Error deleting employee:', error);
-        res.status(500).send({ message: 'Failed to delete employee' });
-    }
-};
-
-
-
 
 const register = async (req, res) => {
     try {
@@ -189,38 +112,7 @@ const deleteUser = async (req, res) => {
 
 
 
-const addSubject = async (req, res) => {
-    try {
-        const { subjectName, userId } = req.body
-        console.log(req.body, 'body')
-        const Res = await Subject.create({ subjectName, createdBy: userId })
-        res.status(200).send("New Subject Added Succesfully")
-    } catch (error) {
-        console.log(' error in add subject', error)
-    }
-}
-
-
-const getALLSubjects = async (req, res) => {
-    try {
-        let search = req.query.search
-        const createdBy = req.query.userId
-
-        const query = search
-            ? { createdBy, subjectName: { $regex: search, $options: "i" } }
-            : { createdBy };
-
-        const response = await Subject.find(query)
-
-        res.status(200).json({ response })
-
-    } catch (error) {
-        res.status(205).send("data not found")
-    }
-}
-
-
 module.exports = {
-    login, register, AddEmployee, getAllEmployee, getEmployeeById, updateEmployee,
-    deleteEmployee, allUsers, getProfileDetails, updateProfileDetails, deleteUser, addSubject, getALLSubjects
+    login, register,
+    allUsers, getProfileDetails, updateProfileDetails, deleteUser
 }
