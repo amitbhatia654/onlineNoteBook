@@ -206,11 +206,11 @@ export default function TopicLayout({
               getTopics().map((topic, id) => {
                 return (
                   <div
-                    className="d-flex justify-content-between topicNames"
+                    className="d-flex justify-content-between topicNames "
                     key={id}
                   >
                     <div
-                      className={`names ${
+                      className={`names  border-primary ${
                         currentTopic?._id == topic?._id && "currentTopic"
                       }`}
                       onClick={() => {

@@ -210,7 +210,7 @@ body {
 }
 
 .names {
-    width: 150px;
+    width: 180px;
     cursor: pointer;
 }
 
@@ -219,7 +219,7 @@ body {
     margin-top: 4px;
     text-align: center;
     box-shadow: 1px 2px 4px grey;
-    background-color: #ef3210;
+    background-color: blue;
     color: white;
     font-size: 17px;
     padding: 3px;
@@ -231,9 +231,8 @@ body {
 }
 
 .currentTopic {
-    /* background-color: rgb(83, 83, 253); */
     color: blue;
-    /* font-size: 23px; */
+    font-weight: bold;
 }
 
 @media (max-width: 768px) {
