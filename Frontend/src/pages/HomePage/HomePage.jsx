@@ -16,6 +16,7 @@ export default function HomePage() {
   const [showModal, setShowModal] = useState(false);
   const [edit, setEdit] = useState({});
   const [loading, setloading] = useState(false);
+  const [loading1, setloading1] = useState(false);
   const [allFolders, setAllFolders] = useState([]);
   const [selectedFolder, setSelectedFolder] = useState(
     localStorage.getItem("folderId")
@@ -55,7 +56,7 @@ export default function HomePage() {
   };
 
   const handleSubmit = async (values) => {
-    setloading(true);
+    setloading1(true);
     const res = edit._id
       ? await axiosInstance.put(`/api/folders/${edit._id}`, {
           ...values,
@@ -78,7 +79,7 @@ export default function HomePage() {
       setEdit({});
       setShowModal(false);
     }
-    setloading(false);
+    setloading1(false);
   };
 
   return (
@@ -263,7 +264,7 @@ export default function HomePage() {
                                 backgroundColor: "white",
                                 fontSize: "16px",
                               }}
-                              disabled={loading}
+                              disabled={loading1}
                             >
                               Submit
                             </Button>
