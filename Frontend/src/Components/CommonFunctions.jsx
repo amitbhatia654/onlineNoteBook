@@ -37,41 +37,18 @@ export const handlePrint = (printRef, folderName, Topic) => {
       <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Print</title>
+        <title>Cloud NoteBook ${Topic ?? "---"}</title>
         <style>
-          @page {
-            size: auto;
-            margin: 20mm;
-          }
-          body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-          }
-          
-          .text-danger {
-            color: blue;
-          }
-          .footer {
-            position: absolute;
-            bottom: 0px;
-            left: 0;
-            right: 0;
-            text-align: end;
-            font-size: 12px;
-            color: black;
-          }
+          body { font-family: Arial, sans-serif; margin: 20px; }
+          .text-danger { color: blue; }
         </style>
       </head>
       <body>
-        <div class="content">
-          <h2 class="text-danger text-center">${folderName ?? "Subject"}: ${
-    Topic ?? "--"
-  }</h2>
-          ${printContent.innerHTML}
-        </div>
-        <div class="footer">
-          <p>By Cloud NoteBook</p>
-        </div>
+        
+   <h2 class="text-danger text-center">
+  ${folderName ?? "Subject"}: ${Topic ?? "--"}
+</h2>
+        ${printContent.innerHTML}
       </body>
     </html>
   `);

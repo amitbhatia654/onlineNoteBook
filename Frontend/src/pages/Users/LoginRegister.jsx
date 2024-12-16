@@ -22,6 +22,7 @@ import { Form, Formik } from "formik";
 import { useDispatch } from "react-redux";
 import { add } from "../../reduxStore/UserSlice";
 import { loginSchema, registerSchema } from "../../assets/FormSchema";
+import loginbg from "../../../login-bg.jpg";
 
 const CFaUserAlt = chakra(FaUserAlt);
 
@@ -81,6 +82,9 @@ const LoginRegister = () => {
       width="100wh"
       height="100vh"
       backgroundColor="gray.200"
+      backgroundImage={loginbg}
+      backgroundRepeat="no-repeat"
+      backgroundSize="cover"
       justifyContent="center"
       alignItems="center"
     >
@@ -90,10 +94,17 @@ const LoginRegister = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <Heading color="blue">
-          {type == "login" ? "Welcome To Notebook " : "Sign Up for NoteBook"}
-        </Heading>
         <Box minW={{ base: "90%", md: "468px" }}>
+          <Heading
+            color="white"
+            className="p-2 text-center"
+            fontSize="40px"
+            fontWeight="bold"
+            letterSpacing="wide"
+            fontFamily="'Pacifico', cursive"
+          >
+            CLOUD NOTEBOOK
+          </Heading>
           <Formik
             initialValues={
               type == "register"
@@ -122,6 +133,16 @@ const LoginRegister = () => {
                   backgroundColor="whiteAlpha.900"
                   boxShadow="md"
                 >
+                  <Heading
+                    color="blue"
+                    backgroundColor={"white"}
+                    className="pb-2 text-center"
+                    fontSize={"20px"}
+                  >
+                    {type == "login"
+                      ? "Log In to Your Account"
+                      : "Create Your Notebook Account"}
+                  </Heading>
                   {type == "register" && (
                     <FormControl>
                       <InputGroup>
@@ -236,27 +257,31 @@ const LoginRegister = () => {
       </Stack>
       {type == "register" ? (
         <Box>
-          Already Register With Us?{" "}
-          <Button
-            color="teal.500"
-            onClick={() => {
-              navigate("/login"), setError("");
-            }}
-          >
-            Sign In
-          </Button>
+          <Heading color="white" fontSize="18px">
+            Already Register With Us !
+            <button
+              className="mx-2 btn btn-warning"
+              onClick={() => {
+                navigate("/login"), setError("");
+              }}
+            >
+              Sign In
+            </button>
+          </Heading>
         </Box>
       ) : (
         <Box>
-          New to Cloud Notebook?{" "}
-          <Button
-            color="teal.500"
-            onClick={() => {
-              navigate("/register"), setError("");
-            }}
-          >
-            Sign Up
-          </Button>
+          <Heading color="white" fontSize="18px">
+            <span>New to Cloud Notebook !</span>
+            <button
+              className="mx-3 btn btn-warning"
+              onClick={() => {
+                navigate("/register"), setError("");
+              }}
+            >
+              Sign Up
+            </button>
+          </Heading>
         </Box>
       )}
     </Flex>
