@@ -20,7 +20,7 @@ import {
 import { FaUserAlt } from "react-icons/fa";
 import { Form, Formik } from "formik";
 import { useDispatch } from "react-redux";
-import { add } from "../../reduxStore/UserSlice";
+import { addUser } from "../../reduxStore/UserSlice";
 import { loginSchema, registerSchema } from "../../assets/FormSchema";
 import loginbg from "../../../login-bg.jpg";
 
@@ -61,7 +61,7 @@ const LoginRegister = () => {
         };
         localStorage.setItem("token", res.data?.token);
         localStorage.setItem("user", JSON.stringify(user));
-        dispatch(add(user));
+        dispatch(addUser(user));
 
         setError("");
         toast.success(res.data.message);

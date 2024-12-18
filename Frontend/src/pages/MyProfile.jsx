@@ -9,7 +9,7 @@ const MyProfile = () => {
   const navigate = useNavigate();
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
-  const user = useSelector((state) => state.cart);
+  const user = useSelector((state) => state.loginUser);
   const id = user.id || "";
 
   const getEmpById = async () => {

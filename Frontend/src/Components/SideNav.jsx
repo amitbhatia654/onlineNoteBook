@@ -13,7 +13,6 @@ import SwitchAccountIcon from "@mui/icons-material/SwitchAccount";
 
 export default function SideNav({ isOpen }) {
   const location = useLocation();
-  const user = useSelector((state) => state.cart);
 
   const routes = [
     { path: "Users", logo: <GroupIcon />, isAdmin: false },

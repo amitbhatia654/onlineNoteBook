@@ -13,17 +13,15 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import notebookLogo from "../../notebook.jpg";
 
 export default function Header() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const userData = useSelector((state) => state.cart);
+  const userData = useSelector((state) => state.loginUser);
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);

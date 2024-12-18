@@ -11,8 +11,11 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 import AddToPhotosIcon from "@mui/icons-material/AddToPhotos";
 import TopicLayout from "../BodySection/TopicLayout";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { useDispatch } from "react-redux";
+import { addFolder } from "../../reduxStore/UserSlice";
 
 export default function HomePage() {
+  const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [edit, setEdit] = useState({});
   const [loading, setloading] = useState(false);
@@ -25,7 +28,7 @@ export default function HomePage() {
       : {}
   );
 
-  const user = useSelector((state) => state.cart);
+  const user = useSelector((state) => state.loginUser);
   const folderId = localStorage.getItem("folderId");
 
   const fetchData = async () => {
@@ -84,7 +87,6 @@ export default function HomePage() {
     setloading1(false);
   };
 
-
   return (
     <>
       {selectedFolder?._id ? (
@@ -113,8 +115,6 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                {console.log(allFolders, "all foldersss")}
-
                 {loading ? (
                   <div className="mx-5 mt-5">Fething Data Please Wait ...</div>
                 ) : (
@@ -127,6 +127,7 @@ export default function HomePage() {
                             <div
                               className="inner-box pt-4 px-3"
                               onClick={() => {
+                                dispatch(addFolder(subject));
                                 setSelectedFolder(subject);
                                 localStorage.setItem("folderId", subject._id);
                               }}

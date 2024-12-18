@@ -17,6 +17,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ShowToast from "../../Components/CommonFunctions";
 import ReorderIcon from "@mui/icons-material/Reorder";
 import RearrangeTopicOrder from "../../Components/RearrangeTopicOrder";
+import { useSelector } from "react-redux";
 
 export default function TopicLayout({
   selectedFolder,
@@ -33,6 +34,9 @@ export default function TopicLayout({
   const [editTopic, setEditTopic] = useState({});
   const [search, setSearch] = useState("");
   const [reArrangeOrder, setReArrangeOrder] = useState(false);
+
+  const myselector = useSelector((store) => store.activeFolder);
+  console.log(myselector, "selector");
 
   useEffect(() => {
     if (!localStorage.getItem("topicId")) {

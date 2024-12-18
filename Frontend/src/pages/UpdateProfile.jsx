@@ -7,10 +7,10 @@ import { updateProfileSchema } from "../assets/FormSchema";
 import axiosInstance from "../ApiManager";
 import ContainerPage from "./HelperPages/ContainerPage";
 import { useDispatch, useSelector } from "react-redux";
-import { add } from "../reduxStore/UserSlice";
+import { addUser } from "../reduxStore/UserSlice";
 
 export default function UpdateProfile() {
-  const user = useSelector((state) => state.cart);
+  const user = useSelector((state) => state.loginUser);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const id = user.id || "";
@@ -43,7 +43,7 @@ export default function UpdateProfile() {
       name: values.name,
     };
     localStorage.setItem("user", JSON.stringify(user));
-    dispatch(add(user));
+    dispatch(addUser(user));
     setloading(false);
     if (res.status == 200) {
       toast.success(res.data.message);

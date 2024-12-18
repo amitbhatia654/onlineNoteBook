@@ -1,9 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
-import loginReducer from './UserSlice'
+import { activeFolderReducer, userReducer } from './UserSlice'
 
 const store = configureStore({
     reducer: {
-        cart: loginReducer
+        loginUser: userReducer,
+        activeFolder: activeFolderReducer
     }
 })
 

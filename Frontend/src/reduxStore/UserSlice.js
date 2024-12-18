@@ -1,19 +1,35 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = JSON.parse(localStorage.getItem('user')) || {};
+const getUserFromLocalStorage = () => JSON.parse(localStorage.getItem("user")) || {};
 
 const userSlice = createSlice({
     name: "userDetails",
-    initialState,
+    initialState: getUserFromLocalStorage(),
     reducers: {
         add(state, action) {
-            return state = action.payload
+            return action.payload;
         },
         remove() {
-            return {}
-        }
-    }
-})
+            return {};
+        },
+    },
+});
 
-export const { add, remove } = userSlice.actions
-export default userSlice.reducer
+const activeFolderSlice = createSlice({
+    name: "activeFolder",
+    initialState: {},
+    reducers: {
+        addFolder(state, action) {
+            return action.payload;
+        },
+        removeFolder() {
+            return {};
+        },
+    },
+});
+
+export const { add: addUser, remove: removeUser } = userSlice.actions;
+export const { addFolder, removeFolder } = activeFolderSlice.actions;
+
+export const userReducer = userSlice.reducer;
+export const activeFolderReducer = activeFolderSlice.reducer;
