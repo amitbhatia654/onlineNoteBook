@@ -17,13 +17,12 @@ import { useNavigate } from "react-router-dom";
 export default function HomePage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const storedFolders = useSelector((state) => state.AllFolder);
-  console.log(storedFolders, "all ");
+  const storedFolders = useSelector((state) => state.FolderStore);
   const [showModal, setShowModal] = useState(false);
   const [edit, setEdit] = useState({});
   const [loading, setloading] = useState(false);
   const [loading1, setloading1] = useState(false);
-  const [allFolders, setAllFolders] = useState(storedFolders || []);
+  const [allFolders, setAllFolders] = useState(storedFolders);
   const user = useSelector((state) => state.loginUser);
 
   const fetchData = async () => {
@@ -33,6 +32,7 @@ export default function HomePage() {
     });
     if (res.status == 200) {
       setAllFolders(res.data.response);
+      localStorage.setItem("allFolders", JSON.stringify(res.data.response));
       dispatch(addAllFolders(res.data.response));
     } else {
       setAllFolders([]);
@@ -51,6 +51,11 @@ export default function HomePage() {
     if (res.status == 200) {
       toast.success(res.data.message);
       setAllFolders(allFolders.filter((data) => data._id != id));
+      dispatch(addAllFolders(allFolders.filter((data) => data._id != id)));
+      localStorage.setItem(
+        "allFolders",
+        JSON.stringify(allFolders.filter((data) => data._id != id))
+      );
     }
   };
 
@@ -68,8 +73,14 @@ export default function HomePage() {
 
       if (res.status == 200) {
         toast.success(res.data.message);
-        if (!edit?._id) allFolders.push(res?.data?.folder);
-        else {
+        if (!edit?._id) {
+          localStorage.setItem(
+            "allFolders",
+            JSON.stringify([...storedFolders, res.data.folder])
+          );
+          setAllFolders([...storedFolders, res.data.folder]);
+          dispatch(addAllFolders([...storedFolders, res.data.folder]));
+        } else {
           allFolders.map((folder) => {
             if (folder._id == values._id)
               folder.subjectName = values.subjectName;

@@ -22,6 +22,7 @@ export default function TopicList({ allFolders, setAllFolders }) {
   const [showModal, setShowModal] = useState(false);
   const [allTopics, setAllTopics] = useState([]);
   const [fetching, setFetching] = useState(false);
+  const [loading, setloading] = useState(false);
   const [currentTopic, setCurrentTopic] = useState({});
   const [isOpen, setIsOpen] = useState(false);
   const [editTopic, setEditTopic] = useState({});
@@ -72,7 +73,7 @@ export default function TopicList({ allFolders, setAllFolders }) {
 
   const handleSubmit = async (values) => {
     setSearch("");
-    setFetching(true);
+    setloading(true);
 
     try {
       const res = editTopic._id
@@ -86,7 +87,7 @@ export default function TopicList({ allFolders, setAllFolders }) {
             currentFolder,
           });
 
-      setFetching(false);
+      setloading(false);
 
       if (res?.status === 200) {
         if (editTopic?._id) {
@@ -105,7 +106,7 @@ export default function TopicList({ allFolders, setAllFolders }) {
         setShowModal(false);
       }
     } catch (error) {
-      setFetching(false);
+      setloading(false);
       console.error("API error:", error);
       toast.error(
         error.response?.data?.message ||
@@ -417,7 +418,7 @@ export default function TopicList({ allFolders, setAllFolders }) {
                             backgroundColor: "white",
                             fontSize: "16px",
                           }}
-                          disabled={fetching}
+                          disabled={loading}
                         >
                           Submit
                         </Button>

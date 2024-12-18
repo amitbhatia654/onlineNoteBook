@@ -124,10 +124,11 @@ export default function Header() {
               <MenuItem>
                 <Typography
                   textAlign="center"
-                  onClick={async () => {
+                  onClick={() => {
                     navigate("/login");
                     localStorage.removeItem("token");
                     localStorage.removeItem("user");
+                    localStorage.removeItem("allFolders")
                     dispatch(removeAllFolders([]));
                   }}
                 >

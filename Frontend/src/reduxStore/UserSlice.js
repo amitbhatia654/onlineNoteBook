@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const getUserFromLocalStorage = () => JSON.parse(localStorage.getItem("user")) || {};
 const getCurrentFolder = () => JSON.parse(localStorage.getItem("current_folder")) || {};
+const getAllStoredFolders = () => JSON.parse(localStorage.getItem("allFolders")) || []
 
 
 const userSlice = createSlice({
@@ -32,7 +33,7 @@ const currentFolderSlice = createSlice({
 
 const allFolderSlice = createSlice({
     name: "AllFolders",
-    initialState: [],
+    initialState: getAllStoredFolders,
     reducers: {
         addAllFolders(state, action) {
             return action.payload

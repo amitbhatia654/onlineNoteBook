@@ -5,7 +5,7 @@ const store = configureStore({
     reducer: {
         loginUser: userReducer,
         currentFolder: currentFolderReducer,
-        AllFolder: AllFoldersReducer
+        FolderStore: AllFoldersReducer
     }
 })
 

@@ -343,11 +343,13 @@ export default function TopicBody({
                 </h5>
               </>
             ) : (
-              <h3 className="text-primary">
+              <h2
+                className="text-primary "
+                style={{ textShadow: "2px 1px blue" }}
+              >
                 {" "}
-                Organize your notes by creating Topics and begin writing about
-                the topic !
-              </h3>
+                Create Topic and start writing about it !
+              </h2>
             )}
           </div>
         </>
