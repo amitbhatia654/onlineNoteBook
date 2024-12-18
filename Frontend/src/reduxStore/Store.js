@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { activeFolderReducer, userReducer } from './UserSlice'
+import { currentFolderReducer, userReducer } from './UserSlice'
 
 const store = configureStore({
     reducer: {
         loginUser: userReducer,
-        activeFolder: activeFolderReducer
+        currentFolder: currentFolderReducer
     }
 })
 

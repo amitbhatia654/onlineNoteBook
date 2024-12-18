@@ -11,6 +11,7 @@ import HomePage from "./pages/HomePage/HomePage";
 import TopicLayout from "./pages/BodySection/TopicLayout";
 import LoginRegister from "./pages/Users/LoginRegister";
 import UsersDetails from "./pages/Users/UsersDetails";
+import TopicList from "./Components/Topics/TopicList";
 
 function App() {
   const isUserLogin = () => {
@@ -53,6 +54,7 @@ function App() {
           <Route path="/" element={<HomePageLayout />}>
             <Route index element={<HomePage />} />
             <Route path="topic/:name" element={<TopicLayout />}></Route>
+            <Route path="topics" element={<TopicList />} />
             <Route path="profile" element={<MyProfile />} />
             <Route path="update-profile" element={<UpdateProfile />} />
             <Route path="users" element={<UsersDetails />} />

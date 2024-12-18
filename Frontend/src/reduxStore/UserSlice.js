@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const getUserFromLocalStorage = () => JSON.parse(localStorage.getItem("user")) || {};
+const getCurrentFolder = () => JSON.parse(localStorage.getItem("current_folder")) || {};
+
 
 const userSlice = createSlice({
     name: "userDetails",
@@ -15,9 +17,9 @@ const userSlice = createSlice({
     },
 });
 
-const activeFolderSlice = createSlice({
-    name: "activeFolder",
-    initialState: {},
+const currentFolderSlice = createSlice({
+    name: "currentFolder",
+    initialState: getCurrentFolder,
     reducers: {
         addFolder(state, action) {
             return action.payload;
@@ -29,7 +31,7 @@ const activeFolderSlice = createSlice({
 });
 
 export const { add: addUser, remove: removeUser } = userSlice.actions;
-export const { addFolder, removeFolder } = activeFolderSlice.actions;
+export const { addFolder, removeFolder } = currentFolderSlice.actions;
 
 export const userReducer = userSlice.reducer;
-export const activeFolderReducer = activeFolderSlice.reducer;
+export const currentFolderReducer = currentFolderSlice.reducer;
