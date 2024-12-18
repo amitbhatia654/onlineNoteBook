@@ -14,11 +14,13 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import notebookLogo from "../../notebook.jpg";
+import { removeAllFolders } from "../reduxStore/UserSlice";
 
 export default function Header() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const userData = useSelector((state) => state.loginUser);
@@ -126,6 +128,7 @@ export default function Header() {
                     navigate("/login");
                     localStorage.removeItem("token");
                     localStorage.removeItem("user");
+                    dispatch(removeAllFolders([]));
                   }}
                 >
                   <LogoutIcon className="mx-2" /> Logout

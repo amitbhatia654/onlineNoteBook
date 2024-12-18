@@ -21,7 +21,7 @@ import { useSelector } from "react-redux";
 export default function TopicList({ allFolders, setAllFolders }) {
   const [showModal, setShowModal] = useState(false);
   const [allTopics, setAllTopics] = useState([]);
-  const [loading, setloading] = useState(false);
+  const [fetching, setFetching] = useState(false);
   const [currentTopic, setCurrentTopic] = useState({});
   const [isOpen, setIsOpen] = useState(false);
   const [editTopic, setEditTopic] = useState({});
@@ -35,7 +35,7 @@ export default function TopicList({ allFolders, setAllFolders }) {
     getAllTopics();
   }, []);
   const getAllTopics = async () => {
-    setloading(true);
+    setFetching(true);
     const res = await axiosInstance.get("/api/all-topics", {
       params: { folderId: currentFolder._id },
     });
@@ -45,7 +45,7 @@ export default function TopicList({ allFolders, setAllFolders }) {
     } else {
       setAllTopics;
     }
-    setloading(false);
+    setFetching(false);
   };
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export default function TopicList({ allFolders, setAllFolders }) {
         )[0]
       );
     }
-  }, [search, allTopics, loading]);
+  }, [search, allTopics, fetching]);
 
   function getTopics() {
     if (search) {
@@ -72,7 +72,7 @@ export default function TopicList({ allFolders, setAllFolders }) {
 
   const handleSubmit = async (values) => {
     setSearch("");
-    setloading(true);
+    setFetching(true);
 
     try {
       const res = editTopic._id
@@ -86,7 +86,7 @@ export default function TopicList({ allFolders, setAllFolders }) {
             currentFolder,
           });
 
-      setloading(false);
+      setFetching(false);
 
       if (res?.status === 200) {
         if (editTopic?._id) {
@@ -105,7 +105,7 @@ export default function TopicList({ allFolders, setAllFolders }) {
         setShowModal(false);
       }
     } catch (error) {
-      setloading(false);
+      setFetching(false);
       console.error("API error:", error);
       toast.error(
         error.response?.data?.message ||
@@ -239,9 +239,13 @@ export default function TopicList({ allFolders, setAllFolders }) {
               Create Topic +{" "}
             </div>
 
-            {getTopics()?.length < 1 ? (
+            {fetching ? (
+              <div className="d-flex justify-content-center mt-5">
+                <div className="loader">fetching</div>
+              </div>
+            ) : getTopics()?.length < 1 ? (
               <h5 className="text-center text-primary my-4">
-                No Topic Found! 😴
+                No Topic Found !
               </h5>
             ) : (
               <div
@@ -350,6 +354,7 @@ export default function TopicList({ allFolders, setAllFolders }) {
                 writeData={writeData}
                 setWriteData={setWriteData}
                 allTopics={allTopics}
+                fetching={fetching}
               ></TopicBody>
             )}
           </div>
@@ -412,7 +417,7 @@ export default function TopicList({ allFolders, setAllFolders }) {
                             backgroundColor: "white",
                             fontSize: "16px",
                           }}
-                          disabled={loading}
+                          disabled={fetching}
                         >
                           Submit
                         </Button>

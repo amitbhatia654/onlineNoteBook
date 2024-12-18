@@ -21,6 +21,7 @@ export default function TopicBody({
   setWriteData,
   currentFolder,
   allTopics,
+  fetching,
 }) {
   const [loading, setloading] = useState(false);
   const [data, setData] = useState(currentTopic?.description);
@@ -234,7 +235,15 @@ export default function TopicBody({
             )}
           </div>
 
-          {writeData ? (
+          {fetching ? (
+            <div
+              style={{ height: "82vh" }}
+              className="d-flex justify-content-center align-items-center"
+            >
+              <div className="loader">Loading</div>
+              <h5 className="m-2">Fetching Data Please Wait...</h5>
+            </div>
+          ) : writeData ? (
             <>
               <ReactQuill
                 theme="snow"
@@ -326,11 +335,20 @@ export default function TopicBody({
             style={{ height: "82vh" }}
             className="d-flex justify-content-center align-items-center"
           >
-            <h3 className="text-primary">
-              {" "}
-              Organize your notes by creating Topics and begin writing about the
-              topic !
-            </h3>
+            {fetching ? (
+              <>
+                <div className="loader">Loading</div>
+                <h5 className="m-2 text-primary">
+                  Fetching Data Please Wait...
+                </h5>
+              </>
+            ) : (
+              <h3 className="text-primary">
+                {" "}
+                Organize your notes by creating Topics and begin writing about
+                the topic !
+              </h3>
+            )}
           </div>
         </>
       )}

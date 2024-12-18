@@ -1,10 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { currentFolderReducer, userReducer } from './UserSlice'
+import { AllFoldersReducer, currentFolderReducer, userReducer } from './UserSlice'
 
 const store = configureStore({
     reducer: {
         loginUser: userReducer,
-        currentFolder: currentFolderReducer
+        currentFolder: currentFolderReducer,
+        AllFolder: AllFoldersReducer
     }
 })
 

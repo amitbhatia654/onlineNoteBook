@@ -11,17 +11,19 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 import AddToPhotosIcon from "@mui/icons-material/AddToPhotos";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useDispatch } from "react-redux";
-import { addFolder } from "../../reduxStore/UserSlice";
+import { addAllFolders, addFolder } from "../../reduxStore/UserSlice";
 import { useNavigate } from "react-router-dom";
 
 export default function HomePage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const storedFolders = useSelector((state) => state.AllFolder);
+  console.log(storedFolders, "all ");
   const [showModal, setShowModal] = useState(false);
   const [edit, setEdit] = useState({});
   const [loading, setloading] = useState(false);
   const [loading1, setloading1] = useState(false);
-  const [allFolders, setAllFolders] = useState([]);
+  const [allFolders, setAllFolders] = useState(storedFolders || []);
   const user = useSelector((state) => state.loginUser);
 
   const fetchData = async () => {
@@ -31,6 +33,7 @@ export default function HomePage() {
     });
     if (res.status == 200) {
       setAllFolders(res.data.response);
+      dispatch(addAllFolders(res.data.response));
     } else {
       setAllFolders([]);
     }
@@ -38,7 +41,9 @@ export default function HomePage() {
   };
 
   useEffect(() => {
-    fetchData();
+    {
+      storedFolders?.length < 1 && fetchData();
+    }
   }, []);
 
   const handleDelete = async (id) => {
