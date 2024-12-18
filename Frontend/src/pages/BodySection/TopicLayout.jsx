@@ -15,7 +15,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ShowToast from "../../Components/CommonFunctions";
-// import ToastError, { ShowToast } from "../../Components/CommonFunctions";
+import ReorderIcon from "@mui/icons-material/Reorder";
+import RearrangeTopicOrder from "../../Components/RearrangeTopicOrder";
 
 export default function TopicLayout({
   selectedFolder,
@@ -31,6 +32,7 @@ export default function TopicLayout({
   const [isOpen, setIsOpen] = useState(false);
   const [editTopic, setEditTopic] = useState({});
   const [search, setSearch] = useState("");
+  const [reArrangeOrder, setReArrangeOrder] = useState(false);
 
   useEffect(() => {
     if (!localStorage.getItem("topicId")) {
@@ -168,11 +170,35 @@ export default function TopicLayout({
 
           <div className={`${isOpen && "d-none"} px-2 `}>
             <h3
-              className="fw-bold text-center"
+              className="fw-bold text-center mx-1"
               style={{ textDecoration: "underline" }}
             >
               {" "}
-              Topics
+              All Topics
+              {/* <span className="dropdown mx-1">
+                <button
+                  className="btn "
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <h6>
+                    <ReorderIcon sx={{ fontSize: "20px" }} />
+                  </h6>
+                </button>
+                <ul className="dropdown-menu">
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      onClick={() => {
+                        setReArrangeOrder(true);
+                      }}
+                    >
+                      Rearrange Order
+                    </button>
+                  </li>
+                </ul>
+              </span> */}
             </h3>
 
             <div>
@@ -203,11 +229,12 @@ export default function TopicLayout({
                 No Topic Found! 😴
               </h5>
             ) : (
-              getTopics().map((topic, id) => {
+              getTopics().map((topic, index) => {
                 return (
                   <div
+                    style={{ userSelect: "none" }}
                     className="d-flex justify-content-between topicNames "
-                    key={id}
+                    key={index}
                   >
                     <div
                       className={`names  border-primary ${
@@ -217,7 +244,7 @@ export default function TopicLayout({
                         handleChangeTopic(topic);
                       }}
                     >
-                      {id + 1}.{" "}
+                      {index + 1}.{" "}
                       {topic?.title?.charAt(0)?.toUpperCase() +
                         topic?.title?.slice(1)}
                     </div>
@@ -283,15 +310,24 @@ export default function TopicLayout({
               paddingLeft: "5px",
             }}
           >
-            <TopicBody
-              currentTopic={currentTopic}
-              setCurrentTopic={setCurrentTopic}
-              writeData={writeData}
-              setWriteData={setWriteData}
-              selectedFolder={selectedFolder}
-              setSelectedFolder={setSelectedFolder}
-              allFolders={allFolders}
-            ></TopicBody>
+            {reArrangeOrder ? (
+              <RearrangeTopicOrder
+                selectedFolder={selectedFolder}
+                setSelectedFolder={setSelectedFolder}
+                setReArrangeOrder={setReArrangeOrder}
+                reArrangeOrder={reArrangeOrder}
+              />
+            ) : (
+              <TopicBody
+                currentTopic={currentTopic}
+                setCurrentTopic={setCurrentTopic}
+                writeData={writeData}
+                setWriteData={setWriteData}
+                selectedFolder={selectedFolder}
+                setSelectedFolder={setSelectedFolder}
+                allFolders={allFolders}
+              ></TopicBody>
+            )}
           </div>
         </div>
       </div>

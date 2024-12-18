@@ -180,8 +180,26 @@ const updateTopic = async (req, res) => {
 }
 
 
+const updateTopicsOrder = async (req, res) => {
+    try {
+        const subject = await Subject.findByIdAndUpdate({ _id: req.body._id }, req.body);
+        if (!subject) {
+            return res.status(404).json({ message: "Folder not found" });
+        }
+        res.status(200).json({
+            message: "Topics Order Updated successfully",
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            message: "Order Not Updated",
+        });
+    }
+}
+
+
 module.exports = {
     addFolder, getALLFolders,
     deleteFolder, updateFolder, addTopic, addTopicData,
-    deleteTopic, updateTopic
+    deleteTopic, updateTopic, updateTopicsOrder
 }

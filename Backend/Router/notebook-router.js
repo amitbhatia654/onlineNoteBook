@@ -13,5 +13,7 @@ router.route('/topicData').put(AuthMiddleWare, NotebookController.addTopicData)
 router.route('/topic').post(AuthMiddleWare, NotebookController.addTopic)
 router.route('/topic').delete(AuthMiddleWare, NotebookController.deleteTopic)
 router.route('/topic').put(AuthMiddleWare, NotebookController.updateTopic)
+router.route('/topicsOrder').put(AuthMiddleWare, NotebookController.updateTopicsOrder)
+
 
 module.exports = router;

@@ -276,3 +276,13 @@ body {
 .topic-name {
     font-size: 20px;
 }
+
+.topic-name-order {
+    box-shadow: 1px 2px 2px grey;
+    width: 300px;
+    cursor: grab;
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+}

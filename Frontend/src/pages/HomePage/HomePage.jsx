@@ -24,6 +24,7 @@ export default function HomePage() {
       ? { _id: 1, topics: [], subjectName: "" }
       : {}
   );
+
   const user = useSelector((state) => state.cart);
   const folderId = localStorage.getItem("folderId");
 
@@ -83,6 +84,7 @@ export default function HomePage() {
     setloading1(false);
   };
 
+
   return (
     <>
       {selectedFolder?._id ? (
@@ -111,6 +113,8 @@ export default function HomePage() {
                   </div>
                 </div>
 
+                {console.log(allFolders, "all foldersss")}
+
                 {loading ? (
                   <div className="mx-5 mt-5">Fething Data Please Wait ...</div>
                 ) : (
@@ -123,8 +127,8 @@ export default function HomePage() {
                             <div
                               className="inner-box pt-4 px-3"
                               onClick={() => {
-                                setSelectedFolder(subject),
-                                  localStorage.setItem("folderId", subject._id);
+                                setSelectedFolder(subject);
+                                localStorage.setItem("folderId", subject._id);
                               }}
                             >
                               {" "}
