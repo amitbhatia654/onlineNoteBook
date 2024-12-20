@@ -52,7 +52,7 @@ function App() {
         <Route path="/" element={<PrivateRoute />}>
           <Route path="/" element={<HomePageLayout />}>
             <Route index element={<HomePage />} />
-            <Route path="topics" element={<TopicList />} />
+            <Route path="topics"  element={<TopicList />} />
             <Route path="profile" element={<MyProfile />} />
             <Route path="update-profile" element={<UpdateProfile />} />
             <Route path="users" element={<UsersDetails />} />

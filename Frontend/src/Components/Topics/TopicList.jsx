@@ -17,6 +17,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ShowToast from "../CommonFunctions";
 import ReorderIcon from "@mui/icons-material/Reorder";
 import { useSelector } from "react-redux";
+import RearrangeTopicOrder from "../RearrangeTopicOrder";
 
 export default function TopicList({ allFolders, setAllFolders }) {
   const [showModal, setShowModal] = useState(false);
@@ -29,6 +30,7 @@ export default function TopicList({ allFolders, setAllFolders }) {
   const [search, setSearch] = useState("");
   const [reArrangeOrder, setReArrangeOrder] = useState(false);
   const [writeData, setWriteData] = useState(false);
+  const [selectedFolder, setSelectedFolder] = useState({});
 
   const currentFolder = useSelector((store) => store.currentFolder);
 
@@ -172,7 +174,7 @@ export default function TopicList({ allFolders, setAllFolders }) {
           <div className="d-flex justify-content-between">
             <div className={`${isOpen && "d-none"}   `}>
               <span className="topic-heading">TOPICS</span>
-              <span className="dropdown">
+              {/* <span className="dropdown">
                 <button
                   className="btn "
                   type="button"
@@ -195,7 +197,7 @@ export default function TopicList({ allFolders, setAllFolders }) {
                     </button>
                   </li>
                 </ul>
-              </span>
+              </span> */}
             </div>
 
             <div>
@@ -340,14 +342,14 @@ export default function TopicList({ allFolders, setAllFolders }) {
             }}
           >
             {reArrangeOrder ? (
+              // <RearrangeTopicOrder
+              //   selectedFolder={selectedFolder}
+              //   setSelectedFolder={setSelectedFolder}
+              //   setReArrangeOrder={setReArrangeOrder}
+              //   reArrangeOrder={reArrangeOrder}
+              // />
               <></>
             ) : (
-              //   <RearrangeTopicOrder
-              //     currentFolder={currentFolder}
-              //     setSelectedFolder={setSelectedFolder}
-              //     setReArrangeOrder={setReArrangeOrder}
-              //     reArrangeOrder={reArrangeOrder}
-              //   />
               <TopicBody
                 currentTopic={currentTopic}
                 setCurrentTopic={setCurrentTopic}
