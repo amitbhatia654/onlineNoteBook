@@ -37,12 +37,8 @@ export default function Header() {
       <div className="d-flex myheader">
         <div
           style={{
-            color: "#47478C",
-            fontSize: "25px",
-            fontWeight: "bold",
-            margin: "7px",
-            marginLeft: "10px",
-            width: "300px",
+            marginLeft: "14px",
+            margin:'2px'
           }}
         >
           <span
@@ -83,7 +79,7 @@ export default function Header() {
             </IconButton>
           </div> */}
 
-          <div className="">
+          <div className="mt-1">
             <span className="fw-bold   text-primary fs-5 ">
               {" "}
               {userData?.name ?? "user"}

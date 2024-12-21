@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 import { Toaster } from "react-hot-toast";
 import React, { Suspense, lazy } from "react";
+import LoadingComponent from "./Components/LoadingComponent";
 
 // Lazy-loaded components
 const PrivateRoute = lazy(() => import("./pages/PrivateRoute"));
@@ -31,7 +32,7 @@ function App() {
   return (
     <>
       {/* Wrap Routes with Suspense */}
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoadingComponent />}>
         <Routes>
           {/* Login and Register */}
           <Route

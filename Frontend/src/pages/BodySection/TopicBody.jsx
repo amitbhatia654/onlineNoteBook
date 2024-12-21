@@ -240,7 +240,7 @@ export default function TopicBody({
               style={{ height: "82vh" }}
               className="d-flex justify-content-center align-items-center"
             >
-              <div className="loader">Loading</div>
+              {/* <div className="loader">Loading</div> */}
               <h5 className="m-2">Fetching Data Please Wait...</h5>
             </div>
           ) : writeData ? (
@@ -337,7 +337,7 @@ export default function TopicBody({
           >
             {fetching ? (
               <>
-                <div className="loader">Loading</div>
+                {/* <div className="loader">Loading</div> */}
                 <h5 className="m-2 text-primary">
                   Fetching Data Please Wait...
                 </h5>

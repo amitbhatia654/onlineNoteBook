@@ -122,25 +122,22 @@ body {
 .upper-side {
     height: 15px;
     width: 70px;
-    background-color: #0e5985;
+    margin-bottom: -1px;
+    background-color: #0e2e85;
     position: relative;
     clip-path: polygon(0 0, 80% 0, 100% 100%, 0 100%);
-    /* border-bottom: 1px solid rgb(163, 163, 194); */
     border-top-left-radius: 8px;
 }
 
 .boxes {
     height: 110px;
     width: 140px;
-    background-color: #0e5985;
-    /* box-shadow: 1px 2px 3px black; */
-    /* color: #013858; */
+    background-color: #0e2e85;
     color: white;
+    box-shadow: 1px 3px 8px black;
 }
 
-.boxes-outer {
-    height: 110px;
-}
+
 
 
 
@@ -148,7 +145,7 @@ body {
     height: 110px;
     width: 140px;
     background-color: rgb(1, 1, 148);
-    box-shadow: 1px 2px 3px black;
+    /* box-shadow: 1px 2px 8px black; */
 }
 
 .upper-side-create {
@@ -156,6 +153,7 @@ body {
     width: 70px;
     background-color: rgb(1, 1, 148);
     position: relative;
+    margin-bottom: -1px;
     clip-path: polygon(0 0, 80% 0, 100% 100%, 0 100%);
     /* border-bottom: 1px solid rgb(192, 75, 75); */
     border-top-left-radius: 8px;
@@ -178,8 +176,8 @@ body {
 
 
 .folder-container {
-    min-height: 69vh;
-    max-height: 69vh;
+    min-height: 70vh;
+    max-height: 70vh;
     padding-left: 50px;
     padding-top: 20px;
     background-color: #DFDBE5;
@@ -256,7 +254,7 @@ body {
 .homepage {
     /* background-color: #c0bbbb; */
     /* background-color: #051f44; */
-    height: 90vh;
+    height: 91vh;
     /* color: white; */
 
 }
@@ -298,6 +296,6 @@ body {
 }
 
 .myheader {
-    /* background-color: #051f44; */
-    box-shadow: 1px 3px 2px rgb(228, 227, 234);
+    background-color: #e6ebf1;
+    /* box-shadow: 1px 3px 2px rgb(228, 227, 234); */
 }

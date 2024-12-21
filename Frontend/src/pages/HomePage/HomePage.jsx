@@ -181,8 +181,11 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className=" mt-2 mx-4  border-primary">
-          <div className="text-primary">
+        <div
+          className=" mt-2 mx-4  border-primary"
+          style={{ backgroundColor: "#e6ebf1" }}
+        >
+          <div className="">
             <h5 className="text-primary">Instructions: How to Use the App</h5>
             <li>
               Organize your notes by creating folders for different categories.
