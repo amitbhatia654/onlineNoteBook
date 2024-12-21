@@ -382,25 +382,20 @@ export default function TopicList({ allFolders, setAllFolders }) {
                   <div className="container-fluid ">
                     <div className="row">
                       <div className="">
+                        <label htmlFor="">Topic Name</label>
                         <FormControl
                           fullWidth
                           variant="outlined"
                           size="small"
                           sx={{ m: 1 }}
                         >
-                          <InputLabel
-                            shrink={Boolean(props.values.title)}
-                            htmlFor="title"
-                          >
-                            Name
-                          </InputLabel>
                           <OutlinedInput
                             id="title"
                             name="title"
-                            placeholder="enter name"
+                            placeholder="Enter Topic Name"
                             value={props.values.title}
                             onChange={props.handleChange}
-                            label="Name"
+                            // label="Name"
                           />
                         </FormControl>
                         <ErrorMessage

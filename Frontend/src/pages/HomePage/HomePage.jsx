@@ -234,6 +234,7 @@ export default function HomePage() {
                             <OutlinedInput
                               id="subjectName"
                               name="subjectName"
+                              placeholder="Enter Folder Name"
                               value={props.values.subjectName}
                               onChange={props.handleChange}
                             />
