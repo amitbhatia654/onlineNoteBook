@@ -34,7 +34,7 @@ export default function Header() {
   };
   return (
     <>
-      <div className="d-flex ">
+      <div className="d-flex myheader">
         <div
           style={{
             color: "#47478C",
@@ -86,7 +86,7 @@ export default function Header() {
           <div className="">
             <span className="fw-bold   text-primary fs-5 ">
               {" "}
-              Hey, {userData?.name ?? "user"}
+              {userData?.name ?? "user"}
             </span>
             <Tooltip title="My Profile" placement="bottom-end">
               <IconButton onClick={handleOpenUserMenu}>
@@ -128,7 +128,7 @@ export default function Header() {
                     navigate("/login");
                     localStorage.removeItem("token");
                     localStorage.removeItem("user");
-                    localStorage.removeItem("allFolders")
+                    localStorage.removeItem("allFolders");
                     dispatch(removeAllFolders([]));
                   }}
                 >

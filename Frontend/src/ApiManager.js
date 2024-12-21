@@ -1,8 +1,6 @@
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
 
-// Axios instance
 const axiosInstance = axios.create({
     baseURL: `${import.meta.env.VITE_API_URL}`,
     headers: {
@@ -30,7 +28,7 @@ axiosInstance.interceptors.response.use(
     (error) => {
         if (error.response && error.response.status === 401) {
             localStorage.removeItem('token');
-
+            localStorage.removeItem("allFolders");
             toast.error("session Expire please Login Again !")
             setTimeout(() => {
                 window.location.href = '/login';

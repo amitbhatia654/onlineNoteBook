@@ -2,15 +2,18 @@ import "./App.css";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 import { Toaster } from "react-hot-toast";
-import PrivateRoute from "./pages/PrivateRoute";
-import MyProfile from "./pages/MyProfile";
-import ErrorPage from "./pages/ErrorPage";
-import UpdateProfile from "./pages/UpdateProfile";
-import HomePageLayout from "./pages/HomePage/HomePageLayout";
-import HomePage from "./pages/HomePage/HomePage";
-import LoginRegister from "./pages/Users/LoginRegister";
-import UsersDetails from "./pages/Users/UsersDetails";
-import TopicList from "./Components/Topics/TopicList";
+import React, { Suspense, lazy } from "react";
+
+// Lazy-loaded components
+const PrivateRoute = lazy(() => import("./pages/PrivateRoute"));
+const MyProfile = lazy(() => import("./pages/MyProfile"));
+const UpdateProfile = lazy(() => import("./pages/UpdateProfile"));
+const HomePageLayout = lazy(() => import("./pages/HomePage/HomePageLayout"));
+const HomePage = lazy(() => import("./pages/HomePage/HomePage"));
+const LoginRegister = lazy(() => import("./pages/Users/LoginRegister"));
+const UsersDetails = lazy(() => import("./pages/Users/UsersDetails"));
+const ErrorPage = lazy(() => import("./pages/ErrorPage"));
+const TopicList = lazy(() => import("./Components/Topics/TopicList"));
 
 function App() {
   const isUserLogin = () => {
@@ -27,39 +30,48 @@ function App() {
 
   return (
     <>
-      <Routes>
-        {" "}
-        <Route
-          path="/login"
-          element={
-            <ChakraProvider>
-              <ProtectedLoginRoute>
-                <LoginRegister />
-              </ProtectedLoginRoute>
-            </ChakraProvider>
-          }
-        ></Route>
-        <Route
-          path="/register"
-          element={
-            <ChakraProvider>
-              <ProtectedLoginRoute>
-                <LoginRegister />
-              </ProtectedLoginRoute>
-            </ChakraProvider>
-          }
-        ></Route>
-        <Route path="/" element={<PrivateRoute />}>
-          <Route path="/" element={<HomePageLayout />}>
-            <Route index element={<HomePage />} />
-            <Route path="topics"  element={<TopicList />} />
-            <Route path="profile" element={<MyProfile />} />
-            <Route path="update-profile" element={<UpdateProfile />} />
-            <Route path="users" element={<UsersDetails />} />
+      {/* Wrap Routes with Suspense */}
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          {/* Login and Register */}
+          <Route
+            path="/login"
+            element={
+              <ChakraProvider>
+                <ProtectedLoginRoute>
+                  <LoginRegister />
+                </ProtectedLoginRoute>
+              </ChakraProvider>
+            }
+          ></Route>
+          <Route
+            path="/register"
+            element={
+              <ChakraProvider>
+                <ProtectedLoginRoute>
+                  <LoginRegister />
+                </ProtectedLoginRoute>
+              </ChakraProvider>
+            }
+          ></Route>
+
+          {/* Protected Routes */}
+          <Route path="/" element={<PrivateRoute />}>
+            <Route path="/" element={<HomePageLayout />}>
+              <Route index element={<HomePage />} />
+              <Route path="topics" element={<TopicList />} />
+              <Route path="profile" element={<MyProfile />} />
+              <Route path="update-profile" element={<UpdateProfile />} />
+              <Route path="users" element={<UsersDetails />} />
+            </Route>
           </Route>
-        </Route>
-        <Route path="/*" element={<ErrorPage />}></Route>
-      </Routes>
+
+          {/* Error Page */}
+          <Route path="/*" element={<ErrorPage />}></Route>
+        </Routes>
+      </Suspense>
+
+      {/* Toast Notifications */}
       <Toaster />
     </>
   );
