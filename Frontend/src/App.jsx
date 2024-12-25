@@ -10,7 +10,6 @@ import HomePageLayout from "./pages/HomePage/HomePageLayout";
 import HomePage from "./pages/HomePage/HomePage";
 import LoginRegister from "./pages/Users/LoginRegister";
 import UsersDetails from "./pages/Users/UsersDetails";
-import TopicList from "./Components/Topics/TopicList";
 
 function App() {
   const isUserLogin = () => {
@@ -52,7 +51,7 @@ function App() {
         <Route path="/" element={<PrivateRoute />}>
           <Route path="/" element={<HomePageLayout />}>
             <Route index element={<HomePage />} />
-            <Route path="topics" element={<TopicList />} />
+            <Route path="topic/:name" element={<TopicLayout />}></Route>
             <Route path="profile" element={<MyProfile />} />
             <Route path="update-profile" element={<UpdateProfile />} />
             <Route path="users" element={<UsersDetails />} />

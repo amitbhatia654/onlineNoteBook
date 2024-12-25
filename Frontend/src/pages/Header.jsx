@@ -40,7 +40,7 @@ export default function Header() {
             color: "#47478C",
             fontSize: "25px",
             fontWeight: "bold",
-            margin: "7px",
+            // margin: "7px",
             marginLeft: "10px",
             width: "300px",
           }}

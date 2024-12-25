@@ -24,14 +24,6 @@ body {
     border-top: 1px solid rgb(197, 197, 236);
 }
 
-.topic-heading {
-    text-decoration: underline;
-    font-weight: bold;
-    font-size: 24px;
-    margin-left: 25px;
-    color: rgb(23, 92, 49);
-}
-
 
 /* HTML: <div class="loader"></div> */
 .loader {
@@ -125,8 +117,9 @@ body {
 .upper-side {
     height: 15px;
     width: 70px;
-    background-color: #0e5985;
+    background-color: #0e2e85;
     position: relative;
+    margin-bottom: -1px;
     clip-path: polygon(0 0, 80% 0, 100% 100%, 0 100%);
     /* border-bottom: 1px solid rgb(163, 163, 194); */
     border-top-left-radius: 8px;
@@ -135,10 +128,9 @@ body {
 .boxes {
     height: 110px;
     width: 140px;
-    background-color: #0e5985;
-    /* box-shadow: 1px 2px 3px black; */
-    /* color: #013858; */
+    background-color: #0e2e85;
     color: white;
+    box-shadow: 1px 3px 8px black;
 }
 
 .boxes-outer {
@@ -159,6 +151,7 @@ body {
     width: 70px;
     background-color: rgb(1, 1, 148);
     position: relative;
+    margin-bottom: -1px;
     clip-path: polygon(0 0, 80% 0, 100% 100%, 0 100%);
     /* border-bottom: 1px solid rgb(192, 75, 75); */
     border-top-left-radius: 8px;
@@ -181,12 +174,13 @@ body {
 
 
 .folder-container {
-    min-height: 65vh;
-    max-height: 65vh;
+    min-height: 70vh;
+    max-height: 70vh;
     padding-left: 50px;
     padding-top: 20px;
-    box-shadow: 0px 2px 5px 1px grey;
-    /* border: 1px solid; */
+    background-color: #DFDBE5;
+    background-image: url("data:image/svg+xml,%3Csvg width='42' height='44' viewBox='0 0 42 44' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='Page-1' fill='none' fill-rule='evenodd'%3E%3Cg id='brick-wall' fill='%239C92AC' fill-opacity='0.21'%3E%3Cpath d='M0 0h42v44H0V0zm1 1h40v20H1V1zM0 23h20v20H0V23zm22 0h20v20H22V23z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+
 }
 
 
@@ -283,7 +277,6 @@ body {
 
 .topic-name {
     font-size: 20px;
-    font-weight: bold;
 }
 
 .topic-name-order {
