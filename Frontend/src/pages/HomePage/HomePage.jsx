@@ -101,9 +101,8 @@ export default function HomePage() {
       ) : (
         <div className="homepage">
           <div className="">
-            <h2 className="text-center fw-bold folder-heading">Folders</h2>
-
             <div className="folder-container scrollable-container">
+              <h2 className="text-center fw-bold folder-heading">Folders</h2>
               <div className="d-flex flex-wrap">
                 <div className="mx-2 my-3" onClick={() => setShowModal(true)}>
                   <div className="upper-side-create"></div>
