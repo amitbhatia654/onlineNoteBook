@@ -12,23 +12,21 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from "@mui/icons-material/Save";
 import ShowToast, { handlePrint } from "../../Components/CommonFunctions";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
-import { useNavigate } from "react-router-dom";
 
 export default function TopicBody({
   currentTopic,
   setCurrentTopic,
   writeData,
   setWriteData,
-  currentFolder,
-  allTopics,
-  fetching,
+  selectedFolder,
+  setSelectedFolder,
+  allFolders,
 }) {
   const [loading, setloading] = useState(false);
   const [data, setData] = useState(currentTopic?.description);
 
   const printRef = useRef();
   const quillRef = useRef(null);
-  const navigate = useNavigate();
 
   const focusEditor = () => {
     setTimeout(() => {
@@ -42,7 +40,7 @@ export default function TopicBody({
   };
 
   useEffect(() => {
-    setData(currentTopic?.description ?? "Empty Topic !");
+    setData(currentTopic?.description ?? "Click on Edit to Write in it !");
   }, [currentTopic]);
 
   const module = {
@@ -69,16 +67,16 @@ export default function TopicBody({
   };
 
   const handlePrevNext = () => {
-    const currentIndex = allTopics?.findIndex(
+    const currentIndex = selectedFolder.topics?.findIndex(
       (topic) => topic?._id == currentTopic?._id
     );
 
     function clickNext() {
-      setCurrentTopic(allTopics[currentIndex + 1]);
+      setCurrentTopic(selectedFolder.topics[currentIndex + 1]);
     }
 
     function clickPrev() {
-      setCurrentTopic(allTopics[currentIndex - 1]);
+      setCurrentTopic(selectedFolder.topics[currentIndex - 1]);
     }
 
     function checkPrev() {
@@ -87,7 +85,7 @@ export default function TopicBody({
     }
 
     function checkNext() {
-      if (currentIndex == allTopics?.length - 1) return true;
+      if (currentIndex == selectedFolder.topics?.length - 1) return true;
       return false;
     }
 
@@ -103,7 +101,7 @@ export default function TopicBody({
     localStorage.removeItem("folderId");
     localStorage.removeItem("topicId");
 
-    navigate("/");
+    setSelectedFolder({});
   };
 
   const handleSubmit = async () => {
@@ -111,17 +109,17 @@ export default function TopicBody({
     const res = await axiosInstance.put(`/api/topicData`, {
       description: data,
       topicId: currentTopic._id,
-      folderId: currentFolder._id,
+      folderId: selectedFolder._id,
     });
 
     if (res.status == 200) {
       toast.success(res.data.message);
-
-      allTopics.map((topic) => {
-        if (topic._id == currentTopic._id) {
+      allFolders.map((folder) => {
+        const topic = folder.topics.find((t) => t._id == currentTopic._id);
+        if (topic) {
           topic.description = res.data.updatedTopic.description;
         }
-        return topic;
+        return folder;
       });
       setWriteData(false);
       setloading(false);
@@ -149,8 +147,8 @@ export default function TopicBody({
             </div>
             <div>
               <span className="folder-name">
-                {currentFolder?.subjectName?.trim().charAt(0).toUpperCase() +
-                  currentFolder?.subjectName?.trim().slice(1)}
+                {selectedFolder?.subjectName.trim().charAt(0).toUpperCase() +
+                  selectedFolder?.subjectName.trim().slice(1)}
               </span>
               <span className="topic-name ">
                 -{" "}
@@ -168,7 +166,7 @@ export default function TopicBody({
                     fontSize: "15px",
                   }}
                   onClick={() => {
-                    if (data == "Empty Topic !") setData("");
+                    if (data == "Click on Edit to Write in it !") setData("");
                     setWriteData(true);
                     focusEditor();
                   }}
@@ -187,7 +185,7 @@ export default function TopicBody({
                   onClick={() =>
                     handlePrint(
                       printRef,
-                      currentFolder.subjectName,
+                      selectedFolder.subjectName,
                       currentTopic.title
                     )
                   }
@@ -209,7 +207,10 @@ export default function TopicBody({
                     disabled={loading}
                     onClick={() => {
                       setWriteData(false);
-                      setData(currentTopic?.description ?? "Empty Topic !");
+                      setData(
+                        currentTopic?.description ??
+                          "Click on Edit to Write in it !"
+                      );
                     }}
                   >
                     Cancel
@@ -235,15 +236,7 @@ export default function TopicBody({
             )}
           </div>
 
-          {fetching ? (
-            <div
-              style={{ height: "82vh" }}
-              className="d-flex justify-content-center align-items-center"
-            >
-              {/* <div className="loader">Loading</div> */}
-              <h5 className="m-2">Fetching Data Please Wait...</h5>
-            </div>
-          ) : writeData ? (
+          {writeData ? (
             <>
               <ReactQuill
                 theme="snow"
@@ -312,8 +305,8 @@ export default function TopicBody({
                 style={{
                   color: "white",
                   backgroundColor: "blue",
+                  height: "30px",
                   border: "0px",
-                  marginTop: "2px",
                 }}
                 onClick={() => {
                   goToHomePage();
@@ -321,28 +314,17 @@ export default function TopicBody({
               >
                 <HomeIcon />
               </button>
-            </div>
-            <div>
-              <span className="folder-name">
-                {currentFolder?.subjectName?.trim().charAt(0).toUpperCase() +
-                  currentFolder?.subjectName?.trim().slice(1)}
+              <span className="text-primary fs-5 fw-bold mx-1 ">
+                {selectedFolder?.subjectName.trim().charAt(0).toUpperCase() +
+                  selectedFolder?.subjectName.trim().slice(1)}
               </span>
             </div>
-
-            <div></div>
           </div>
           <div
             style={{ height: "82vh" }}
             className="d-flex justify-content-center align-items-center"
           >
-            {fetching ? (
-              <>
-                {/* <div className="loader">Loading</div> */}
-                <h5 className="m-2 text-primary">
-                  Fetching Data Please Wait...
-                </h5>
-              </>
-            ) : (
+            {
               <h2
                 className="text-primary "
                 style={{ textShadow: "2px 1px blue" }}
@@ -350,7 +332,7 @@ export default function TopicBody({
                 {" "}
                 Create Topic and start writing about it !
               </h2>
-            )}
+            }
           </div>
         </>
       )}

@@ -16,7 +16,7 @@ import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import notebookLogo from "../../notebook.jpg";
-import { removeAllFolders } from "../reduxStore/UserSlice";
+// import { removeAllFolders } from "../reduxStore/UserSlice";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -125,7 +125,7 @@ export default function Header() {
                     localStorage.removeItem("token");
                     localStorage.removeItem("user");
                     localStorage.removeItem("allFolders");
-                    dispatch(removeAllFolders([]));
+                    // dispatch(removeAllFolders([]));
                   }}
                 >
                   <LogoutIcon className="mx-2" /> Logout
