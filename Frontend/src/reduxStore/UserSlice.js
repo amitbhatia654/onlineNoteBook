@@ -28,20 +28,6 @@ const activeFolderSlice = createSlice({
     },
 });
 
-const allFolderSlice = createSlice({
-    name: "AllFolders",
-    initialState: getAllStoredFolders,
-    reducers: {
-        addAllFolders(state, action) {
-            return action.payload
-        },
-        removeAllFolders(state, action) {
-            return action.payload
-        }
-
-    }
-})
-
 export const { add: addUser, remove: removeUser } = userSlice.actions;
 export const { addFolder, removeFolder } = activeFolderSlice.actions;
 

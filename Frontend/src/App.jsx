@@ -10,6 +10,7 @@ import HomePageLayout from "./pages/HomePage/HomePageLayout";
 import HomePage from "./pages/HomePage/HomePage";
 import LoginRegister from "./pages/Users/LoginRegister";
 import UsersDetails from "./pages/Users/UsersDetails";
+import TopicLayout from "./pages/BodySection/TopicLayout";
 
 function App() {
   const isUserLogin = () => {

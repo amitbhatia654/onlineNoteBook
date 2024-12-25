@@ -49,9 +49,7 @@ export default function HomePage() {
   };
 
   useEffect(() => {
-    {
-      storedFolders?.length < 1 && fetchData();
-    }
+    fetchData();
   }, []);
 
   const handleDelete = async (id) => {

@@ -236,15 +236,7 @@ export default function TopicBody({
             )}
           </div>
 
-          {fetching ? (
-            <div
-              style={{ height: "82vh" }}
-              className="d-flex justify-content-center align-items-center"
-            >
-              <div className="loader">Loading</div>
-              <h5 className="m-2">Fetching Data Please Wait...</h5>
-            </div>
-          ) : writeData ? (
+          {writeData ? (
             <>
               <ReactQuill
                 theme="snow"
