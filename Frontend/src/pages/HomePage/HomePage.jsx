@@ -121,8 +121,10 @@ export default function HomePage() {
                 </div>
 
                 {loading ? (
-                  // <div className="mx-5 mt-5">Fething Data Please Wait ...</div>
-                  <LoadingComponent></LoadingComponent>
+                  <div style={{ width: "100%" }}>
+                    {" "}
+                    <LoadingComponent></LoadingComponent>
+                  </div>
                 ) : (
                   allFolders.map((subject, key) => {
                     return (

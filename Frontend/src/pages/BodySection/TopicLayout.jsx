@@ -155,31 +155,11 @@ export default function TopicLayout({
             borderRight: "1px solid grey",
           }}
         >
-          <div className="d-flex justify-content-end">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              style={{
-                color: "blue",
-                border: "1px solid white",
-                fontSize: "14x",
-              }}
-            >
-              {isOpen ? (
-                <MenuIcon fontSize="small" />
-              ) : (
-                <CloseIcon fontSize="small" />
-              )}
-            </button>
-          </div>
-
-          <div className={`${isOpen && "d-none"} px-2 `}>
-            <h3
-              className="fw-bold text-center mx-1"
-              style={{ textDecoration: "underline" }}
-            >
+          <div className="d-flex justify-content-between mb-2">
+            <h4 className={` topic-heading ${isOpen && "d-none"}`}>
               {" "}
-              All Topics
-              {/* <span className="dropdown mx-1">
+              Topics
+              {/* <span className="dropdown ">
                 <button
                   className="btn "
                   type="button"
@@ -187,7 +167,7 @@ export default function TopicLayout({
                   aria-expanded="false"
                 >
                   <h6>
-                    <ReorderIcon sx={{ fontSize: "20px" }} />
+                    <MoreVertIcon sx={{ fontSize: "19px" }} />
                   </h6>
                 </button>
                 <ul className="dropdown-menu">
@@ -203,8 +183,26 @@ export default function TopicLayout({
                   </li>
                 </ul>
               </span> */}
-            </h3>
+            </h4>
+            <div>
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                style={{
+                  color: "blue",
+                  border: "1px solid white",
+                  fontSize: "14x",
+                }}
+              >
+                {isOpen ? (
+                  <MenuIcon fontSize="small" />
+                ) : (
+                  <CloseIcon fontSize="small" />
+                )}
+              </button>
+            </div>
+          </div>
 
+          <div className={`${isOpen && "d-none"} px-2 `}>
             <div>
               <TextField
                 type="text"
@@ -229,9 +227,7 @@ export default function TopicLayout({
             </div>
 
             {getTopics()?.length < 1 ? (
-              <h5 className="text-center text-primary my-4">
-                No Topic Found! 😴
-              </h5>
+              <h5 className="text-center text-primary my-4">No Topic Found!</h5>
             ) : (
               getTopics().map((topic, index) => {
                 return (
