@@ -13,6 +13,7 @@ import TopicLayout from "../BodySection/TopicLayout";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useDispatch } from "react-redux";
 import { addFolder } from "../../reduxStore/UserSlice";
+import LoadingComponent from "../../Components/LoadingComponent";
 
 export default function HomePage() {
   const dispatch = useDispatch();
@@ -120,7 +121,8 @@ export default function HomePage() {
                 </div>
 
                 {loading ? (
-                  <div className="mx-5 mt-5">Fething Data Please Wait ...</div>
+                  // <div className="mx-5 mt-5">Fething Data Please Wait ...</div>
+                  <LoadingComponent></LoadingComponent>
                 ) : (
                   allFolders.map((subject, key) => {
                     return (

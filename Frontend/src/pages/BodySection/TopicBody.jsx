@@ -300,25 +300,24 @@ export default function TopicBody({
       ) : (
         <>
           <div className="d-flex justify-content-between ">
-            <div>
-              <button
-                style={{
-                  color: "white",
-                  backgroundColor: "blue",
-                  height: "30px",
-                  border: "0px",
-                }}
-                onClick={() => {
-                  goToHomePage();
-                }}
-              >
-                <HomeIcon />
-              </button>
-              <span className="text-primary fs-5 fw-bold mx-1 ">
-                {selectedFolder?.subjectName.trim().charAt(0).toUpperCase() +
-                  selectedFolder?.subjectName.trim().slice(1)}
-              </span>
-            </div>
+            <button
+              style={{
+                color: "white",
+                backgroundColor: "blue",
+                height: "30px",
+                border: "0px",
+              }}
+              onClick={() => {
+                goToHomePage();
+              }}
+            >
+              <HomeIcon />
+            </button>
+            <span className="folder-name">
+              {selectedFolder?.subjectName.trim().charAt(0).toUpperCase() +
+                selectedFolder?.subjectName.trim().slice(1)}
+            </span>
+            <div></div>
           </div>
           <div
             style={{ height: "82vh" }}
