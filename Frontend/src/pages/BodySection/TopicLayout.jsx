@@ -20,12 +20,12 @@ import RearrangeTopicOrder from "../../Components/RearrangeTopicOrder";
 import { useSelector } from "react-redux";
 
 export default function TopicLayout({
-  // selectedFolder,
-  // setSelectedFolder,
+  selectedFolder,
+  setSelectedFolder,
   allFolders,
   setAllFolders,
-  // writeData,
-  // setWriteData,
+  writeData,
+  setWriteData,
 }) {
   const [showModal, setShowModal] = useState(false);
   const [loading, setloading] = useState(false);
@@ -34,18 +34,13 @@ export default function TopicLayout({
   const [editTopic, setEditTopic] = useState({});
   const [search, setSearch] = useState("");
   const [reArrangeOrder, setReArrangeOrder] = useState(false);
-  const [writeData, setWriteData] = useState(false);
-  const [selectedFolder, setSelectedFolder] = useState(
-    localStorage.getItem("folderId")
-      ? { _id: 1, topics: [], subjectName: "" }
-      : {}
-  );
 
-  const myselector = useSelector((store) => store.currentFolder);
+  const myselector = useSelector((store) => store.activeFolder);
+  console.log(myselector, "selector");
 
   useEffect(() => {
     if (!localStorage.getItem("topicId")) {
-      if (getTopics()?.length > 0) {
+      if (getTopics().length > 0) {
         setCurrentTopic(getTopics()[0]);
       }
     } else {
@@ -233,12 +228,12 @@ export default function TopicLayout({
               Create Topic +{" "}
             </div>
 
-            {getTopics()?.length > 0 ? (
+            {getTopics()?.length < 1 ? (
               <h5 className="text-center text-primary my-4">
                 No Topic Found! 😴
               </h5>
             ) : (
-              getTopics()?.map((topic, index) => {
+              getTopics().map((topic, index) => {
                 return (
                   <div
                     style={{ userSelect: "none" }}

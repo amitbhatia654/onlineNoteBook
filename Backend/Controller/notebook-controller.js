@@ -25,21 +25,9 @@ const getALLFolders = async (req, res) => {
             ? { createdBy, subjectName: { $regex: search, $options: "i" } }
             : { createdBy };
 
-        const response = await Subject.find(query, { topics: 0 })
+        const response = await Subject.find(query)
+
         res.status(200).json({ response })
-
-    } catch (error) {
-        res.status(205).send("data not found")
-    }
-}
-
-
-const getALLTopics = async (req, res) => {
-    try {
-        const folderId = req.query.folderId
-        const response = await Subject.findById(folderId, { topics: 1 })
-
-        res.status(200).send(response)
 
     } catch (error) {
         res.status(205).send("data not found")
@@ -79,9 +67,9 @@ const deleteFolder = async (req, res) => {
 
 const addTopic = async (req, res) => {
     try {
-        const subject = await Subject.findById(req.body.currentFolder._id);
+        const subject = await Subject.findById(req.body.selectedFolder._id);
         if (!subject) {
-            return res.status(400).json({ message: "Folder not found" });
+            return res.status(404).json({ message: "Folder not found" });
         }
         const newTopic = {
             title: req.body.title,
@@ -90,17 +78,14 @@ const addTopic = async (req, res) => {
         subject.topics.push(newTopic);
 
         // Save the updated subject
-        const result = await subject.save();
+        await subject.save();
 
         res.status(200).json({
             message: "Topic added successfully",
-            topic: result.topics[result.topics.length - 1],
+            subject,
         });
     } catch (error) {
-        res.status(500).json({
-            message: "An error occurred while adding the topic",
-            error: error.message,
-        });
+        console.log(' error in add subject', error)
     }
 }
 
@@ -113,7 +98,7 @@ const deleteTopic = async (req, res) => {
         // Find the folder by ID
         const subject = await Subject.findById(folderId);
         if (!subject) {
-            return res.status(400).json({ message: "Folder not found" });
+            return res.status(404).json({ message: "Folder not found" });
         }
 
         // Find the index of the topic to delete
@@ -130,6 +115,7 @@ const deleteTopic = async (req, res) => {
 
         res.status(200).json({
             message: "Topic deleted successfully",
+            subject,
         });
     } catch (error) {
         res.status(205).json({ message: "Topic Not Deleted" })
@@ -183,10 +169,9 @@ const updateTopic = async (req, res) => {
         topic.title = title;
         await subject.save();
 
-
         res.status(200).json({
             message: "Topic updated successfully",
-            topic,
+            subject: subject,
         });
 
     } catch (error) {
@@ -216,5 +201,5 @@ const updateTopicsOrder = async (req, res) => {
 module.exports = {
     addFolder, getALLFolders,
     deleteFolder, updateFolder, addTopic, addTopicData,
-    deleteTopic, updateTopic, updateTopicsOrder, getALLTopics
+    deleteTopic, updateTopic, updateTopicsOrder
 }

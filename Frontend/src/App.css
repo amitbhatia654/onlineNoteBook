@@ -24,14 +24,6 @@ body {
     border-top: 1px solid rgb(197, 197, 236);
 }
 
-.topic-heading {
-    text-decoration: underline;
-    font-weight: bold;
-    font-size: 24px;
-    margin-left: 25px;
-    color: rgb(23, 92, 49);
-}
-
 
 /* HTML: <div class="loader"></div> */
 .loader {
@@ -283,7 +275,6 @@ body {
 
 .topic-name {
     font-size: 20px;
-    font-weight: bold;
 }
 
 .topic-name-order {
