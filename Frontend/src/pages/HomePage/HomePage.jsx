@@ -19,7 +19,7 @@ export default function HomePage() {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [edit, setEdit] = useState({});
-  const [loading, setloading] = useState(false);
+  const [fetching, setFetching] = useState(false);
   const [loading1, setloading1] = useState(false);
   const [allFolders, setAllFolders] = useState([]);
   const [writeData, setWriteData] = useState(false);
@@ -33,7 +33,7 @@ export default function HomePage() {
   const folderId = localStorage.getItem("folderId");
 
   const fetchData = async () => {
-    setloading(true);
+    setFetching(true);
     const res = await axiosInstance.get("/api/folders", {
       params: { userId: user.id },
     });
@@ -46,7 +46,7 @@ export default function HomePage() {
     } else {
       setAllFolders([]);
     }
-    setloading(false);
+    setFetching(false);
   };
 
   useEffect(() => {
@@ -103,6 +103,7 @@ export default function HomePage() {
           setAllFolders={setAllFolders}
           writeData={writeData}
           setWriteData={setWriteData}
+          fetching={fetching}
         ></TopicLayout>
       ) : (
         <div className="homepage">
@@ -120,7 +121,7 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                {loading ? (
+                {fetching ? (
                   <div style={{ width: "100%" }}>
                     {" "}
                     <LoadingComponent></LoadingComponent>

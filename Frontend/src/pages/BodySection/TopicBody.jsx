@@ -12,6 +12,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from "@mui/icons-material/Save";
 import ShowToast, { handlePrint } from "../../Components/CommonFunctions";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
+import LoadingComponent from "../../Components/LoadingComponent";
 
 export default function TopicBody({
   currentTopic,
@@ -21,6 +22,7 @@ export default function TopicBody({
   selectedFolder,
   setSelectedFolder,
   allFolders,
+  fetching,
 }) {
   const [loading, setloading] = useState(false);
   const [data, setData] = useState(currentTopic?.description);
@@ -323,7 +325,9 @@ export default function TopicBody({
             style={{ height: "82vh" }}
             className="d-flex justify-content-center align-items-center"
           >
-            {
+            {fetching ? (
+              <LoadingComponent />
+            ) : (
               <h2
                 className="text-primary "
                 style={{ textShadow: "2px 1px blue" }}
@@ -331,7 +335,7 @@ export default function TopicBody({
                 {" "}
                 Create Topic and start writing about it !
               </h2>
-            }
+            )}
           </div>
         </>
       )}

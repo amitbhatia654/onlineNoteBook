@@ -26,6 +26,7 @@ export default function TopicLayout({
   setAllFolders,
   writeData,
   setWriteData,
+  fetching,
 }) {
   const [showModal, setShowModal] = useState(false);
   const [loading, setloading] = useState(false);
@@ -326,6 +327,7 @@ export default function TopicLayout({
                 selectedFolder={selectedFolder}
                 setSelectedFolder={setSelectedFolder}
                 allFolders={allFolders}
+                fetching={fetching}
               ></TopicBody>
             )}
           </div>
