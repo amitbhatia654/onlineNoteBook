@@ -42,7 +42,7 @@ export default function TopicBody({
   };
 
   useEffect(() => {
-    setData(currentTopic?.description ?? "Click on Edit to Write in it !");
+    setData(currentTopic?.description ?? "Empty Topic !");
   }, [currentTopic]);
 
   const module = {
@@ -168,7 +168,7 @@ export default function TopicBody({
                     fontSize: "15px",
                   }}
                   onClick={() => {
-                    if (data == "Click on Edit to Write in it !") setData("");
+                    if (data == "Empty Topic !") setData("");
                     setWriteData(true);
                     focusEditor();
                   }}
@@ -211,7 +211,7 @@ export default function TopicBody({
                       setWriteData(false);
                       setData(
                         currentTopic?.description ??
-                          "Click on Edit to Write in it !"
+                          "Empty Topic !"
                       );
                     }}
                   >
