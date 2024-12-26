@@ -29,7 +29,16 @@ function App() {
 
   return (
     <>
-      <Suspense fallback={<LoadingComponent />}>
+      <Suspense
+        fallback={
+          <div
+            className="d-flex justify-content-center align-items-center"
+            style={{ height: "100vh" }}
+          >
+            <LoadingComponent />
+          </div>
+        }
+      >
         <Routes>
           <Route
             path="/login"

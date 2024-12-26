@@ -14,6 +14,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useDispatch } from "react-redux";
 import { addFolder } from "../../reduxStore/UserSlice";
 import LoadingComponent from "../../Components/LoadingComponent";
+import ConfirmModal from "../../Components/ConfirmModal";
 
 export default function HomePage() {
   const dispatch = useDispatch();
@@ -23,6 +24,11 @@ export default function HomePage() {
   const [loading1, setloading1] = useState(false);
   const [allFolders, setAllFolders] = useState([]);
   const [writeData, setWriteData] = useState(false);
+
+  const [confirmModalData, setConfirmModalData] = useState({
+    open: false,
+    answer: "",
+  });
   const [selectedFolder, setSelectedFolder] = useState(
     localStorage.getItem("folderId")
       ? { _id: 1, topics: [], subjectName: "" }
@@ -53,12 +59,26 @@ export default function HomePage() {
     fetchData();
   }, []);
 
+  const showConfirmationModal = () => {
+    return new Promise((resolve) => {
+      setConfirmModalData({
+        open: true,
+        onClose: (answer) => {
+          resolve(answer);
+        },
+      });
+    });
+  };
+
   const handleDelete = async (id) => {
+    const userResponse = await showConfirmationModal();
+    if (userResponse != "yes") return;
+
     const res = await axiosInstance.delete(`/api/folders/${id}`);
     if (res.status == 200) {
       toast.success(res.data.message);
       setAllFolders(allFolders.filter((data) => data._id != id));
-      dispatch(addAllFolders(allFolders.filter((data) => data._id != id)));
+      // dispatch(addAllFolders(allFolders.filter((data) => data._id != id)));
       localStorage.setItem(
         "allFolders",
         JSON.stringify(allFolders.filter((data) => data._id != id))
@@ -136,7 +156,7 @@ export default function HomePage() {
                             <div
                               className="inner-box pt-4 px-3"
                               onClick={() => {
-                                dispatch(addFolder(subject));
+                                // dispatch(addFolder(subject));
                                 setSelectedFolder(subject);
                                 localStorage.setItem("folderId", subject._id);
                               }}
@@ -293,6 +313,14 @@ export default function HomePage() {
                 )}
               </Formik>
             </Modal>
+          )}
+
+          {confirmModalData.open && (
+            <ConfirmModal
+              title={"Are You Sure You Want to Delete "}
+              setConfirmModalData={setConfirmModalData}
+              onClose={confirmModalData.onClose}
+            ></ConfirmModal>
           )}
         </div>
       )}

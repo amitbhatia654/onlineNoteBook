@@ -209,10 +209,7 @@ export default function TopicBody({
                     disabled={loading}
                     onClick={() => {
                       setWriteData(false);
-                      setData(
-                        currentTopic?.description ??
-                          "Empty Topic !"
-                      );
+                      setData(currentTopic?.description ?? "Empty Topic !");
                     }}
                   >
                     Cancel
@@ -253,8 +250,8 @@ export default function TopicBody({
             <>
               <div
                 style={{
-                  minHeight: "75vh",
-                  maxHeight: "75vh",
+                  minHeight: "77vh",
+                  maxHeight: "77vh",
                   boxShadow: "1px 1px 1px grey",
 
                   userSelect: "none",

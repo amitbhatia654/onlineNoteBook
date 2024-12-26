@@ -4,6 +4,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import { Button } from "@mui/material";
 import axiosInstance from "../ApiManager";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 export default function RearrangeTopicOrder({
   selectedFolder,
@@ -11,28 +12,24 @@ export default function RearrangeTopicOrder({
   setReArrangeOrder,
 }) {
   const [loading, setLoading] = useState();
+  const reArrangeFolder = useSelector((data) => data.activeFolder.topics);
   const handleDragStart = (e, index) => {
     // Save the index of the dragged item in the dataTransfer object
     e.dataTransfer.setData("draggedItem", index);
   };
 
-  //   console.log(selectedFolderCopy, "selected copy");
-  //   console.log(selectedFolder, "original");
-
   const handleDrop = (e, dropIndex) => {
     // Get the index of the dragged item from the dataTransfer object
-    const dragIndex = e.dataTransfer.getData("draggedItem");
+    const dragIndex = Number(e.dataTransfer.getData("draggedItem"));
 
     // Create a copy of the current items array
-    const topicsArrayCopy = selectedFolder?.topics;
+    var topicsArrayCopy = [...selectedFolder?.topics];
 
     // Get the dragged item
     const draggedItem = topicsArrayCopy[dragIndex];
     var tempItem = topicsArrayCopy[dropIndex];
     topicsArrayCopy[dropIndex] = draggedItem;
     topicsArrayCopy[dragIndex] = tempItem;
-
-    // console.log(topicsArrayCopy, "topics array");
 
     setSelectedFolder({ ...selectedFolder, topics: topicsArrayCopy });
   };
@@ -44,7 +41,6 @@ export default function RearrangeTopicOrder({
       toast.success(res.data.message);
     } else {
       toast.error("Sequence Not Updated");
-      // setSelectedFolder(selectedFolderCopy);
     }
     setLoading(false);
     setReArrangeOrder(false);
@@ -56,12 +52,16 @@ export default function RearrangeTopicOrder({
           {selectedFolder?.subjectName.trim().charAt(0).toUpperCase() +
             selectedFolder?.subjectName.trim().slice(1)}
         </span>
+        <h5 className="text-center mt-2 text-primary">
+          Change the Sequence of topics by Drag n Drop
+        </h5>
       </div>
-      <h5 className="text-center mt-4">
-        Change the order of topics by Drag n Drop
-      </h5>
-      <div className="d-flex justify-content-center mt-1  border-primary">
-        <div>
+
+      <div className="d-flex justify-content-center    squ-box py-1">
+        <div
+          className="scrollable-container"
+          style={{ minHeight: "69vh", maxHeight: "69vh" }}
+        >
           {selectedFolder.topics.map((topic, index) => {
             return (
               <div
@@ -80,43 +80,45 @@ export default function RearrangeTopicOrder({
               </div>
             );
           })}
-
-          <div className="d-flex justify-content-center my-2">
-            <Button
-              variant="outlined"
-              sx={{
-                my: 1,
-                color: "#47478c",
-                backgroundColor: "white",
-                fontSize: "14px",
-              }}
-              disabled={loading}
-              onClick={() => {
-                // console.log(selectedFolderCopy, "copyy");
-                // setSelectedFolder(selectedFolderCopy);
-                setReArrangeOrder(false);
-              }}
-            >
-              Cancel
-            </Button>
-
-            <LoadingButton
-              loading={loading}
-              loadingPosition="start"
-              startIcon={<SaveIcon />}
-              sx={{
-                m: 1,
-                color: "white",
-                backgroundColor: loading ? "white " : "blue",
-                fontSize: "14px",
-              }}
-              variant="outlined"
-              onClick={() => handleSubmit()}
-            >
-              Save
-            </LoadingButton>
-          </div>
         </div>
+      </div>
+      <div className="d-flex justify-content-center my-1">
+        <Button
+          variant="outlined"
+          sx={{
+            my: 1,
+            color: "#47478c",
+            backgroundColor: "white",
+            fontSize: "14px",
+          }}
+          disabled={loading}
+          onClick={() => {
+            setSelectedFolder({
+              ...selectedFolder,
+              topics: reArrangeFolder,
+            });
+
+            setReArrangeOrder(false);
+          }}
+        >
+          Cancel
+        </Button>
+
+        <LoadingButton
+          loading={loading}
+          loadingPosition="start"
+          startIcon={<SaveIcon />}
+          sx={{
+            m: 1,
+            color: "white",
+            backgroundColor: loading ? "white " : "blue",
+            fontSize: "14px",
+          }}
+          variant="outlined"
+          onClick={() => handleSubmit()}
+        >
+          Save
+        </LoadingButton>
       </div>
     </>
   );

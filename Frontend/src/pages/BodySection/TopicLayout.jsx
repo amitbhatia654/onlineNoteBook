@@ -15,9 +15,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ShowToast from "../../Components/CommonFunctions";
-import ReorderIcon from "@mui/icons-material/Reorder";
 import RearrangeTopicOrder from "../../Components/RearrangeTopicOrder";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { addFolder } from "../../reduxStore/UserSlice";
+import ConfirmModal from "../../Components/ConfirmModal";
 
 export default function TopicLayout({
   selectedFolder,
@@ -35,9 +36,11 @@ export default function TopicLayout({
   const [editTopic, setEditTopic] = useState({});
   const [search, setSearch] = useState("");
   const [reArrangeOrder, setReArrangeOrder] = useState(false);
-
-  const myselector = useSelector((store) => store.activeFolder);
-  console.log(myselector, "selector");
+  const [confirmModalData, setConfirmModalData] = useState({
+    open: false,
+    answer: "",
+  });
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!localStorage.getItem("topicId")) {
@@ -94,7 +97,21 @@ export default function TopicLayout({
     }
   };
 
+  const showConfirmationModal = () => {
+    return new Promise((resolve) => {
+      setConfirmModalData({
+        open: true,
+        onClose: (answer) => {
+          resolve(answer);
+        },
+      });
+    });
+  };
+
   const deleteTopic = async (topicId) => {
+    const userResponse = await showConfirmationModal();
+    if (userResponse != "yes") return;
+
     setSearch("");
     const res = await axiosInstance.delete(`/api/topic`, {
       data: {
@@ -156,11 +173,11 @@ export default function TopicLayout({
             borderRight: "1px solid grey",
           }}
         >
-          <div className="d-flex justify-content-between mb-2">
+          <div className="d-flex justify-content-between ">
             <h4 className={` topic-heading ${isOpen && "d-none"}`}>
               {" "}
               Topics
-              {/* <span className="dropdown ">
+              <span className="dropdown ">
                 <button
                   className="btn "
                   type="button"
@@ -176,14 +193,19 @@ export default function TopicLayout({
                     <button
                       className="dropdown-item"
                       onClick={() => {
+                        if (writeData) {
+                          ShowToast();
+                          return;
+                        }
                         setReArrangeOrder(true);
+                        dispatch(addFolder(selectedFolder));
                       }}
                     >
-                      Rearrange Order
+                      Change The Topics Sequence
                     </button>
                   </li>
                 </ul>
-              </span> */}
+              </span>
             </h4>
             <div>
               <button
@@ -227,77 +249,84 @@ export default function TopicLayout({
               Create Topic +{" "}
             </div>
 
-            {getTopics()?.length < 1 ? (
-              <h5 className="text-center text-primary my-4">No Topic Found!</h5>
-            ) : (
-              getTopics().map((topic, index) => {
-                return (
-                  <div
-                    style={{ userSelect: "none" }}
-                    className="d-flex justify-content-between topicNames "
-                    key={index}
-                  >
+            <div
+              style={{ minHeight: "69vh", maxHeight: "69vh" }}
+              className="scrollable-container topic-div "
+            >
+              {getTopics()?.length < 1 ? (
+                <h5 className="text-center text-primary my-4">
+                  No Topic Found!
+                </h5>
+              ) : (
+                getTopics().map((topic, index) => {
+                  return (
                     <div
-                      className={`names  border-primary ${
-                        currentTopic?._id == topic?._id && "currentTopic"
-                      }`}
-                      onClick={() => {
-                        handleChangeTopic(topic);
-                      }}
+                      style={{ userSelect: "none" }}
+                      className="d-flex justify-content-between topicNames align-items-center"
+                      key={index}
                     >
-                      {index + 1}.{" "}
-                      {topic?.title?.charAt(0)?.toUpperCase() +
-                        topic?.title?.slice(1)}
-                    </div>
+                      <div
+                        className={`names  border-primary ${
+                          currentTopic?._id == topic?._id && "currentTopic"
+                        }`}
+                        onClick={() => {
+                          handleChangeTopic(topic);
+                        }}
+                      >
+                        {index + 1}.{" "}
+                        {topic?.title?.charAt(0)?.toUpperCase() +
+                          topic?.title?.slice(1)}
+                      </div>
 
-                    <div>
-                      <div className="dropdown">
-                        <button
-                          className="btn "
-                          type="button"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          <h6>
-                            <MoreVertIcon sx={{ fontSize: "19px" }} />
-                          </h6>
-                        </button>
-                        <ul className="dropdown-menu">
-                          <li>
-                            <button
-                              className="dropdown-item"
-                              onClick={() => {
-                                if (writeData) {
-                                  ShowToast();
-                                  return;
-                                }
-                                setEditTopic(topic), setShowModal(true);
-                              }}
-                            >
-                              Edit
-                            </button>
-                          </li>
-                          <li>
-                            <button
-                              className="dropdown-item"
-                              onClick={() => {
-                                if (writeData) {
-                                  ShowToast();
-                                  return;
-                                }
-                                deleteTopic(topic._id);
-                              }}
-                            >
-                              Delete
-                            </button>
-                          </li>
-                        </ul>
+                      <div>
+                        <div className="dropdown">
+                          <button
+                            className="btn "
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                          >
+                            <h6>
+                              <MoreVertIcon sx={{ fontSize: "19px" }} />
+                            </h6>
+                          </button>
+                          <ul className="dropdown-menu">
+                            <li>
+                              <button
+                                className="dropdown-item"
+                                onClick={() => {
+                                  if (writeData) {
+                                    ShowToast();
+                                    return;
+                                  }
+                                  setEditTopic(topic), setShowModal(true);
+                                }}
+                              >
+                                Edit
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                className="dropdown-item"
+                                onClick={() => {
+                                  if (writeData) {
+                                    ShowToast();
+                                    return;
+                                  }
+                                  deleteTopic(topic._id);
+                                }}
+                              >
+                                Delete
+                              </button>
+                            </li>
+                          </ul>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })
-            )}
+                  );
+                })
+              )}
+            </div>
           </div>
         </div>
 
@@ -402,6 +431,14 @@ export default function TopicLayout({
             )}
           </Formik>
         </Modal>
+      )}
+
+      {confirmModalData.open && (
+        <ConfirmModal
+          title={"Are You Sure You Want to Delete"}
+          setConfirmModalData={setConfirmModalData}
+          onClose={confirmModalData.onClose}
+        ></ConfirmModal>
       )}
     </>
   );
