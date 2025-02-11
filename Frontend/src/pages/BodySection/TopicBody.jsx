@@ -254,7 +254,7 @@ export default function TopicBody({
                   maxHeight: "77vh",
                   boxShadow: "1px 1px 1px grey",
 
-                  userSelect: "none",
+                  // userSelect: "none",
                 }}
                 className="scrollable-container p-2   data-div"
               >
